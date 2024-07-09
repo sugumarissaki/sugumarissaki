@@ -5,48 +5,57 @@
 //--------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------//
-var lt_MD_material_document_header = [
+var lt_MD_material_document_header = 
+[
     {
-    tenant : '',
-    material_document : '',
-    fiscal_year : '',
-    material_document_type : '',
-    document_date : '',
-    posting_date : '',
-    header_reference : '',
-    header_text : '',    
-    system_field_message_type : '',
-    system_field_message_description : ''
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',        
+        system_field_message_type : '',
+        system_field_message_description : ''
     }
 ];
 
-var lt_MD_input_material_document_header = [
+var lt_MD_input_material_document_header = 
+[
     {
-    tenant : '',
-    material_document : '',
-    fiscal_year : '',
-    material_document_type : '',
-    document_date : '',
-    posting_date : '',
-    header_reference : '',
-    header_text : '',    
-    system_field_message_type : '',
-    system_field_message_description : ''
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',        
+        system_field_message_type : '',
+        system_field_message_description : ''
     }
 ];
 
-var lt_MD_output_material_document_header = [
+var lt_MD_output_material_document_header = 
+[
     {
-    tenant : '',
-    material_document : '',
-    fiscal_year : '',
-    material_document_type : '',
-    document_date : '',
-    posting_date : '',
-    header_reference : '',
-    header_text : '',    
-    system_field_message_type : '',
-    system_field_message_description : ''
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',        
+        system_field_message_type : '',
+        system_field_message_description : ''
     }
 ];
 
@@ -153,55 +162,6 @@ function MD_set_material_document_item_unhide()
 }
 
 
-
-
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function MP_set_material_plant_hide()
-{
-    document.getElementById('t_MP_material_plant').style.display = "none";
-    document.getElementById('b_MP_material_plant_hide').disabled = true;
-    document.getElementById('b_MP_material_plant_unhide').disabled = false;
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function MP_set_material_plant_unhide()
-{
-    document.getElementById('t_MP_material_plant').style.display = "table";
-    document.getElementById('b_MP_material_plant_hide').disabled = false;
-    document.getElementById('b_MP_material_plant_unhide').disabled = true;
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function MSL_set_material_storage_location_hide()
-{
-    document.getElementById('t_MSL_material_storage_location').style.display = "none";
-    document.getElementById('b_MP_material_storage_location_hide').disabled = true;
-    document.getElementById('b_MP_material_storage_location_unhide').disabled = false;
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function MSL_set_material_storage_location_unhide()
-{
-    document.getElementById('t_MSL_material_storage_location').style.display = "table";
-    document.getElementById('b_MP_material_storage_location_hide').disabled = false;
-    document.getElementById('b_MP_material_storage_location_unhide').disabled = true;
-}
-
-
-
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
@@ -250,7 +210,11 @@ function MDH_set_field_property_C()
     var MDH_header_reference1 = document.getElementById("MDH_header_reference1");
     MDH_header_reference1.disabled = false;
     var MDH_header_text1 = document.getElementById("MDH_header_text1");
-    MDH_header_text1.disabled = false;      
+    MDH_header_text1.disabled = false;
+    var MDH_material_document_reverse1 = document.getElementById("MDH_material_document_reverse1");
+    MDH_material_document_reverse1.disabled = true;
+    var MDH_fiscal_year_reverse1 = document.getElementById("MDH_fiscal_year_reverse1");
+    MDH_fiscal_year_reverse1.disabled = true;          
     
     var MDH_material_document2 = document.getElementById("MDH_material_document2");
     MDH_material_document2.disabled = false;
@@ -265,7 +229,11 @@ function MDH_set_field_property_C()
     var MDH_header_reference2 = document.getElementById("MDH_header_reference2");
     MDH_header_reference2.disabled = false;    
     var MDH_header_text2 = document.getElementById("MDH_header_text2");
-    MDH_header_text2.disabled = false;       
+    MDH_header_text2.disabled = false;
+    var MDH_material_document_reverse2 = document.getElementById("MDH_material_document_reverse2");
+    MDH_material_document_reverse2.disabled = true;
+    var MDH_fiscal_year_reverse2 = document.getElementById("MDH_fiscal_year_reverse2");
+    MDH_fiscal_year_reverse2.disabled = true;             
 }    
 
 
@@ -294,6 +262,12 @@ function MDI_set_field_property_C()
     MDI_material_movement_type1.disabled = false;
     var MDI_item_text1 = document.getElementById("MDI_item_text1");
     MDI_item_text1.disabled = false;
+    var MDI_material_document_reverse1 = document.getElementById("MDI_material_document_reverse1");
+    MDI_material_document_reverse1.disabled = true;
+    var MDI_fiscal_year_reverse1 = document.getElementById("MDI_fiscal_year_reverse1");
+    MDI_fiscal_year_reverse1.disabled = true;
+    var MDI_item_reverse1 = document.getElementById("MDI_item_reverse1");
+    MDI_item_reverse1.disabled = true;    
     
     var MDI_material_document2 = document.getElementById("MDI_material_document2");
     MDI_material_document2.disabled = false;
@@ -314,7 +288,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type2 = document.getElementById("MDI_material_movement_type2");
     MDI_material_movement_type2.disabled = false;
     var MDI_item_text2 = document.getElementById("MDI_item_text2");
-    MDI_item_text2.disabled = false;  
+    MDI_item_text2.disabled = false;
+    var MDI_material_document_reverse2 = document.getElementById("MDI_material_document_reverse2");
+    MDI_material_document_reverse2.disabled = true;
+    var MDI_fiscal_year_reverse2 = document.getElementById("MDI_fiscal_year_reverse2");
+    MDI_fiscal_year_reverse2.disabled = true;
+    var MDI_item_reverse2 = document.getElementById("MDI_item_reverse2");
+    MDI_item_reverse2.disabled = true;      
     
     var MDI_material_document3 = document.getElementById("MDI_material_document3");
     MDI_material_document3.disabled = false;
@@ -335,7 +315,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type3 = document.getElementById("MDI_material_movement_type3");
     MDI_material_movement_type3.disabled = false;
     var MDI_item_text3 = document.getElementById("MDI_item_text3");
-    MDI_item_text3.disabled = false;  
+    MDI_item_text3.disabled = false;
+    var MDI_material_document_reverse3 = document.getElementById("MDI_material_document_reverse3");
+    MDI_material_document_reverse3.disabled = true;
+    var MDI_fiscal_year_reverse3 = document.getElementById("MDI_fiscal_year_reverse3");
+    MDI_fiscal_year_reverse3.disabled = true;
+    var MDI_item_reverse3 = document.getElementById("MDI_item_reverse3");
+    MDI_item_reverse3.disabled = true;      
     
     var MDI_material_document4 = document.getElementById("MDI_material_document4");
     MDI_material_document4.disabled = false;
@@ -356,7 +342,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type4 = document.getElementById("MDI_material_movement_type4");
     MDI_material_movement_type4.disabled = false;
     var MDI_item_text4 = document.getElementById("MDI_item_text4");
-    MDI_item_text4.disabled = false;  
+    MDI_item_text4.disabled = false;
+    var MDI_material_document_reverse4 = document.getElementById("MDI_material_document_reverse4");
+    MDI_material_document_reverse4.disabled = true;
+    var MDI_fiscal_year_reverse4 = document.getElementById("MDI_fiscal_year_reverse4");
+    MDI_fiscal_year_reverse4.disabled = true;
+    var MDI_item_reverse4 = document.getElementById("MDI_item_reverse4");
+    MDI_item_reverse4.disabled = true;      
     
     var MDI_material_document5 = document.getElementById("MDI_material_document5");
     MDI_material_document5.disabled = false;
@@ -377,7 +369,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type5 = document.getElementById("MDI_material_movement_type5");
     MDI_material_movement_type5.disabled = false;
     var MDI_item_text5 = document.getElementById("MDI_item_text5");
-    MDI_item_text5.disabled = false;  
+    MDI_item_text5.disabled = false;
+    var MDI_material_document_reverse5 = document.getElementById("MDI_material_document_reverse5");
+    MDI_material_document_reverse5.disabled = true;
+    var MDI_fiscal_year_reverse5 = document.getElementById("MDI_fiscal_year_reverse5");
+    MDI_fiscal_year_reverse5.disabled = true;
+    var MDI_item_reverse5 = document.getElementById("MDI_item_reverse5");
+    MDI_item_reverse5.disabled = true;      
     
     var MDI_material_document6 = document.getElementById("MDI_material_document6");
     MDI_material_document6.disabled = false;
@@ -398,7 +396,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type6 = document.getElementById("MDI_material_movement_type6");
     MDI_material_movement_type6.disabled = false;
     var MDI_item_text6 = document.getElementById("MDI_item_text6");
-    MDI_item_text6.disabled = false;  
+    MDI_item_text6.disabled = false;
+    var MDI_material_document_reverse6 = document.getElementById("MDI_material_document_reverse6");
+    MDI_material_document_reverse6.disabled = true;
+    var MDI_fiscal_year_reverse6 = document.getElementById("MDI_fiscal_year_reverse6");
+    MDI_fiscal_year_reverse6.disabled = true;
+    var MDI_item_reverse6 = document.getElementById("MDI_item_reverse6");
+    MDI_item_reverse6.disabled = true;      
     
     var MDI_material_document7 = document.getElementById("MDI_material_document7");
     MDI_material_document7.disabled = false;
@@ -419,7 +423,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type7 = document.getElementById("MDI_material_movement_type7");
     MDI_material_movement_type7.disabled = false;
     var MDI_item_text7 = document.getElementById("MDI_item_text7");
-    MDI_item_text7.disabled = false;  
+    MDI_item_text7.disabled = false;
+    var MDI_material_document_reverse7 = document.getElementById("MDI_material_document_reverse7");
+    MDI_material_document_reverse7.disabled = true;
+    var MDI_fiscal_year_reverse7 = document.getElementById("MDI_fiscal_year_reverse7");
+    MDI_fiscal_year_reverse7.disabled = true;
+    var MDI_item_reverse7 = document.getElementById("MDI_item_reverse7");
+    MDI_item_reverse7.disabled = true;      
     
     var MDI_material_document8 = document.getElementById("MDI_material_document8");
     MDI_material_document8.disabled = false;
@@ -440,7 +450,13 @@ function MDI_set_field_property_C()
     var MDI_material_movement_type8 = document.getElementById("MDI_material_movement_type8");
     MDI_material_movement_type8.disabled = false;
     var MDI_item_text8 = document.getElementById("MDI_item_text8");
-    MDI_item_text8.disabled = false;      
+    MDI_item_text8.disabled = false;
+    var MDI_material_document_reverse8 = document.getElementById("MDI_material_document_reverse8");
+    MDI_material_document_reverse8.disabled = true;
+    var MDI_fiscal_year_reverse8 = document.getElementById("MDI_fiscal_year_reverse8");
+    MDI_fiscal_year_reverse8.disabled = true;
+    var MDI_item_reverse8 = document.getElementById("MDI_item_reverse8");
+    MDI_item_reverse8.disabled = true;          
 }    
 
 
@@ -493,7 +509,11 @@ function MDH_set_field_property_R()
     var MDH_header_reference1 = document.getElementById("MDH_header_reference1");
     MDH_header_reference1.disabled = true;
     var MDH_header_text1 = document.getElementById("MDH_header_text1");
-    MDH_header_text1.disabled = true;       
+    MDH_header_text1.disabled = true;
+    var MDH_material_document_reverse1 = document.getElementById("MDH_material_document_reverse1");
+    MDH_material_document_reverse1.disabled = true;
+    var MDH_fiscal_year_reverse1 = document.getElementById("MDH_fiscal_year_reverse1");
+    MDH_fiscal_year_reverse1.disabled = true;             
     
     var MDH_material_document2 = document.getElementById("MDH_material_document2");
     MDH_material_document2.disabled = false;
@@ -508,7 +528,11 @@ function MDH_set_field_property_R()
     var MDH_header_reference2 = document.getElementById("MDH_header_reference2");
     MDH_header_reference2.disabled = true;
     var MDH_header_text2 = document.getElementById("MDH_header_text2");
-    MDH_header_text2.disabled = true;          
+    MDH_header_text2.disabled = true;
+    var MDH_material_document_reverse2 = document.getElementById("MDH_material_document_reverse2");
+    MDH_material_document_reverse2.disabled = true;
+    var MDH_fiscal_year_reverse2 = document.getElementById("MDH_fiscal_year_reverse2");
+    MDH_fiscal_year_reverse2.disabled = true;              
 
 }    
 
@@ -539,6 +563,12 @@ function MDI_set_field_property_R()
     MDI_material_movement_type1.disabled = true;
     var MDI_item_text1 = document.getElementById("MDI_item_text1");
     MDI_item_text1.disabled = true;
+    var MDI_material_document_reverse1 = document.getElementById("MDI_material_document_reverse1");
+    MDI_material_document_reverse1.disabled = true;
+    var MDI_fiscal_year_reverse1 = document.getElementById("MDI_fiscal_year_reverse1");
+    MDI_fiscal_year_reverse1.disabled = true;
+    var MDI_item_reverse1 = document.getElementById("MDI_item_reverse1");
+    MDI_item_reverse1.disabled = true;    
     
     var MDI_material_document2 = document.getElementById("MDI_material_document2");
     MDI_material_document2.disabled = false;
@@ -559,7 +589,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type2 = document.getElementById("MDI_material_movement_type2");
     MDI_material_movement_type2.disabled = true;
     var MDI_item_text2 = document.getElementById("MDI_item_text2");
-    MDI_item_text2.disabled = true;  
+    MDI_item_text2.disabled = true;
+    var MDI_material_document_reverse2 = document.getElementById("MDI_material_document_reverse2");
+    MDI_material_document_reverse2.disabled = true;
+    var MDI_fiscal_year_reverse2 = document.getElementById("MDI_fiscal_year_reverse2");
+    MDI_fiscal_year_reverse2.disabled = true;
+    var MDI_item_reverse2 = document.getElementById("MDI_item_reverse2");
+    MDI_item_reverse2.disabled = true;      
     
     var MDI_material_document3 = document.getElementById("MDI_material_document3");
     MDI_material_document3.disabled = false;
@@ -580,7 +616,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type3 = document.getElementById("MDI_material_movement_type3");
     MDI_material_movement_type3.disabled = true;
     var MDI_item_text3 = document.getElementById("MDI_item_text3");
-    MDI_item_text3.disabled = true;  
+    MDI_item_text3.disabled = true;
+    var MDI_material_document_reverse3 = document.getElementById("MDI_material_document_reverse3");
+    MDI_material_document_reverse3.disabled = true;
+    var MDI_fiscal_year_reverse3 = document.getElementById("MDI_fiscal_year_reverse3");
+    MDI_fiscal_year_reverse3.disabled = true;
+    var MDI_item_reverse3 = document.getElementById("MDI_item_reverse3");
+    MDI_item_reverse3.disabled = true;      
     
     var MDI_material_document4 = document.getElementById("MDI_material_document4");
     MDI_material_document4.disabled = false;
@@ -601,7 +643,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type4 = document.getElementById("MDI_material_movement_type4");
     MDI_material_movement_type4.disabled = true;
     var MDI_item_text4 = document.getElementById("MDI_item_text4");
-    MDI_item_text4.disabled = true;  
+    MDI_item_text4.disabled = true;
+    var MDI_material_document_reverse4 = document.getElementById("MDI_material_document_reverse4");
+    MDI_material_document_reverse4.disabled = true;
+    var MDI_fiscal_year_reverse4 = document.getElementById("MDI_fiscal_year_reverse4");
+    MDI_fiscal_year_reverse4.disabled = true;
+    var MDI_item_reverse4 = document.getElementById("MDI_item_reverse4");
+    MDI_item_reverse4.disabled = true;      
     
     var MDI_material_document5 = document.getElementById("MDI_material_document5");
     MDI_material_document5.disabled = false;
@@ -622,7 +670,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type5 = document.getElementById("MDI_material_movement_type5");
     MDI_material_movement_type5.disabled = true;
     var MDI_item_text5 = document.getElementById("MDI_item_text5");
-    MDI_item_text5.disabled = true;  
+    MDI_item_text5.disabled = true;
+    var MDI_material_document_reverse5 = document.getElementById("MDI_material_document_reverse5");
+    MDI_material_document_reverse5.disabled = true;
+    var MDI_fiscal_year_reverse5 = document.getElementById("MDI_fiscal_year_reverse5");
+    MDI_fiscal_year_reverse5.disabled = true;
+    var MDI_item_reverse5 = document.getElementById("MDI_item_reverse5");
+    MDI_item_reverse5.disabled = true;      
     
     var MDI_material_document6 = document.getElementById("MDI_material_document6");
     MDI_material_document6.disabled = false;
@@ -643,7 +697,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type6 = document.getElementById("MDI_material_movement_type6");
     MDI_material_movement_type6.disabled = true;
     var MDI_item_text6 = document.getElementById("MDI_item_text6");
-    MDI_item_text6.disabled = true;  
+    MDI_item_text6.disabled = true;
+    var MDI_material_document_reverse6 = document.getElementById("MDI_material_document_reverse6");
+    MDI_material_document_reverse6.disabled = true;
+    var MDI_fiscal_year_reverse6 = document.getElementById("MDI_fiscal_year_reverse6");
+    MDI_fiscal_year_reverse6.disabled = true;
+    var MDI_item_reverse6 = document.getElementById("MDI_item_reverse6");
+    MDI_item_reverse6.disabled = true;      
     
     var MDI_material_document7 = document.getElementById("MDI_material_document7");
     MDI_material_document7.disabled = false;
@@ -664,7 +724,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type7 = document.getElementById("MDI_material_movement_type7");
     MDI_material_movement_type7.disabled = true;
     var MDI_item_text7 = document.getElementById("MDI_item_text7");
-    MDI_item_text7.disabled = true;  
+    MDI_item_text7.disabled = true;
+    var MDI_material_document_reverse7 = document.getElementById("MDI_material_document_reverse7");
+    MDI_material_document_reverse7.disabled = true;
+    var MDI_fiscal_year_reverse7 = document.getElementById("MDI_fiscal_year_reverse7");
+    MDI_fiscal_year_reverse7.disabled = true;
+    var MDI_item_reverse7 = document.getElementById("MDI_item_reverse7");
+    MDI_item_reverse7.disabled = true;      
     
     var MDI_material_document8 = document.getElementById("MDI_material_document8");
     MDI_material_document8.disabled = false;
@@ -685,7 +751,13 @@ function MDI_set_field_property_R()
     var MDI_material_movement_type8 = document.getElementById("MDI_material_movement_type8");
     MDI_material_movement_type8.disabled = true;
     var MDI_item_text8 = document.getElementById("MDI_item_text8");
-    MDI_item_text8.disabled = true;      
+    MDI_item_text8.disabled = true;
+    var MDI_material_document_reverse8 = document.getElementById("MDI_material_document_reverse8");
+    MDI_material_document_reverse8.disabled = true;
+    var MDI_fiscal_year_reverse8 = document.getElementById("MDI_fiscal_year_reverse8");
+    MDI_fiscal_year_reverse8.disabled = true;
+    var MDI_item_reverse8 = document.getElementById("MDI_item_reverse8");
+    MDI_item_reverse8.disabled = true;          
 }    
 
 
@@ -738,7 +810,11 @@ function MDH_set_field_property_U()
     var MDH_header_reference1 = document.getElementById("MDH_header_reference1");
     MDH_header_reference1.disabled = false;
     var MDH_header_text1 = document.getElementById("MDH_header_text1");
-    MDH_header_text1.disabled = false;      
+    MDH_header_text1.disabled = false;
+    var MDH_material_document_reverse1 = document.getElementById("MDH_material_document_reverse1");
+    MDH_material_document_reverse1.disabled = true;
+    var MDH_fiscal_year_reverse1 = document.getElementById("MDH_fiscal_year_reverse1");
+    MDH_fiscal_year_reverse1.disabled = true;            
     
     var MDH_material_document2 = document.getElementById("MDH_material_document2");
     MDH_material_document2.disabled = false;
@@ -753,7 +829,11 @@ function MDH_set_field_property_U()
     var MDH_header_reference2 = document.getElementById("MDH_header_reference2");
     MDH_header_reference2.disabled = false;
     var MDH_header_text2 = document.getElementById("MDH_header_text2");
-    MDH_header_text2.disabled = false;          
+    MDH_header_text2.disabled = false;
+    var MDH_material_document_reverse2 = document.getElementById("MDH_material_document_reverse2");
+    MDH_material_document_reverse2.disabled = true;
+    var MDH_fiscal_year_reverse2 = document.getElementById("MDH_fiscal_year_reverse2");
+    MDH_fiscal_year_reverse2.disabled = true;              
 }    
 
 
@@ -783,6 +863,12 @@ function MDI_set_field_property_U()
     MDI_material_movement_type1.disabled = true;
     var MDI_item_text1 = document.getElementById("MDI_item_text1");
     MDI_item_text1.disabled = false;
+    var MDI_material_document_reverse1 = document.getElementById("MDI_material_document_reverse1");
+    MDI_material_document_reverse1.disabled = true;
+    var MDI_fiscal_year_reverse1 = document.getElementById("MDI_fiscal_year_reverse1");
+    MDI_fiscal_year_reverse1.disabled = true;
+    var MDI_item_reverse1 = document.getElementById("MDI_item_reverse1");
+    MDI_item_reverse1.disabled = true;    
     
     var MDI_material_document2 = document.getElementById("MDI_material_document2");
     MDI_material_document2.disabled = false;
@@ -803,7 +889,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type2 = document.getElementById("MDI_material_movement_type2");
     MDI_material_movement_type2.disabled = true;
     var MDI_item_text2 = document.getElementById("MDI_item_text2");
-    MDI_item_text2.disabled = false;  
+    MDI_item_text2.disabled = false;
+    var MDI_material_document_reverse2 = document.getElementById("MDI_material_document_reverse2");
+    MDI_material_document_reverse2.disabled = true;
+    var MDI_fiscal_year_reverse2 = document.getElementById("MDI_fiscal_year_reverse2");
+    MDI_fiscal_year_reverse2.disabled = true;
+    var MDI_item_reverse2 = document.getElementById("MDI_item_reverse2");
+    MDI_item_reverse2.disabled = true;      
     
     var MDI_material_document3 = document.getElementById("MDI_material_document3");
     MDI_material_document3.disabled = false;
@@ -824,7 +916,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type3 = document.getElementById("MDI_material_movement_type3");
     MDI_material_movement_type3.disabled = true;
     var MDI_item_text3 = document.getElementById("MDI_item_text3");
-    MDI_item_text3.disabled = false;  
+    MDI_item_text3.disabled = false;
+    var MDI_material_document_reverse3 = document.getElementById("MDI_material_document_reverse3");
+    MDI_material_document_reverse3.disabled = true;
+    var MDI_fiscal_year_reverse3 = document.getElementById("MDI_fiscal_year_reverse3");
+    MDI_fiscal_year_reverse3.disabled = true;
+    var MDI_item_reverse3 = document.getElementById("MDI_item_reverse3");
+    MDI_item_reverse3.disabled = true;      
     
     var MDI_material_document4 = document.getElementById("MDI_material_document4");
     MDI_material_document4.disabled = false;
@@ -845,7 +943,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type4 = document.getElementById("MDI_material_movement_type4");
     MDI_material_movement_type4.disabled = true;
     var MDI_item_text4 = document.getElementById("MDI_item_text4");
-    MDI_item_text4.disabled = false;  
+    MDI_item_text4.disabled = false;
+    var MDI_material_document_reverse4 = document.getElementById("MDI_material_document_reverse4");
+    MDI_material_document_reverse4.disabled = true;
+    var MDI_fiscal_year_reverse4 = document.getElementById("MDI_fiscal_year_reverse4");
+    MDI_fiscal_year_reverse4.disabled = true;
+    var MDI_item_reverse4 = document.getElementById("MDI_item_reverse4");
+    MDI_item_reverse4.disabled = true;      
     
     var MDI_material_document5 = document.getElementById("MDI_material_document5");
     MDI_material_document5.disabled = false;
@@ -866,7 +970,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type5 = document.getElementById("MDI_material_movement_type5");
     MDI_material_movement_type5.disabled = true;
     var MDI_item_text5 = document.getElementById("MDI_item_text5");
-    MDI_item_text5.disabled = false;  
+    MDI_item_text5.disabled = false;
+    var MDI_material_document_reverse5 = document.getElementById("MDI_material_document_reverse5");
+    MDI_material_document_reverse5.disabled = true;
+    var MDI_fiscal_year_reverse5 = document.getElementById("MDI_fiscal_year_reverse5");
+    MDI_fiscal_year_reverse5.disabled = true;
+    var MDI_item_reverse5 = document.getElementById("MDI_item_reverse5");
+    MDI_item_reverse5.disabled = true;      
     
     var MDI_material_document6 = document.getElementById("MDI_material_document6");
     MDI_material_document6.disabled = false;
@@ -887,7 +997,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type6 = document.getElementById("MDI_material_movement_type6");
     MDI_material_movement_type6.disabled = true;
     var MDI_item_text6 = document.getElementById("MDI_item_text6");
-    MDI_item_text6.disabled = false;  
+    MDI_item_text6.disabled = false;
+    var MDI_material_document_reverse6 = document.getElementById("MDI_material_document_reverse6");
+    MDI_material_document_reverse6.disabled = true;
+    var MDI_fiscal_year_reverse6 = document.getElementById("MDI_fiscal_year_reverse6");
+    MDI_fiscal_year_reverse6.disabled = true;
+    var MDI_item_reverse6 = document.getElementById("MDI_item_reverse6");
+    MDI_item_reverse6.disabled = true;      
     
     var MDI_material_document7 = document.getElementById("MDI_material_document7");
     MDI_material_document7.disabled = false;
@@ -908,7 +1024,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type7 = document.getElementById("MDI_material_movement_type7");
     MDI_material_movement_type7.disabled = true;
     var MDI_item_text7 = document.getElementById("MDI_item_text7");
-    MDI_item_text7.disabled = false;  
+    MDI_item_text7.disabled = false;
+    var MDI_material_document_reverse7 = document.getElementById("MDI_material_document_reverse7");
+    MDI_material_document_reverse7.disabled = true;
+    var MDI_fiscal_year_reverse7 = document.getElementById("MDI_fiscal_year_reverse7");
+    MDI_fiscal_year_reverse7.disabled = true;
+    var MDI_item_reverse7 = document.getElementById("MDI_item_reverse7");
+    MDI_item_reverse7.disabled = true;      
     
     var MDI_material_document8 = document.getElementById("MDI_material_document8");
     MDI_material_document8.disabled = false;
@@ -929,7 +1051,13 @@ function MDI_set_field_property_U()
     var MDI_material_movement_type8 = document.getElementById("MDI_material_movement_type8");
     MDI_material_movement_type8.disabled = true;
     var MDI_item_text8 = document.getElementById("MDI_item_text8");
-    MDI_item_text8.disabled = false;      
+    MDI_item_text8.disabled = false;
+    var MDI_material_document_reverse8 = document.getElementById("MDI_material_document_reverse8");
+    MDI_material_document_reverse8.disabled = true;
+    var MDI_fiscal_year_reverse8 = document.getElementById("MDI_fiscal_year_reverse8");
+    MDI_fiscal_year_reverse8.disabled = true;
+    var MDI_item_reverse8 = document.getElementById("MDI_item_reverse8");
+    MDI_item_reverse8.disabled = true;          
 }    
 
 
@@ -981,7 +1109,11 @@ function MDH_set_field_property_D()
     var MDH_header_reference1 = document.getElementById("MDH_header_reference1");
     MDH_header_reference1.disabled = true; 
     var MDH_header_text1 = document.getElementById("MDH_header_text1");
-    MDH_header_text1.disabled = true;    
+    MDH_header_text1.disabled = true;
+    var MDH_material_document_reverse1 = document.getElementById("MDH_material_document_reverse1");
+    MDH_material_document_reverse1.disabled = false;
+    var MDH_fiscal_year_reverse1 = document.getElementById("MDH_fiscal_year_reverse1");
+    MDH_fiscal_year_reverse1.disabled = false;          
     
     var MDH_material_document2 = document.getElementById("MDH_material_document2");
     MDH_material_document2.disabled = false;
@@ -996,7 +1128,11 @@ function MDH_set_field_property_D()
     var MDH_header_reference2 = document.getElementById("MDH_header_reference2");
     MDH_header_reference2.disabled = true;
     var MDH_header_text2 = document.getElementById("MDH_header_text2");
-    MDH_header_text2.disabled = true;         
+    MDH_header_text2.disabled = true;
+    var MDH_material_document_reverse2 = document.getElementById("MDH_material_document_reverse2");
+    MDH_material_document_reverse2.disabled = false;
+    var MDH_fiscal_year_reverse2 = document.getElementById("MDH_fiscal_year_reverse2");
+    MDH_fiscal_year_reverse2.disabled = false;              
 
 }    
 
@@ -1028,6 +1164,12 @@ function MDI_set_field_property_D()
     MDI_material_movement_type1.disabled = true;
     var MDI_item_text1 = document.getElementById("MDI_item_text1");
     MDI_item_text1.disabled = true;
+    var MDI_material_document_reverse1 = document.getElementById("MDI_material_document_reverse1");
+    MDI_material_document_reverse1.disabled = false;
+    var MDI_fiscal_year_reverse1 = document.getElementById("MDI_fiscal_year_reverse1");
+    MDI_fiscal_year_reverse1.disabled = false;
+    var MDI_item_reverse1 = document.getElementById("MDI_item_reverse1");
+    MDI_item_reverse1.disabled = false;    
     
     var MDI_material_document2 = document.getElementById("MDI_material_document2");
     MDI_material_document2.disabled = false;
@@ -1048,7 +1190,13 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type2 = document.getElementById("MDI_material_movement_type2");
     MDI_material_movement_type2.disabled = true;
     var MDI_item_text2 = document.getElementById("MDI_item_text2");
-    MDI_item_text2.disabled = true;  
+    MDI_item_text2.disabled = true;
+    var MDI_material_document_reverse2 = document.getElementById("MDI_material_document_reverse2");
+    MDI_material_document_reverse2.disabled = false;
+    var MDI_fiscal_year_reverse2 = document.getElementById("MDI_fiscal_year_reverse2");
+    MDI_fiscal_year_reverse2.disabled = false;
+    var MDI_item_reverse2 = document.getElementById("MDI_item_reverse2");
+    MDI_item_reverse2.disabled = false;      
     
     var MDI_material_document3 = document.getElementById("MDI_material_document3");
     MDI_material_document3.disabled = false;
@@ -1069,7 +1217,13 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type3 = document.getElementById("MDI_material_movement_type3");
     MDI_material_movement_type3.disabled = true;
     var MDI_item_text3 = document.getElementById("MDI_item_text3");
-    MDI_item_text3.disabled = true;  
+    MDI_item_text3.disabled = true;
+    var MDI_material_document_reverse3 = document.getElementById("MDI_material_document_reverse3");
+    MDI_material_document_reverse3.disabled = false;
+    var MDI_fiscal_year_reverse3 = document.getElementById("MDI_fiscal_year_reverse3");
+    MDI_fiscal_year_reverse3.disabled = false;
+    var MDI_item_reverse3 = document.getElementById("MDI_item_reverse3");
+    MDI_item_reverse3.disabled = false;      
     
     var MDI_material_document4 = document.getElementById("MDI_material_document4");
     MDI_material_document4.disabled = false;
@@ -1090,7 +1244,13 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type4 = document.getElementById("MDI_material_movement_type4");
     MDI_material_movement_type4.disabled = true;
     var MDI_item_text4 = document.getElementById("MDI_item_text4");
-    MDI_item_text4.disabled = true;  
+    MDI_item_text4.disabled = true;
+    var MDI_material_document_reverse4 = document.getElementById("MDI_material_document_reverse4");
+    MDI_material_document_reverse4.disabled = false;
+    var MDI_fiscal_year_reverse4 = document.getElementById("MDI_fiscal_year_reverse4");
+    MDI_fiscal_year_reverse4.disabled = false;
+    var MDI_item_reverse4 = document.getElementById("MDI_item_reverse4");
+    MDI_item_reverse4.disabled = false;      
     
     var MDI_material_document5 = document.getElementById("MDI_material_document5");
     MDI_material_document5.disabled = false;
@@ -1111,7 +1271,13 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type5 = document.getElementById("MDI_material_movement_type5");
     MDI_material_movement_type5.disabled = true;
     var MDI_item_text5 = document.getElementById("MDI_item_text5");
-    MDI_item_text5.disabled = true;  
+    MDI_item_text5.disabled = true;
+    var MDI_material_document_reverse5 = document.getElementById("MDI_material_document_reverse5");
+    MDI_material_document_reverse5.disabled = false;
+    var MDI_fiscal_year_reverse5 = document.getElementById("MDI_fiscal_year_reverse5");
+    MDI_fiscal_year_reverse5.disabled = false;
+    var MDI_item_reverse5 = document.getElementById("MDI_item_reverse5");
+    MDI_item_reverse5.disabled = false;      
     
     var MDI_material_document6 = document.getElementById("MDI_material_document6");
     MDI_material_document6.disabled = false;
@@ -1132,7 +1298,13 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type6 = document.getElementById("MDI_material_movement_type6");
     MDI_material_movement_type6.disabled = true;
     var MDI_item_text6 = document.getElementById("MDI_item_text6");
-    MDI_item_text6.disabled = true;  
+    MDI_item_text6.disabled = true;
+    var MDI_material_document_reverse6 = document.getElementById("MDI_material_document_reverse6");
+    MDI_material_document_reverse6.disabled = false;
+    var MDI_fiscal_year_reverse6 = document.getElementById("MDI_fiscal_year_reverse6");
+    MDI_fiscal_year_reverse6.disabled = false;
+    var MDI_item_reverse6 = document.getElementById("MDI_item_reverse6");
+    MDI_item_reverse6.disabled = false;      
     
     var MDI_material_document7 = document.getElementById("MDI_material_document7");
     MDI_material_document7.disabled = false;
@@ -1153,7 +1325,13 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type7 = document.getElementById("MDI_material_movement_type7");
     MDI_material_movement_type7.disabled = true;
     var MDI_item_text7 = document.getElementById("MDI_item_text7");
-    MDI_item_text7.disabled = true;  
+    MDI_item_text7.disabled = true;
+    var MDI_material_document_reverse7 = document.getElementById("MDI_material_document_reverse7");
+    MDI_material_document_reverse7.disabled = false;
+    var MDI_fiscal_year_reverse7 = document.getElementById("MDI_fiscal_year_reverse7");
+    MDI_fiscal_year_reverse7.disabled = false;
+    var MDI_item_reverse7 = document.getElementById("MDI_item_reverse7");
+    MDI_item_reverse7.disabled = false;      
     
     var MDI_material_document8 = document.getElementById("MDI_material_document8");
     MDI_material_document8.disabled = false;
@@ -1174,41 +1352,14 @@ function MDI_set_field_property_D()
     var MDI_material_movement_type8 = document.getElementById("MDI_material_movement_type8");
     MDI_material_movement_type8.disabled = true;
     var MDI_item_text8 = document.getElementById("MDI_item_text8");
-    MDI_item_text8.disabled = true;      
+    MDI_item_text8.disabled = true;
+    var MDI_material_document_reverse8 = document.getElementById("MDI_material_document_reverse8");
+    MDI_material_document_reverse8.disabled = false;
+    var MDI_fiscal_year_reverse8 = document.getElementById("MDI_fiscal_year_reverse8");
+    MDI_fiscal_year_reverse8.disabled = false;
+    var MDI_item_reverse8 = document.getElementById("MDI_item_reverse8");
+    MDI_item_reverse8.disabled = false;          
 }    
-
-
-
-
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function M_set_field_property_C()
-{
-    var b_M_set_field_property_C = document.getElementById("b_M_set_field_property_C");
-    b_M_set_field_property_C.disabled = true;
-    var b_M_set_field_property_R = document.getElementById("b_M_set_field_property_R");
-    b_M_set_field_property_R.disabled = false;
-    var b_M_set_field_property_U = document.getElementById("b_M_set_field_property_U");
-    b_M_set_field_property_U.disabled = false;
-    var b_M_set_field_property_D = document.getElementById("b_M_set_field_property_D");
-    b_M_set_field_property_D.disabled = false;    
-
-    MG_set_field_property_C();
-    MP_set_field_property_C();
-    MSL_set_field_property_C();
-    
-    var b_M_create_controller = document.getElementById("b_M_create_controller");
-    b_M_create_controller.disabled = false; 
-    var b_M_read_controller = document.getElementById("b_M_read_controller");
-    b_M_read_controller.disabled = true; 
-    var b_M_update_controller = document.getElementById("b_M_update_controller");
-    b_M_update_controller.disabled = true; 
-    var b_M_delete_controller = document.getElementById("b_M_delete_controller");
-    b_M_delete_controller.disabled = true;                    
-}
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -1235,34 +1386,6 @@ function M_copy_output_screen_C()
 }
 
 
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function M_set_field_property_R()
-{
-    var b_M_set_field_property_C = document.getElementById("b_M_set_field_property_C");
-    b_M_set_field_property_C.disabled = false;
-    var b_M_set_field_property_R = document.getElementById("b_M_set_field_property_R");
-    b_M_set_field_property_R.disabled = true;
-    var b_M_set_field_property_U = document.getElementById("b_M_set_field_property_U");
-    b_M_set_field_property_U.disabled = false;
-    var b_M_set_field_property_D = document.getElementById("b_M_set_field_property_D");
-    b_M_set_field_property_D.disabled = false;    
-
-    MG_set_field_property_R();
-    MP_set_field_property_R();
-    MSL_set_field_property_R();
-
-    var b_M_create_controller = document.getElementById("b_M_create_controller");
-    b_M_create_controller.disabled = true; 
-    var b_M_read_controller = document.getElementById("b_M_read_controller");
-    b_M_read_controller.disabled = false; 
-    var b_M_update_controller = document.getElementById("b_M_update_controller");
-    b_M_update_controller.disabled = true; 
-    var b_M_delete_controller = document.getElementById("b_M_delete_controller");
-    b_M_delete_controller.disabled = true;                    
-}
-
 
 //--------------------------------------------------------------------------------------------------------------------//
 
@@ -1287,34 +1410,6 @@ function M_copy_output_screen_R()
     MSL_copy_output_screen_R(lt_MSL_output_material_storage_location); 
 }
 
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function M_set_field_property_U()
-{
-    var b_M_set_field_property_C = document.getElementById("b_M_set_field_property_C");
-    b_M_set_field_property_C.disabled = false;
-    var b_M_set_field_property_R = document.getElementById("b_M_set_field_property_R");
-    b_M_set_field_property_R.disabled = false;
-    var b_M_set_field_property_U = document.getElementById("b_M_set_field_property_U");
-    b_M_set_field_property_U.disabled = true;
-    var b_M_set_field_property_D = document.getElementById("b_M_set_field_property_D");
-    b_M_set_field_property_D.disabled = false;    
-
-    MG_set_field_property_U();
-    MP_set_field_property_U();
-    MSL_set_field_property_U();
-    
-    var b_M_create_controller = document.getElementById("b_M_create_controller");
-    b_M_create_controller.disabled = true; 
-    var b_M_read_controller = document.getElementById("b_M_read_controller");
-    b_M_read_controller.disabled = true; 
-    var b_M_update_controller = document.getElementById("b_M_update_controller");
-    b_M_update_controller.disabled = false; 
-    var b_M_delete_controller = document.getElementById("b_M_delete_controller");
-    b_M_delete_controller.disabled = true;                    
-}
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -1341,34 +1436,6 @@ function M_copy_output_screen_U()
 }
 
 
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function M_set_field_property_D()
-{
-    var b_M_set_field_property_C = document.getElementById("b_M_set_field_property_C");
-    b_M_set_field_property_C.disabled = false;
-    var b_M_set_field_property_R = document.getElementById("b_M_set_field_property_R");
-    b_M_set_field_property_R.disabled = false;
-    var b_M_set_field_property_U = document.getElementById("b_M_set_field_property_U");
-    M_set_field_property_U.disabled = false;
-    var b_M_set_field_property_D = document.getElementById("b_M_set_field_property_D");
-    b_M_set_field_property_D.disabled = true;    
-
-    MG_set_field_property_D();
-    MP_set_field_property_D();
-    MSL_set_field_property_D();
-    
-    var b_M_create_controller = document.getElementById("b_M_create_controller");
-    b_M_create_controller.disabled = true; 
-    var b_M_read_controller = document.getElementById("b_M_read_controller");
-    b_M_read_controller.disabled = true; 
-    var b_M_update_controller = document.getElementById("b_M_update_controller");
-    b_M_update_controller.disabled = true; 
-    var b_M_delete_controller = document.getElementById("b_M_delete_controller");
-    b_M_delete_controller.disabled = false;                    
-}
-
 
 //--------------------------------------------------------------------------------------------------------------------//
 
@@ -1393,553 +1460,6 @@ function M_copy_output_screen_D()
     MSL_copy_output_screen_D(lt_MSL_output_material_storage_location); 
 }
 
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_set_field_property_C()
-{
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = false;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = false;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = false;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = false;
-    
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = false;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = false;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = false;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = false; 
-    
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = false;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = false;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = false;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = false; 
-    
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = false;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = false;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = false;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = false;
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_set_field_property_C()
-{
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = false;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = false;  
-
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = false;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = false; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = false;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = false; 
-
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = false;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = false; 
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_set_field_property_C()
-{
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = false;
-
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = false;
-
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = false;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = false;    
-}  
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_set_field_property_R()    
-{
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = true;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = true;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = true;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = true;
-
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = true;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = true;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = true;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = true; 
-
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = true;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = true;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = true;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = true; 
-
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = true;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = true;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = true;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = true;
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_set_field_property_R()
-{
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = true;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = true;  
-
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = true;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = true; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = true;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = true; 
-
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = true;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = true; 
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_set_field_property_R()
-{
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = true;
-
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = true;
-
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = true;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = true;    
-}  
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_set_field_property_U()
-{    
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = true;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = false;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = true;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = false;
-
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = true;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = false;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = true;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = false; 
-
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = true;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = false;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = true;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = false; 
-
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = true;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = false;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = true;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = false;
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_set_field_property_U()
-{
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = false;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = false;  
-
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = false;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = false; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = false;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = false; 
-
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = false;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = false; 
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_set_field_property_U()
-{
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = false;
-
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = false;
-
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = false;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = false;    
-}  
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_set_field_property_D()
-{
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = true;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = true;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = true;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = true;
-
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = true;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = true;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = true;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = true; 
-
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = true;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = true;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = true;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = true; 
-
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = true;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = true;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = true;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = true;
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_set_field_property_D()
-{
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = true;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = true;  
-
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = true;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = true; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = true;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = true; 
-
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = true;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = true; 
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_set_field_property_D()
-{
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = true;
-
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = true;
-
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = true;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = true;    
-}  
 
 
 //----------------------------------------------------------------------------//
