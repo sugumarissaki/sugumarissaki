@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document</title>
+</head>
+<body>
+    <form id="material_document" onsubmit="submitForm(event)">
+        <h1 style="color:black;">Material Document</h1>
+        <table>
+            <tr>
+                <td><button id="b_MD_set_field_property_C" onclick="MD_set_field_property_C()">create</button></td>
+                <td><button id="b_MD_set_field_property_R" onclick="MD_set_field_property_R()" disabled>read</button></td>
+                <td><button id="b_MD_set_field_property_U" onclick="MD_set_field_property_U()">update</button></td>
+                <td><button id="b_MD_set_field_property_D" onclick="MD_set_field_property_D()">delete</button></td>
+            </tr>
+        </table>
+            </tr>
+        </table>
+
+        <table id="material_document">
+            <tr>
+                <td><input type="text" id="M_tenant"></td>
+            </tr>
+        </table>        
+
+<!--
+        <select>
+            <option value="option1">Option 1</option>
+            <option value="option2" selected>Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+-->
+
+
+<!-- Material Document Header -->
+        <table>
+            <tr>        
+                <td><h2 style="color:black;">Header</h2></td>
+                <td><button id="b_MDH_set_material_document_header_hide" onclick="MDH_set_material_document_header_hide()">[-]</button></td>
+                <td><button id="b_MDH_set_material_document_header_unhide" onclick="MDH_set_material_document_header_unhide()" disabled>[+]</button></td>
+            </tr>
+        </table>
+        <table id="t_MDH_material_document_header" style="display:table">
+            <tr>
+                <td>Material Document</td>
+                <td>Fiscal Year</td>
+                <td>Material Document Type</td>
+                <td>Document Date</td>
+                <td>Posting Date</td>
+                <td>Header Reference</td>
+                <td>Header Text</td>                
+            </tr>
+
+            <tr>
+                <td><input type="text" id="MDH_material_document1"></td>
+                <td><input type="text" id="MDH_fiscal_year1"></td>
+                <td><input type="text" id="MDH_material_document_type1" disabled></td>
+                <td><input type="text" id="MDH_document_date1" disabled></td>
+                <td><input type="text" id="MDH_posting_date1" disabled></td>
+                <td><input type="text" id="MDH_header_reference1" disabled></td>
+                <td><input type="text" id="MDH_header_text1" disabled></td>                
+                <td><input type="text" id="MDH_system_field_message_type1" style="width:100px" disabled></td>
+                <td><input type="text" id="MDH_system_field_message_description1" style="width:300px" disabled></td>
+            </tr>
+
+            <tr>
+                <td><input type="text" id="MDH_material_document2"></td>
+                <td><input type="text" id="MDH_fiscal_year2"></td>
+                <td><input type="text" id="MDH_material_document_type2" disabled></td>
+                <td><input type="text" id="MDH_document_date2" disabled></td>
+                <td><input type="text" id="MDH_posting_date2" disabled></td>
+                <td><input type="text" id="MDH_header_reference2" disabled></td>
+                <td><input type="text" id="MDH_header_text2" disabled></td>                
+                <td><input type="text" id="MDH_system_field_message_type2" style="width:100px" disabled></td>
+                <td><input type="text" id="MDH_system_field_message_description2" style="width:300px" disabled></td>
+            </tr>                                  
+        </table>
+
+
+<!-- Material Document Item -->
+        <table>
+            <tr>        
+                <td><h2 style="color:black;">Item</h2></td>
+                <td><button id="b_MDI_set_material_docuemnt_item_hide" onclick="MDI_set_material_document_item_hide()">[-]</button></td>
+                <td><button id="b_MDI_set_material_docuemnt_item_unhide" onclick="MD_set_material_document_item_unhide()" disabled>[+]</button></td>
+            </tr>
+        </table>
+        <table id="t_MDI_material_docuemnt_item" style="display:table">
+            <tr>
+                <td>Material Document</td>
+                <td>Fiscal Year</td>
+                <td>Item</td>
+                <td>Material</td>
+                <td>Plant</td>
+                <td>Storage Location</td>
+                <td>Quantity</td>
+                <td>Entry UOM</td>
+                <td>Material Movement Type</td>
+                <td>Item Text</td>
+            </tr>
+
+            <tr>
+                <td><input type="text" id="MDI_material_document1"></td>
+                <td><input type="text" id="MDI_fiscal_year1"></td>
+                <td><input type="text" id="MDI_item1"></td>
+                <td><input type="text" id="MDI_material1" disabled></td>
+                <td><input type="text" id="MDI_plant1" disabled></td>
+                <td><input type="text" id="MDI_storage_location1" disabled></td>
+                <td><input type="text" id="MDI_quantity1" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM1" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type1" disabled></td>
+                <td><input type="text" id="MDI_item_text1" disabled></td>                
+                <td><input type="text" id="MDI_system_field_message_type1" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description1" style="width:300px" disabled></td>
+            </tr>
+
+            <tr>
+                <td><input type="text" id="MDI_material_document2"></td>
+                <td><input type="text" id="MDI_fiscal_year2"></td>
+                <td><input type="text" id="MDI_item2"></td>
+                <td><input type="text" id="MDI_material2" disabled></td>
+                <td><input type="text" id="MDI_plant2" disabled></td>
+                <td><input type="text" id="MDI_storage_location2" disabled></td>
+                <td><input type="text" id="MDI_quantity2" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM2" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type2" disabled></td>
+                <td><input type="text" id="MDI_item_text2" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type2" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description2" style="width:300px" disabled></td>
+            </tr>
+            
+            <tr>
+                <td><input type="text" id="MDI_material_document3"></td>
+                <td><input type="text" id="MDI_fiscal_year3"></td>
+                <td><input type="text" id="MDI_item3"></td>
+                <td><input type="text" id="MDI_material3" disabled></td>
+                <td><input type="text" id="MDI_plant3" disabled></td>
+                <td><input type="text" id="MDI_storage_location3" disabled></td>
+                <td><input type="text" id="MDI_quantity3" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM3" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type3" disabled></td>
+                <td><input type="text" id="MDI_item_text3" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type3" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description3" style="width:300px" disabled></td>
+            </tr>
+            
+            <tr>
+                <td><input type="text" id="MDI_material_document4"></td>
+                <td><input type="text" id="MDI_fiscal_year4"></td>
+                <td><input type="text" id="MDI_item4"></td>
+                <td><input type="text" id="MDI_material4" disabled></td>
+                <td><input type="text" id="MDI_plant4" disabled></td>
+                <td><input type="text" id="MDI_storage_location4" disabled></td>
+                <td><input type="text" id="MDI_quantity4" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM4" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type4" disabled></td>
+                <td><input type="text" id="MDI_item_text4" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type4" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description4" style="width:300px" disabled></td>
+            </tr> 
+            
+            <tr>
+                <td><input type="text" id="MDI_material_document5"></td>
+                <td><input type="text" id="MDI_fiscal_year5"></td>
+                <td><input type="text" id="MDI_item5"></td>
+                <td><input type="text" id="MDI_material5" disabled></td>
+                <td><input type="text" id="MDI_plant5" disabled></td>
+                <td><input type="text" id="MDI_storage_location5" disabled></td>
+                <td><input type="text" id="MDI_quantity5" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM5" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type5" disabled></td>
+                <td><input type="text" id="MDI_item_text5" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type5" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description5" style="width:300px" disabled></td>
+            </tr>
+
+            <tr>
+                <td><input type="text" id="MDI_material_document6"></td>
+                <td><input type="text" id="MDI_fiscal_year6"></td>
+                <td><input type="text" id="MDI_item6"></td>
+                <td><input type="text" id="MDI_material6" disabled></td>
+                <td><input type="text" id="MDI_plant6" disabled></td>
+                <td><input type="text" id="MDI_storage_location6" disabled></td>
+                <td><input type="text" id="MDI_quantity6" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM6" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type6" disabled></td>
+                <td><input type="text" id="MDI_item_text6" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type6" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description6" style="width:300px" disabled></td>
+            </tr>
+            
+            <tr>
+                <td><input type="text" id="MDI_material_document7"></td>
+                <td><input type="text" id="MDI_fiscal_year7"></td>
+                <td><input type="text" id="MDI_item7"></td>
+                <td><input type="text" id="MDI_material7" disabled></td>
+                <td><input type="text" id="MDI_plant7" disabled></td>
+                <td><input type="text" id="MDI_storage_location7" disabled></td>
+                <td><input type="text" id="MDI_quantity7" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM7" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type7" disabled></td>
+                <td><input type="text" id="MDI_item_text7" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type7" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description7" style="width:300px" disabled></td>
+            </tr>
+            
+            <tr>
+                <td><input type="text" id="MDI_material_document8"></td>
+                <td><input type="text" id="MDI_fiscal_year8"></td>
+                <td><input type="text" id="MDI_item8"></td>
+                <td><input type="text" id="MDI_material8" disabled></td>
+                <td><input type="text" id="MDI_plant8" disabled></td>
+                <td><input type="text" id="MDI_storage_location8" disabled></td>
+                <td><input type="text" id="MDI_quantity8" disabled></td>
+                <td><input type="text" id="MDI_entry_UOM8" disabled></td>
+                <td><input type="text" id="MDI_material_movement_type8" disabled></td>
+                <td><input type="text" id="MDI_item_text8" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_type8" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_system_field_message_description8" style="width:300px" disabled></td>
+            </tr>             
+        </table>
+        
+        <table>
+            <tr>
+                <td><button id="b_MD_create_controller" onclick="MD_create_controller()" disabled>check C</button></td>
+                <td><button id="b_MD_read_controller" onclick="MD_read_controller()">check R</button></td>
+                <td><button id="b_MD_update_controller" onclick="MD_update_controller()" disabled>check U</button></td>
+                <td><button id="b_MD_delete_controller" onclick="MD_delete_controller()" disabled>check D</button></td>
+            </tr>
+        </table>
+    </form>
+    
+    <button id="submit">submit</button>
+<!--    <script src="MD_material_document_controller.js"> </script> -->
+    <script src="MD_material_document_view.js"> </script>
+<!--    <script src="MD_material_doccument_model.js"> </script> -->
+</body>
+</html>
