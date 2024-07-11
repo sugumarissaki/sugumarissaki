@@ -412,92 +412,59 @@ function M_copy_output_screen_D()
 //----------------------------------------------------------------------------//
 function MG_set_field_property_C()
 {
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = false;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = false;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = false;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = false;
-    
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = false;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = false;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = false;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = false; 
-    
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = false;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = false;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = false;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = false; 
-    
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = false;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = false;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = false;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = false;
-}    
+    var lv_counter = 0,
+        lv_field_name = '';
 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MG_material' + lv_counter;
+        var MG_material = document.getElementById(lv_field_name);
+        MG_material.disabled = false;
+
+        lv_field_name = 'MG_material_type' + lv_counter;
+        var MG_material_type = document.getElementById(lv_field_name);
+        MG_material_type.disabled = false;
+
+        lv_field_name = 'MG_material_description' + lv_counter;
+        var MG_material_description = document.getElementById(lv_field_name);
+        MG_material_description.disabled = false;        
+
+        lv_field_name = 'MG_base_UOM' + lv_counter;        
+        var MG_base_UOM = document.getElementById(lv_field_name);
+        MG_base_UOM.disabled = false;
+
+        lv_field_name = 'MG_material_group' + lv_counter;        
+        var MG_material_group = document.getElementById(lv_field_name);
+        MG_material_group.disabled = false;         
+    }
+}    
 
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
 function MP_set_field_property_C()
 {
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = false;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = false;  
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = false;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = false; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = false;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = false; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MP_material' + lv_counter;
+        var MP_material = document.getElementById(lv_field_name);
+        MP_material.disabled = false;
 
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = false;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = false; 
+        lv_field_name = 'MP_plant' + lv_counter;
+        var MP_plant = document.getElementById(lv_field_name);
+        MP_plant.disabled = false;
+
+        lv_field_name = 'MP_reorder_point' + lv_counter;
+        var MP_reorder_point = document.getElementById(lv_field_name);
+        MP_reorder_point.disabled = false;        
+
+        lv_field_name = 'MP_moving_average_price' + lv_counter;        
+        var MP_moving_average_price = document.getElementById(lv_field_name);
+        MP_moving_average_price.disabled = false;       
+    }
 }    
 
 
@@ -506,93 +473,61 @@ function MP_set_field_property_C()
 //----------------------------------------------------------------------------//
 function MSL_set_field_property_C()
 {
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = false;
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = false;
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MSL_material' + lv_counter;
+        var MSL_material = document.getElementById(lv_field_name);
+        MSL_material.disabled = false;
 
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = false;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = false;    
-}  
+        lv_field_name = 'MSL_plant' + lv_counter;
+        var MSL_plant = document.getElementById(lv_field_name);
+        MSL_plant.disabled = false;
+
+        lv_field_name = 'MSL_storage_location' + lv_counter;
+        var MSL_storage_location = document.getElementById(lv_field_name);
+        MSL_storage_location.disabled = false;        
+
+        lv_field_name = 'MSL_storage_bin' + lv_counter;        
+        var MSL_storage_bin = document.getElementById(lv_field_name);
+        MSL_storage_bin.disabled = false;       
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-function MG_set_field_property_R()    
+function MG_set_field_property_R()
 {
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = true;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = true;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = true;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = true;
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = true;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = true;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = true;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = true; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MG_material' + lv_counter;
+        var MG_material = document.getElementById(lv_field_name);
+        MG_material.disabled = false;
 
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = true;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = true;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = true;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = true; 
+        lv_field_name = 'MG_material_type' + lv_counter;
+        var MG_material_type = document.getElementById(lv_field_name);
+        MG_material_type.disabled = true;
 
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = true;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = true;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = true;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = true;
-}
+        lv_field_name = 'MG_material_description' + lv_counter;
+        var MG_material_description = document.getElementById(lv_field_name);
+        MG_material_description.disabled = true;        
+
+        lv_field_name = 'MG_base_UOM' + lv_counter;        
+        var MG_base_UOM = document.getElementById(lv_field_name);
+        MG_base_UOM.disabled = true;
+
+        lv_field_name = 'MG_material_group' + lv_counter;        
+        var MG_material_group = document.getElementById(lv_field_name);
+        MG_material_group.disabled = true;         
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
@@ -600,41 +535,27 @@ function MG_set_field_property_R()
 //----------------------------------------------------------------------------//
 function MP_set_field_property_R()
 {
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = true;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = true;  
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = true;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = true; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = true;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = true; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MP_material' + lv_counter;
+        var MP_material = document.getElementById(lv_field_name);
+        MP_material.disabled = false;
 
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = true;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = true; 
+        lv_field_name = 'MP_plant' + lv_counter;
+        var MP_plant = document.getElementById(lv_field_name);
+        MP_plant.disabled = false;
+
+        lv_field_name = 'MP_reorder_point' + lv_counter;
+        var MP_reorder_point = document.getElementById(lv_field_name);
+        MP_reorder_point.disabled = true;        
+
+        lv_field_name = 'MP_moving_average_price' + lv_counter;        
+        var MP_moving_average_price = document.getElementById(lv_field_name);
+        MP_moving_average_price.disabled = true;       
+    }
 }    
 
 
@@ -643,93 +564,61 @@ function MP_set_field_property_R()
 //----------------------------------------------------------------------------//
 function MSL_set_field_property_R()
 {
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = true;
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = true;
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MSL_material' + lv_counter;
+        var MSL_material = document.getElementById(lv_field_name);
+        MSL_material.disabled = false;
 
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = true;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = true;    
-}  
+        lv_field_name = 'MSL_plant' + lv_counter;
+        var MSL_plant = document.getElementById(lv_field_name);
+        MSL_plant.disabled = false;
+
+        lv_field_name = 'MSL_storage_location' + lv_counter;
+        var MSL_storage_location = document.getElementById(lv_field_name);
+        MSL_storage_location.disabled = false;        
+
+        lv_field_name = 'MSL_storage_bin' + lv_counter;        
+        var MSL_storage_bin = document.getElementById(lv_field_name);
+        MSL_storage_bin.disabled = true;       
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
 function MG_set_field_property_U()
-{    
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = true;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = false;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = true;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = false;
+{
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = true;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = false;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = true;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = false; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MG_material' + lv_counter;
+        var MG_material = document.getElementById(lv_field_name);
+        MG_material.disabled = false;
 
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = true;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = false;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = true;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = false; 
+        lv_field_name = 'MG_material_type' + lv_counter;
+        var MG_material_type = document.getElementById(lv_field_name);
+        MG_material_type.disabled = true;
 
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = true;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = false;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = true;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = false;
-}
+        lv_field_name = 'MG_material_description' + lv_counter;
+        var MG_material_description = document.getElementById(lv_field_name);
+        MG_material_description.disabled = false;        
+
+        lv_field_name = 'MG_base_UOM' + lv_counter;        
+        var MG_base_UOM = document.getElementById(lv_field_name);
+        MG_base_UOM.disabled = true;
+
+        lv_field_name = 'MG_material_group' + lv_counter;        
+        var MG_material_group = document.getElementById(lv_field_name);
+        MG_material_group.disabled = false;         
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
@@ -737,41 +626,27 @@ function MG_set_field_property_U()
 //----------------------------------------------------------------------------//
 function MP_set_field_property_U()
 {
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = false;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = false;  
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = false;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = false; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = false;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = false; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MP_material' + lv_counter;
+        var MP_material = document.getElementById(lv_field_name);
+        MP_material.disabled = false;
 
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = false;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = false; 
+        lv_field_name = 'MP_plant' + lv_counter;
+        var MP_plant = document.getElementById(lv_field_name);
+        MP_plant.disabled = false;
+
+        lv_field_name = 'MP_reorder_point' + lv_counter;
+        var MP_reorder_point = document.getElementById(lv_field_name);
+        MP_reorder_point.disabled = false;        
+
+        lv_field_name = 'MP_moving_average_price' + lv_counter;        
+        var MP_moving_average_price = document.getElementById(lv_field_name);
+        MP_moving_average_price.disabled = false;       
+    }
 }    
 
 
@@ -780,42 +655,28 @@ function MP_set_field_property_U()
 //----------------------------------------------------------------------------//
 function MSL_set_field_property_U()
 {
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = false;
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = false;
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MSL_material' + lv_counter;
+        var MSL_material = document.getElementById(lv_field_name);
+        MSL_material.disabled = false;
 
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = false;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = false;    
-}  
+        lv_field_name = 'MSL_plant' + lv_counter;
+        var MSL_plant = document.getElementById(lv_field_name);
+        MSL_plant.disabled = false;
+
+        lv_field_name = 'MSL_storage_location' + lv_counter;
+        var MSL_storage_location = document.getElementById(lv_field_name);
+        MSL_storage_location.disabled = false;        
+
+        lv_field_name = 'MSL_storage_bin' + lv_counter;        
+        var MSL_storage_bin = document.getElementById(lv_field_name);
+        MSL_storage_bin.disabled = false;       
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
@@ -823,50 +684,32 @@ function MSL_set_field_property_U()
 //----------------------------------------------------------------------------//
 function MG_set_field_property_D()
 {
-    var MG_material1 = document.getElementById("MG_material1");
-    MG_material1.disabled = false;
-    var MG_material_type1 = document.getElementById("MG_material_type1");
-    MG_material_type1.disabled = true;
-    var MG_material_description1 = document.getElementById("MG_material_description1");
-    MG_material_description1.disabled = true;
-    var MG_base_UOM1 = document.getElementById("MG_base_UOM1");
-    MG_base_UOM1.disabled = true;  
-    var MG_material_group1 = document.getElementById("MG_material_group1");
-    MG_material_group1.disabled = true;
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MG_material2 = document.getElementById("MG_material2");
-    MG_material2.disabled = false;
-    var MG_material_type2 = document.getElementById("MG_material_type2");
-    MG_material_type2.disabled = true;
-    var MG_material_description2 = document.getElementById("MG_material_description2");
-    MG_material_description2.disabled = true;
-    var MG_base_UOM2 = document.getElementById("MG_base_UOM2");
-    MG_base_UOM2.disabled = true;  
-    var MG_material_group2 = document.getElementById("MG_material_group2");
-    MG_material_group2.disabled = true; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MG_material' + lv_counter;
+        var MG_material = document.getElementById(lv_field_name);
+        MG_material.disabled = false;
 
-    var MG_material3 = document.getElementById("MG_material3");
-    MG_material3.disabled = false;
-    var MG_material_type3 = document.getElementById("MG_material_type3");
-    MG_material_type3.disabled = true;
-    var MG_material_description3 = document.getElementById("MG_material_description3");
-    MG_material_description3.disabled = true;
-    var MG_base_UOM3 = document.getElementById("MG_base_UOM3");
-    MG_base_UOM3.disabled = true;  
-    var MG_material_group3 = document.getElementById("MG_material_group3");
-    MG_material_group3.disabled = true; 
+        lv_field_name = 'MG_material_type' + lv_counter;
+        var MG_material_type = document.getElementById(lv_field_name);
+        MG_material_type.disabled = true;
 
-    var MG_material4 = document.getElementById("MG_material4");
-    MG_material4.disabled = false;
-    var MG_material_type4 = document.getElementById("MG_material_type4");
-    MG_material_type4.disabled = true;
-    var MG_material_description4 = document.getElementById("MG_material_description4");
-    MG_material_description4.disabled = true;
-    var MG_base_UOM4 = document.getElementById("MG_base_UOM4");
-    MG_base_UOM4.disabled = true;  
-    var MG_material_group4 = document.getElementById("MG_material_group4");
-    MG_material_group4.disabled = true;
-}
+        lv_field_name = 'MG_material_description' + lv_counter;
+        var MG_material_description = document.getElementById(lv_field_name);
+        MG_material_description.disabled = true;        
+
+        lv_field_name = 'MG_base_UOM' + lv_counter;        
+        var MG_base_UOM = document.getElementById(lv_field_name);
+        MG_base_UOM.disabled = true;
+
+        lv_field_name = 'MG_material_group' + lv_counter;        
+        var MG_material_group = document.getElementById(lv_field_name);
+        MG_material_group.disabled = true;         
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
@@ -874,41 +717,27 @@ function MG_set_field_property_D()
 //----------------------------------------------------------------------------//
 function MP_set_field_property_D()
 {
-    var MP_material1 = document.getElementById("MP_material1");
-    MP_material1.disabled = false;
-    var MP_plant1 = document.getElementById("MP_plant1");
-    MP_plant1.disabled = false;
-    var MP_reorder_point1 = document.getElementById("MP_reorder_point1");
-    MP_reorder_point1.disabled = true;
-    var MP_moving_average_price1 = document.getElementById("MP_moving_average_price1");
-    MP_moving_average_price1.disabled = true;  
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MP_material2 = document.getElementById("MP_material2");
-    MP_material2.disabled = false;
-    var MP_plant2 = document.getElementById("MP_plant2");
-    MP_plant2.disabled = false;
-    var MP_reorder_point2 = document.getElementById("MP_reorder_point2");
-    MP_reorder_point2.disabled = true;
-    var MP_moving_average_price2 = document.getElementById("MP_moving_average_price2");
-    MP_moving_average_price2.disabled = true; 
-    
-    var MP_material3 = document.getElementById("MP_material3");
-    MP_material3.disabled = false;
-    var MP_plant3 = document.getElementById("MP_plant3");
-    MP_plant3.disabled = false;
-    var MP_reorder_point3 = document.getElementById("MP_reorder_point3");
-    MP_reorder_point3.disabled = true;
-    var MP_moving_average_price3 = document.getElementById("MP_moving_average_price3");
-    MP_moving_average_price3.disabled = true; 
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MP_material' + lv_counter;
+        var MP_material = document.getElementById(lv_field_name);
+        MP_material.disabled = false;
 
-    var MP_material4 = document.getElementById("MP_material4");
-    MP_material4.disabled = false;
-    var MP_plant4 = document.getElementById("MP_plant4");
-    MP_plant4.disabled = false;
-    var MP_reorder_point4 = document.getElementById("MP_reorder_point4");
-    MP_reorder_point4.disabled = true;
-    var MP_moving_average_price4 = document.getElementById("MP_moving_average_price4");
-    MP_moving_average_price4.disabled = true; 
+        lv_field_name = 'MP_plant' + lv_counter;
+        var MP_plant = document.getElementById(lv_field_name);
+        MP_plant.disabled = false;
+
+        lv_field_name = 'MP_reorder_point' + lv_counter;
+        var MP_reorder_point = document.getElementById(lv_field_name);
+        MP_reorder_point.disabled = true;        
+
+        lv_field_name = 'MP_moving_average_price' + lv_counter;        
+        var MP_moving_average_price = document.getElementById(lv_field_name);
+        MP_moving_average_price.disabled = true;       
+    }
 }    
 
 
@@ -917,42 +746,28 @@ function MP_set_field_property_D()
 //----------------------------------------------------------------------------//
 function MSL_set_field_property_D()
 {
-    var MSL_material1 = document.getElementById("MSL_material1");
-    MSL_material1.disabled = false;
-    var MSL_plant1 = document.getElementById("MSL_plant1");
-    MSL_plant1.disabled = false;
-    var MSL_storage_location1 = document.getElementById("MSL_storage_location1");
-    MSL_storage_location1.disabled = false;
-    var MSL_storage_bin1 = document.getElementById("MSL_storage_bin1");
-    MSL_storage_bin1.disabled = true;
+    var lv_counter = 0,
+        lv_field_name = '';
 
-    var MSL_material2 = document.getElementById("MSL_material2");
-    MSL_material2.disabled = false;
-    var MSL_plant2 = document.getElementById("MSL_plant2");
-    MSL_plant2.disabled = false;
-    var MSL_storage_location2 = document.getElementById("MSL_storage_location2");
-    MSL_storage_location2.disabled = false;
-    var MSL_storage_bin2 = document.getElementById("MSL_storage_bin2");
-    MSL_storage_bin2.disabled = true;
+    for (lv_counter = 1; lv_counter <= 4; lv_counter = lv_counter + 1)
+    {
+        lv_field_name = 'MSL_material' + lv_counter;
+        var MSL_material = document.getElementById(lv_field_name);
+        MSL_material.disabled = false;
 
-    var MSL_material3 = document.getElementById("MSL_material3");
-    MSL_material3.disabled = false;
-    var MSL_plant3 = document.getElementById("MSL_plant3");
-    MSL_plant3.disabled = false;
-    var MSL_storage_location3 = document.getElementById("MSL_storage_location3");
-    MSL_storage_location3.disabled = false;
-    var MSL_storage_bin3 = document.getElementById("MSL_storage_bin3");
-    MSL_storage_bin3.disabled = true;
-    
-    var MSL_material4 = document.getElementById("MSL_material4");
-    MSL_material4.disabled = false;
-    var MSL_plant4 = document.getElementById("MSL_plant4");
-    MSL_plant4.disabled = false;
-    var MSL_storage_location4 = document.getElementById("MSL_storage_location4");
-    MSL_storage_location4.disabled = false;
-    var MSL_storage_bin4 = document.getElementById("MSL_storage_bin4");
-    MSL_storage_bin4.disabled = true;    
-}  
+        lv_field_name = 'MSL_plant' + lv_counter;
+        var MSL_plant = document.getElementById(lv_field_name);
+        MSL_plant.disabled = false;
+
+        lv_field_name = 'MSL_storage_location' + lv_counter;
+        var MSL_storage_location = document.getElementById(lv_field_name);
+        MSL_storage_location.disabled = false;        
+
+        lv_field_name = 'MSL_storage_bin' + lv_counter;        
+        var MSL_storage_bin = document.getElementById(lv_field_name);
+        MSL_storage_bin.disabled = true;       
+    }
+}    
 
 
 //----------------------------------------------------------------------------//
@@ -960,70 +775,37 @@ function MSL_set_field_property_D()
 //----------------------------------------------------------------------------//
 function MG_copy_screen_input_C(iv_tenant)
 {
-    var l_material = '';
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_material_description = '',
+        lv_field_name_material_type = '',
+        lv_field_name_base_UOM = '',
+        lv_field_name_material_group = '';
 
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MG_input_material_general[0] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MG_material1').value,
-        material_type : document.getElementById('MG_material_type1').value,
-        material_description : document.getElementById('MG_material_description1').value,
-        base_UOM : document.getElementById('MG_base_UOM1').value,
-        material_group : document.getElementById('MG_material_group1').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }
+        lv_field_name_material = 'MG_material' + (lv_counter + 1);
+        lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+        lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+        lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+        lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
 
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[1] =
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
-        tenant : iv_tenant,
-        material : document.getElementById('MG_material2').value,
-        material_type : document.getElementById('MG_material_type2').value,
-        material_description : document.getElementById('MG_material_description2').value,
-        base_UOM : document.getElementById('MG_base_UOM2').value,
-        material_group : document.getElementById('MG_material_group2').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MG_material3').value,
-        material_type : document.getElementById('MG_material_type3').value,
-        material_description : document.getElementById('MG_material_description3').value,
-        base_UOM : document.getElementById('MG_base_UOM3').value,
-        material_group : document.getElementById('MG_material_group3').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MG_material4').value,
-        material_type : document.getElementById('MG_material_type4').value,
-        material_description : document.getElementById('MG_material_description4').value,
-        base_UOM : document.getElementById('MG_base_UOM4').value,
-        material_group : document.getElementById('MG_material_group4').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };        
+            lt_MG_input_material_general[lv_counter] =
+            {
+            tenant : iv_tenant,
+            material : document.getElementById(lv_field_name_material).value,
+            material_type : document.getElementById(lv_field_name_material_type).value,
+            material_description : document.getElementById(lv_field_name_material_description).value,
+            base_UOM : document.getElementById(lv_field_name_base_UOM).value,
+            material_group : document.getElementById(lv_field_name_material_group).value,
+            system_field_message_type : '',
+            system_field_message_description : ''
+            };
+        }
     }
 }
 
@@ -1032,66 +814,36 @@ function MG_copy_screen_input_C(iv_tenant)
 
 //----------------------------------------------------------------------------//
 function MP_copy_screen_input_C(iv_tenant)
-{  
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
+{
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_reorder_point = '',
+        lv_field_name_moving_average_price = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MP_input_material_plant[0] =
+        lv_field_name_material = 'MP_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+        lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+        lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
-        tenant : iv_tenant,
-        material : document.getElementById('MP_material1').value,
-        plant : document.getElementById('MP_plant1').value,
-        reorder_point : document.getElementById('MP_reorder_point1').value,
-        moving_average_price : document.getElementById('MP_moving_average_price1').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
+            lt_MP_input_material_plant[lv_counter] =
+            {
+            tenant : iv_tenant,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            reorder_point : document.getElementById(lv_field_name_reorder_point).value,
+            moving_average_price : document.getElementById(lv_field_name_moving_average_price).value,
+            system_field_message_type : '',
+            system_field_message_description : ''
+            };
+        }
     }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[1] =
-        {
-        tenant : iv_tenant,    
-        material : document.getElementById('MP_material2').value,
-        plant : document.getElementById('MP_plant2').value,
-        reorder_point : document.getElementById('MP_reorder_point2').value,
-        moving_average_price : document.getElementById('MP_moving_average_price2').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[2] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MP_material3').value,
-        plant : document.getElementById('MP_plant3').value,
-        reorder_point : document.getElementById('MP_reorder_point3').value,
-        moving_average_price : document.getElementById('MP_moving_average_price3').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MP_material4').value,
-        plant : document.getElementById('MP_plant4').value,
-        reorder_point : document.getElementById('MP_reorder_point4').value,
-        moving_average_price : document.getElementById('MP_moving_average_price4').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }    
 }
 
 
@@ -1099,65 +851,35 @@ function MP_copy_screen_input_C(iv_tenant)
 
 //----------------------------------------------------------------------------//
 function MSL_copy_screen_input_C(iv_tenant)
-{    
-    l_material = document.getElementById('MSL_material1').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[0] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MSL_material1').value,
-        plant : document.getElementById('MSL_plant1').value,
-        storage_location : document.getElementById('MSL_storage_location1').value,
-        storage_bin : document.getElementById('MSL_storage_bin1').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }
+{
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_storage_location = '',
+        lv_field_name_storage_bin = '';
 
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MSL_input_material_storage_location[1] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MSL_material2').value,
-        plant : document.getElementById('MSL_plant2').value,
-        storage_location : document.getElementById('MSL_storage_location2').value,
-        storage_bin : document.getElementById('MSL_storage_bin2').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }
+        lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+        lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+        lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
 
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
-        tenant : iv_tenant,
-        material : document.getElementById('MSL_material3').value,
-        plant : document.getElementById('MSL_plant3').value,
-        storage_location : document.getElementById('MSL_storage_location3').value,
-        storage_bin : document.getElementById('MSL_storage_bin3').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MSL_material4').value,
-        plant : document.getElementById('MSL_plant4').value,
-        storage_location : document.getElementById('MSL_storage_location4').value,
-        storage_bin : document.getElementById('MSL_storage_bin4').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
+            lt_MSL_input_material_storage_location[lv_counter] =
+            {
+            tenant : iv_tenant,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            storage_location : document.getElementById(lv_field_name_storage_location).value,
+            storage_bin : document.getElementById(lv_field_name_storage_bin).value,
+            system_field_message_type : '',
+            system_field_message_description : ''
+            };
+        }
     }
 }
 
@@ -1167,84 +889,45 @@ function MSL_copy_screen_input_C(iv_tenant)
 //----------------------------------------------------------------------------//
 function MG_copy_output_screen_C(it_MG_output_material_general)
 {
-    if (it_MG_output_material_general.length >= 1)
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_material_description = '',
+    lv_field_name_material_type = '',
+    lv_field_name_base_UOM = '',
+    lv_field_name_material_group = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM;
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
-        
-        if (document.getElementById('MG_system_field_message_type1').value == 'ERROR')
+        if (lv_counter < it_MG_output_material_general.length)
         {
-            document.getElementById('MG_material1').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material1').style.color = '';
-        }            
-    }
-    
-    if (it_MG_output_material_general.length >= 2)
-    {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
+            lv_field_name_material = 'MG_material' + (lv_counter + 1);
+            lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+            lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+            lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+            lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MG_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MG_system_field_message_description' + (lv_counter + 1);
 
-        if (document.getElementById('MG_system_field_message_type2').value == 'ERROR')
-        {
-            document.getElementById('MG_material2').style.color = 'red';
+            document.getElementById(lv_field_name_material).value = it_MG_output_material_general[lv_counter].material;
+            document.getElementById(lv_field_name_material_type).value = it_MG_output_material_general[lv_counter].material_type;
+            document.getElementById(lv_field_name_material_description).value = it_MG_output_material_general[lv_counter].material_description;
+            document.getElementById(lv_field_name_base_UOM).value = it_MG_output_material_general[lv_counter].base_UOM;
+            document.getElementById(lv_field_name_material_group).value = it_MG_output_material_general[lv_counter].material_group;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MG_output_material_general[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MG_output_material_general[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
         }
-        else        
-        {
-            document.getElementById('MG_material2').style.color = '';
-        }     
-    }
-    
-    if (it_MG_output_material_general.length >= 3)
-    {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-
-        if (document.getElementById('MG_system_field_message_type3').value == 'ERROR')
-        {
-            document.getElementById('MG_material3').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material3').style.color = '';
-        }     
-    }
-    
-    if (it_MG_output_material_general.length >= 4)
-    {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-    
-        if (document.getElementById('MG_system_field_message_type4').value == 'ERROR')
-        {
-            document.getElementById('MG_material4').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material4').style.color = '';
-        }         
     }
 }
 
@@ -1254,46 +937,44 @@ function MG_copy_output_screen_C(it_MG_output_material_general)
 //----------------------------------------------------------------------------//
 function MP_copy_output_screen_C(it_MP_output_material_plant)
 {
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_reorder_point = '',
+    lv_field_name_moving_average_price = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (it_MP_output_material_plant.length >= 3)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
+        if (lv_counter < it_MP_output_material_plant.length)
+        {
+            lv_field_name_material = 'MP_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+            lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+            lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MP_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MP_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MP_output_material_plant[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MP_output_material_plant[lv_counter].plant;
+            document.getElementById(lv_field_name_reorder_point).value = it_MP_output_material_plant[lv_counter].reorder_point;
+            document.getElementById(lv_field_name_moving_average_price).value = it_MP_output_material_plant[lv_counter].moving_average_price;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MP_output_material_plant[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MP_output_material_plant[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
+    }
+}
 
 
 //----------------------------------------------------------------------------//
@@ -1301,45 +982,43 @@ function MP_copy_output_screen_C(it_MP_output_material_plant)
 //----------------------------------------------------------------------------//
 function MSL_copy_output_screen_C(it_MSL_output_material_storage_location)
 {
-    if (it_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = it_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = it_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = it_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = it_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = it_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = it_MSL_output_material_storage_location[0].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_storage_location = '',
+    lv_field_name_storage_bin = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (it_MSL_output_material_storage_location.length >= 2)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MSL_material2').value = it_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = it_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = it_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = it_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = it_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = it_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (it_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = it_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = it_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = it_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = it_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = it_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = it_MSL_output_material_storage_location[2].system_field_message_description;
+        if (lv_counter < it_MSL_output_material_storage_location.length)
+        {
+            lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+            lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+            lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MSL_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MSL_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MSL_output_material_storage_location[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MSL_output_material_storage_location[lv_counter].plant;
+            document.getElementById(lv_field_name_storage_location).value = it_MSL_output_material_storage_location[lv_counter].storage_location;
+            document.getElementById(lv_field_name_storage_bin).value = it_MSL_output_material_storage_location[lv_counter].storage_bin;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
     }
-    
-    if (it_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = it_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = it_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = it_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = it_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = it_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = it_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
 }
 
 
@@ -1348,70 +1027,37 @@ function MSL_copy_output_screen_C(it_MSL_output_material_storage_location)
 //----------------------------------------------------------------------------//
 function MG_copy_screen_input_R(iv_tenant)
 {
-    var l_material = '';
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_material_description = '',
+        lv_field_name_material_type = '',
+        lv_field_name_base_UOM = '',
+        lv_field_name_material_group = '';
 
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MG_input_material_general[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material1').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
+        lv_field_name_material = 'MG_material' + (lv_counter + 1);
+        lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+        lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+        lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+        lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
 
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[1] =
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MG_input_material_general[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MG_material2').value,
+            material : document.getElementById(lv_field_name_material).value,
             material_type : '',
             material_description : '',
             base_UOM : '',
             material_group : '',
             system_field_message_type : '',
             system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material3').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material4').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };        
+            };
+        }
     }
 }
 
@@ -1421,65 +1067,35 @@ function MG_copy_screen_input_R(iv_tenant)
 //----------------------------------------------------------------------------//
 function MP_copy_screen_input_R(iv_tenant)
 {
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_reorder_point = '',
+        lv_field_name_moving_average_price = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MP_input_material_plant[0] =
+        lv_field_name_material = 'MP_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+        lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+        lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MP_input_material_plant[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MP_material1').value,
-            plant : document.getElementById('MP_plant1').value,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
             reorder_point : '',
             moving_average_price : '',
             system_field_message_type : '',
             system_field_message_description : ''
-        };
+            };
+        }
     }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material2').value,
-            plant : document.getElementById('MP_plant2').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material3').value,
-            plant : document.getElementById('MP_plant3').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material4').value,
-            plant : document.getElementById('MP_plant4').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
 }
 
 
@@ -1488,64 +1104,34 @@ function MP_copy_screen_input_R(iv_tenant)
 //----------------------------------------------------------------------------//
 function MSL_copy_screen_input_R(iv_tenant)
 {
-    l_material = document.getElementById('MSL_material1').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material1').value,
-            plant : document.getElementById('MSL_plant1').value,
-            storage_location : document.getElementById('MSL_storage_location1').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_storage_location = '',
+        lv_field_name_storage_bin = '';
 
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MSL_input_material_storage_location[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material2').value,
-            plant : document.getElementById('MSL_plant2').value,
-            storage_location : document.getElementById('MSL_storage_location2').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
+        lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+        lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+        lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
 
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MSL_input_material_storage_location[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MSL_material3').value,
-            plant : document.getElementById('MSL_plant3').value,
-            storage_location : document.getElementById('MSL_storage_location3').value,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            storage_location : document.getElementById(lv_field_name_storage_location).value,
             storage_bin : '',
             system_field_message_type : '',
             system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material4').value,
-            plant : document.getElementById('MSL_plant4').value,
-            storage_location : document.getElementById('MSL_storage_location4').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
+            };
+        }
     }
 }
 
@@ -1555,49 +1141,46 @@ function MSL_copy_screen_input_R(iv_tenant)
 //----------------------------------------------------------------------------//
 function MG_copy_output_screen_R(it_MG_output_material_general)
 {
-    if (it_MG_output_material_general.length >= 1)
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_material_description = '',
+    lv_field_name_material_type = '',
+    lv_field_name_base_UOM = '',
+    lv_field_name_material_group = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
+    {
+        if (lv_counter < it_MG_output_material_general.length)
         {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM; 
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
+            lv_field_name_material = 'MG_material' + (lv_counter + 1);
+            lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+            lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+            lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+            lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MG_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MG_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MG_output_material_general[lv_counter].material;
+            document.getElementById(lv_field_name_material_type).value = it_MG_output_material_general[lv_counter].material_type;
+            document.getElementById(lv_field_name_material_description).value = it_MG_output_material_general[lv_counter].material_description;
+            document.getElementById(lv_field_name_base_UOM).value = it_MG_output_material_general[lv_counter].base_UOM;
+            document.getElementById(lv_field_name_material_group).value = it_MG_output_material_general[lv_counter].material_group;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MG_output_material_general[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MG_output_material_general[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
         }
-    
-        if (it_MG_output_material_general.length >= 2)
-        {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 3)
-        {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 4)
-        {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-        }
+    }
 }
 
 
@@ -1606,46 +1189,44 @@ function MG_copy_output_screen_R(it_MG_output_material_general)
 //----------------------------------------------------------------------------//
 function MP_copy_output_screen_R(it_MP_output_material_plant)
 {
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_reorder_point = '',
+    lv_field_name_moving_average_price = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (it_MP_output_material_plant.length >= 3)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
+        if (lv_counter < it_MP_output_material_plant.length)
+        {
+            lv_field_name_material = 'MP_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+            lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+            lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MP_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MP_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MP_output_material_plant[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MP_output_material_plant[lv_counter].plant;
+            document.getElementById(lv_field_name_reorder_point).value = it_MP_output_material_plant[lv_counter].reorder_point;
+            document.getElementById(lv_field_name_moving_average_price).value = it_MP_output_material_plant[lv_counter].moving_average_price;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MP_output_material_plant[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MP_output_material_plant[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
+    }
+}
 
 
 //----------------------------------------------------------------------------//
@@ -1653,45 +1234,43 @@ function MP_copy_output_screen_R(it_MP_output_material_plant)
 //----------------------------------------------------------------------------//
 function MSL_copy_output_screen_R(it_MSL_output_material_storage_location)
 {
-    if (it_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = it_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = it_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = it_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = it_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = it_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = it_MSL_output_material_storage_location[0].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_storage_location = '',
+    lv_field_name_storage_bin = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (it_MSL_output_material_storage_location.length >= 2)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MSL_material2').value = it_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = it_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = it_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = it_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = it_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = it_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (it_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = it_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = it_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = it_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = it_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = it_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = it_MSL_output_material_storage_location[2].system_field_message_description;
+        if (lv_counter < it_MSL_output_material_storage_location.length)
+        {
+            lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+            lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+            lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MSL_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MSL_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MSL_output_material_storage_location[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MSL_output_material_storage_location[lv_counter].plant;
+            document.getElementById(lv_field_name_storage_location).value = it_MSL_output_material_storage_location[lv_counter].storage_location;
+            document.getElementById(lv_field_name_storage_bin).value = it_MSL_output_material_storage_location[lv_counter].storage_bin;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
     }
-    
-    if (it_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = it_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = it_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = it_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = it_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = it_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = it_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
 }
 
 
@@ -1700,70 +1279,37 @@ function MSL_copy_output_screen_R(it_MSL_output_material_storage_location)
 //----------------------------------------------------------------------------//
 function MG_copy_screen_input_U(iv_tenant)
 {
-    var l_material = '';
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_material_description = '',
+        lv_field_name_material_type = '',
+        lv_field_name_base_UOM = '',
+        lv_field_name_material_group = '';
 
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MG_input_material_general[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material1').value,
-            material_type : document.getElementById('MG_material_type1').value,
-            material_description : document.getElementById('MG_material_description1').value,
-            base_UOM : document.getElementById('MG_base_UOM1').value,
-            material_group : document.getElementById('MG_material_group1').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
+        lv_field_name_material = 'MG_material' + (lv_counter + 1);
+        lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+        lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+        lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+        lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
 
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[1] =
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MG_input_material_general[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MG_material2').value,
-            material_type : document.getElementById('MG_material_type2').value,
-            material_description : document.getElementById('MG_material_description2').value,
-            base_UOM : document.getElementById('MG_base_UOM2').value,
-            material_group : document.getElementById('MG_material_group2').value,
+            material : document.getElementById(lv_field_name_material).value,
+            material_type : document.getElementById(lv_field_name_material_type).value,
+            material_description : document.getElementById(lv_field_name_material_description).value,
+            base_UOM : document.getElementById(lv_field_name_base_UOM).value,
+            material_group : document.getElementById(lv_field_name_material_group).value,
             system_field_message_type : '',
             system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material3').value,
-            material_type : document.getElementById('MG_material_type3').value,
-            material_description : document.getElementById('MG_material_description3').value,
-            base_UOM : document.getElementById('MG_base_UOM3').value,
-            material_group : document.getElementById('MG_material_group3').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material4').value,
-            material_type : document.getElementById('MG_material_type4').value,
-            material_description : document.getElementById('MG_material_description4').value,
-            base_UOM : document.getElementById('MG_base_UOM4').value,
-            material_group : document.getElementById('MG_material_group4').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };        
+            };
+        }
     }
 }
 
@@ -1773,66 +1319,35 @@ function MG_copy_screen_input_U(iv_tenant)
 //----------------------------------------------------------------------------//
 function MP_copy_screen_input_U(iv_tenant)
 {
-    
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_reorder_point = '',
+        lv_field_name_moving_average_price = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MP_input_material_plant[0] =
+        lv_field_name_material = 'MP_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+        lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+        lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MP_input_material_plant[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MP_material1').value,
-            plant : document.getElementById('MP_plant1').value,
-            reorder_point : document.getElementById('MP_reorder_point1').value,
-            moving_average_price : document.getElementById('MP_moving_average_price1').value,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            reorder_point : document.getElementById(lv_field_name_reorder_point).value,
+            moving_average_price : document.getElementById(lv_field_name_moving_average_price).value,
             system_field_message_type : '',
             system_field_message_description : ''
-        };
+            };
+        }
     }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material2').value,
-            plant : document.getElementById('MP_plant2').value,
-            reorder_point : document.getElementById('MP_reorder_point2').value,
-            moving_average_price : document.getElementById('MP_moving_average_price2').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material3').value,
-            plant : document.getElementById('MP_plant3').value,
-            reorder_point : document.getElementById('MP_reorder_point3').value,
-            moving_average_price : document.getElementById('MP_moving_average_price3').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material4').value,
-            plant : document.getElementById('MP_plant4').value,
-            reorder_point : document.getElementById('MP_reorder_point4').value,
-            moving_average_price : document.getElementById('MP_moving_average_price4').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
 }
 
 
@@ -1840,67 +1355,36 @@ function MP_copy_screen_input_U(iv_tenant)
 
 //----------------------------------------------------------------------------//
 function MSL_copy_screen_input_U(iv_tenant)
-{    
-    l_material = document.getElementById('MSL_material1').value;
-    if ( l_material != '')
+{
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_storage_location = '',
+        lv_field_name_storage_bin = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MSL_input_material_storage_location[0] =
+        lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+        lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+        lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
+
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MSL_input_material_storage_location[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MSL_material1').value,
-            plant : document.getElementById('MSL_plant1').value,
-            storage_location : document.getElementById('MSL_storage_location1').value,
-            storage_bin : document.getElementById('MSL_storage_bin1').value,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            storage_location : document.getElementById(lv_field_name_storage_location).value,
+            storage_bin : document.getElementById(lv_field_name_storage_bin).value,
             system_field_message_type : '',
             system_field_message_description : ''
-        };
+            };
+        }
     }
-
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material2').value,
-            plant : document.getElementById('MSL_plant2').value,
-            storage_location : document.getElementById('MSL_storage_location2').value,
-            storage_bin : document.getElementById('MSL_storage_bin2').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material3').value,
-            plant : document.getElementById('MSL_plant3').value,
-            storage_location : document.getElementById('MSL_storage_location3').value,
-            storage_bin : document.getElementById('MSL_storage_bin3').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material4').value,
-            plant : document.getElementById('MSL_plant4').value,
-            storage_location : document.getElementById('MSL_storage_location4').value,
-            storage_bin : document.getElementById('MSL_storage_bin4').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
 }
 
 
@@ -1909,49 +1393,46 @@ function MSL_copy_screen_input_U(iv_tenant)
 //----------------------------------------------------------------------------//
 function MG_copy_output_screen_U(it_MG_output_material_general)
 {
-    if (it_MG_output_material_general.length >= 1)
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_material_description = '',
+    lv_field_name_material_type = '',
+    lv_field_name_base_UOM = '',
+    lv_field_name_material_group = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
+    {
+        if (lv_counter < it_MG_output_material_general.length)
         {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM; 
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
+            lv_field_name_material = 'MG_material' + (lv_counter + 1);
+            lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+            lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+            lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+            lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MG_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MG_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MG_output_material_general[lv_counter].material;
+            document.getElementById(lv_field_name_material_type).value = it_MG_output_material_general[lv_counter].material_type;
+            document.getElementById(lv_field_name_material_description).value = it_MG_output_material_general[lv_counter].material_description;
+            document.getElementById(lv_field_name_base_UOM).value = it_MG_output_material_general[lv_counter].base_UOM;
+            document.getElementById(lv_field_name_material_group).value = it_MG_output_material_general[lv_counter].material_group;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MG_output_material_general[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MG_output_material_general[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
         }
-    
-        if (it_MG_output_material_general.length >= 2)
-        {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 3)
-        {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 4)
-        {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-        }
+    }
 }
 
 
@@ -1960,46 +1441,44 @@ function MG_copy_output_screen_U(it_MG_output_material_general)
 //----------------------------------------------------------------------------//
 function MP_copy_output_screen_U(it_MP_output_material_plant)
 {
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_reorder_point = '',
+    lv_field_name_moving_average_price = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (it_MP_output_material_plant.length >= 3)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
+        if (lv_counter < it_MP_output_material_plant.length)
+        {
+            lv_field_name_material = 'MP_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+            lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+            lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MP_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MP_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MP_output_material_plant[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MP_output_material_plant[lv_counter].plant;
+            document.getElementById(lv_field_name_reorder_point).value = it_MP_output_material_plant[lv_counter].reorder_point;
+            document.getElementById(lv_field_name_moving_average_price).value = it_MP_output_material_plant[lv_counter].moving_average_price;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MP_output_material_plant[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MP_output_material_plant[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
+    }
+}
 
 
 //----------------------------------------------------------------------------//
@@ -2007,45 +1486,43 @@ function MP_copy_output_screen_U(it_MP_output_material_plant)
 //----------------------------------------------------------------------------//
 function MSL_copy_output_screen_U(it_MSL_output_material_storage_location)
 {
-    if (lt_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = lt_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = lt_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = lt_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = lt_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = lt_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = lt_MSL_output_material_storage_location[0].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_storage_location = '',
+    lv_field_name_storage_bin = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (lt_MSL_output_material_storage_location.length >= 2)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MSL_material2').value = lt_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = lt_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = lt_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = lt_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = lt_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = lt_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (lt_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = lt_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = lt_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = lt_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = lt_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = lt_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = lt_MSL_output_material_storage_location[2].system_field_message_description;
+        if (lv_counter < it_MSL_output_material_storage_location.length)
+        {
+            lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+            lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+            lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MSL_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MSL_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MSL_output_material_storage_location[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MSL_output_material_storage_location[lv_counter].plant;
+            document.getElementById(lv_field_name_storage_location).value = it_MSL_output_material_storage_location[lv_counter].storage_location;
+            document.getElementById(lv_field_name_storage_bin).value = it_MSL_output_material_storage_location[lv_counter].storage_bin;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
     }
-    
-    if (lt_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = lt_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = lt_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = lt_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = lt_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = lt_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = lt_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
 }
 
 
@@ -2054,70 +1531,37 @@ function MSL_copy_output_screen_U(it_MSL_output_material_storage_location)
 //----------------------------------------------------------------------------//
 function MG_copy_screen_input_D(iv_tenant)
 {
-    var l_material = '';
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_material_description = '',
+        lv_field_name_material_type = '',
+        lv_field_name_base_UOM = '',
+        lv_field_name_material_group = '';
 
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MG_input_material_general[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material1').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
+        lv_field_name_material = 'MG_material' + (lv_counter + 1);
+        lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+        lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+        lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+        lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
 
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[1] =
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MG_input_material_general[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MG_material2').value,
+            material : document.getElementById(lv_field_name_material).value,
             material_type : '',
             material_description : '',
             base_UOM : '',
             material_group : '',
             system_field_message_type : '',
             system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material3').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material4').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };        
+            };
+        }
     }
 }
 
@@ -2127,65 +1571,35 @@ function MG_copy_screen_input_D(iv_tenant)
 //----------------------------------------------------------------------------//
 function MP_copy_screen_input_D(iv_tenant)
 {
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_reorder_point = '',
+        lv_field_name_moving_average_price = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MP_input_material_plant[0] =
+        lv_field_name_material = 'MP_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+        lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+        lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MP_input_material_plant[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MP_material1').value,
-            plant : document.getElementById('MP_plant1').value,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
             reorder_point : '',
             moving_average_price : '',
             system_field_message_type : '',
             system_field_message_description : ''
-        };
+            };
+        }
     }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material2').value,
-            plant : document.getElementById('MP_plant2').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material3').value,
-            plant : document.getElementById('MP_plant3').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material4').value,
-            plant : document.getElementById('MP_plant4').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
 }
 
 
@@ -2194,65 +1608,34 @@ function MP_copy_screen_input_D(iv_tenant)
 //----------------------------------------------------------------------------//
 function MSL_copy_screen_input_D(iv_tenant)
 {
-    l_material = document.getElementById('MSL_material1').value;
+    var lv_material = '',
+        lv_counter = 0,
+        lv_field_name_material = '',
+        lv_field_name_plant = '',
+        lv_field_name_storage_location = '',
+        lv_field_name_storage_bin = '';
 
-    if ( l_material != '')
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        lt_MSL_input_material_storage_location[0] =
+        lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+        lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+        lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+        lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
+
+        lv_material = document.getElementById(lv_field_name_material).value;
+        if ( lv_material != '')
         {
+            lt_MSL_input_material_storage_location[lv_counter] =
+            {
             tenant : iv_tenant,
-            material : document.getElementById('MSL_material1').value,
-            plant : document.getElementById('MSL_plant1').value,
-            storage_location : document.getElementById('MSL_storage_location1').value,
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            storage_location : document.getElementById(lv_field_name_storage_location).value,
             storage_bin : '',
             system_field_message_type : '',
             system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material2').value,
-            plant : document.getElementById('MSL_plant2').value,
-            storage_location : document.getElementById('MSL_storage_location2').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material3').value,
-            plant : document.getElementById('MSL_plant3').value,
-            storage_location : document.getElementById('MSL_storage_location3').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material4').value,
-            plant : document.getElementById('MSL_plant4').value,
-            storage_location : document.getElementById('MSL_storage_location4').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
+            };
+        }
     }
 }
 
@@ -2262,49 +1645,46 @@ function MSL_copy_screen_input_D(iv_tenant)
 //----------------------------------------------------------------------------//
 function MG_copy_output_screen_D(it_MG_output_material_general)
 {
-    if (it_MG_output_material_general.length >= 1)
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_material_description = '',
+    lv_field_name_material_type = '',
+    lv_field_name_base_UOM = '',
+    lv_field_name_material_group = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
+
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
+    {
+        if (lv_counter < it_MG_output_material_general.length)
         {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM; 
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
+            lv_field_name_material = 'MG_material' + (lv_counter + 1);
+            lv_field_name_material_type = 'MG_material_type' + (lv_counter + 1);
+            lv_field_name_material_description = 'MG_material_description' + (lv_counter + 1);
+            lv_field_name_base_UOM = 'MG_base_UOM' + (lv_counter + 1);
+            lv_field_name_material_group = 'MG_material_group' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MG_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MG_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MG_output_material_general[lv_counter].material;
+            document.getElementById(lv_field_name_material_type).value = it_MG_output_material_general[lv_counter].material_type;
+            document.getElementById(lv_field_name_material_description).value = it_MG_output_material_general[lv_counter].material_description;
+            document.getElementById(lv_field_name_base_UOM).value = it_MG_output_material_general[lv_counter].base_UOM;
+            document.getElementById(lv_field_name_material_group).value = it_MG_output_material_general[lv_counter].material_group;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MG_output_material_general[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MG_output_material_general[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
         }
-    
-        if (it_MG_output_material_general.length >= 2)
-        {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 3)
-        {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 4)
-        {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-        }
+    }
 }
 
 
@@ -2313,46 +1693,44 @@ function MG_copy_output_screen_D(it_MG_output_material_general)
 //----------------------------------------------------------------------------//
 function MP_copy_output_screen_D(it_MP_output_material_plant)
 {
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_reorder_point = '',
+    lv_field_name_moving_average_price = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (it_MP_output_material_plant.length >= 3)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
+        if (lv_counter < it_MP_output_material_plant.length)
+        {
+            lv_field_name_material = 'MP_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MP_plant' + (lv_counter + 1);
+            lv_field_name_reorder_point = 'MP_reorder_point' + (lv_counter + 1);
+            lv_field_name_moving_average_price = 'MP_moving_average_price' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MP_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MP_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MP_output_material_plant[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MP_output_material_plant[lv_counter].plant;
+            document.getElementById(lv_field_name_reorder_point).value = it_MP_output_material_plant[lv_counter].reorder_point;
+            document.getElementById(lv_field_name_moving_average_price).value = it_MP_output_material_plant[lv_counter].moving_average_price;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MP_output_material_plant[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MP_output_material_plant[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
+    }
+}
 
 
 //----------------------------------------------------------------------------//
@@ -2360,47 +1738,44 @@ function MP_copy_output_screen_D(it_MP_output_material_plant)
 //----------------------------------------------------------------------------//
 function MSL_copy_output_screen_D(it_MSL_output_material_storage_location)
 {
-    if (lt_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = lt_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = lt_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = lt_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = lt_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = lt_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = lt_MSL_output_material_storage_location[0].system_field_message_description;
-    }
+    var lv_material = '',
+    lv_counter = 0,
+    lv_field_name_material = '',
+    lv_field_name_plant = '',
+    lv_field_name_storage_location = '',
+    lv_field_name_storage_bin = '',
+    lv_field_name_system_field_message_type = '',
+    lv_field_name_system_field_message_description = '';
 
-    if (lt_MSL_output_material_storage_location.length >= 2)
+    for (lv_counter = 0; lv_counter < 4; lv_counter = lv_counter + 1)
     {
-        document.getElementById('MSL_material2').value = lt_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = lt_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = lt_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = lt_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = lt_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = lt_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (lt_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = lt_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = lt_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = lt_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = lt_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = lt_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = lt_MSL_output_material_storage_location[2].system_field_message_description;
+        if (lv_counter < it_MSL_output_material_storage_location.length)
+        {
+            lv_field_name_material = 'MSL_material' + (lv_counter + 1);
+            lv_field_name_plant = 'MSL_plant' + (lv_counter + 1);
+            lv_field_name_storage_location = 'MSL_storage_location' + (lv_counter + 1);
+            lv_field_name_storage_bin = 'MSL_storage_bin' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MSL_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MSL_system_field_message_description' + (lv_counter + 1);
+
+            document.getElementById(lv_field_name_material).value = it_MSL_output_material_storage_location[lv_counter].material;
+            document.getElementById(lv_field_name_plant).value = it_MSL_output_material_storage_location[lv_counter].plant;
+            document.getElementById(lv_field_name_storage_location).value = it_MSL_output_material_storage_location[lv_counter].storage_location;
+            document.getElementById(lv_field_name_storage_bin).value = it_MSL_output_material_storage_location[lv_counter].storage_bin;
+            document.getElementById(lv_field_name_system_field_message_type).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_type;
+            document.getElementById(lv_field_name_system_field_message_description).value = it_MSL_output_material_storage_location[lv_counter].system_field_message_description;
+            
+            if (document.getElementById(lv_field_name_system_field_message_type).value == 'ERROR')
+            {
+                document.getElementById(lv_field_name_material).style.color = 'red';
+            }
+            else        
+            {
+                document.getElementById(lv_field_name_material).style.color = '';
+            }            
+        }
     }
-    
-    if (lt_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = lt_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = lt_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = lt_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = lt_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = lt_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = lt_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
 }
-
 
 //----------------------------------------------------------------------------//
 

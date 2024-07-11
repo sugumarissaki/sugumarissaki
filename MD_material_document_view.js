@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------//
-var lt_MD_material_document_header = 
+var lt_MDH_material_document_header = 
 [
     {
         tenant : '',
@@ -23,7 +23,7 @@ var lt_MD_material_document_header =
     }
 ];
 
-var lt_MD_input_material_document_header = 
+var lt_MDH_input_material_document_header = 
 [
     {
         tenant : '',
@@ -41,7 +41,7 @@ var lt_MD_input_material_document_header =
     }
 ];
 
-var lt_MD_output_material_document_header = 
+var lt_MDH_output_material_document_header = 
 [
     {
         tenant : '',
@@ -62,57 +62,69 @@ var lt_MD_output_material_document_header =
 //--------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------//
-var lt_MD_material_document_item = [
+var lt_MDI_material_document_item = 
+[
     {
-    tenant : '',
-    material_document : '',
-    fiscal_year : '',
-    item : '',
-    material : '',
-    plant : '',
-    storage_location : '',
-    quantity : '',
-    entry_UOM : '',
-    material_movment_type : '',
-    item_text : '',
-    system_field_message_type : '',
-    system_field_message_description : ''
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        item : '',
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
     }
 ];
 
-var lt_MD_input_material_document_item = [
+var lt_MDI_input_material_document_item = 
+[
     {
-    tenant : '',
-    material_document : '',
-    fiscal_year : '',
-    item : '',
-    material : '',
-    plant : '',
-    storage_location : '',
-    quantity : '',
-    entry_UOM : '',
-    material_movment_type : '',
-    item_text : '',
-    system_field_message_type : '',
-    system_field_message_description : ''
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        item : '',
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
     }
 ];
 
-var lt_MD_output_material_document_item = [
+var lt_MDI_output_material_document_item = 
+[
     {
-    tenant : '',
-    material_document : '',
-    fiscal_year : '',
-    item : '',
-    material : '',
-    plant : '',
-    storage_location : '',
-    quantity : '',
-    entry_UOM : '',
-    material_movment_type : '',
-    item_text : '',
-    system_field_message_type : '',
-    system_field_message_description : ''
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        item : '',
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
     }
 ];
 
@@ -154,7 +166,7 @@ function MDI_set_material_document_item_hide()
 //--------------------------------------------------------------------------------------------------------------------//
 
 //--------------------------------------------------------------------------------------------------------------------//
-function MD_set_material_document_item_unhide()
+function MDI_set_material_document_item_unhide()
 {
     document.getElementById('t_MDI_material_docuemnt_item').style.display = "table";
     document.getElementById('b_MDI_set_material_docuemnt_item_hide').disabled = false;
@@ -190,6 +202,189 @@ function MD_set_field_property_C()
 }
 
 
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_screen_input_C()
+{
+    lv_tenant = document.getElementById('MD_tenant').value;
+
+    MDH_copy_screen_input_C(lv_tenant);
+    MDI_copy_screen_input_C(lv_tenant);
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_output_screen_C()
+{
+    MDH_copy_output_screen_C(lt_MDH_output_material_document_header);
+    MDI_copy_output_screen_C(lt_MDI_output_material_document_item);
+}
+
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MD_set_field_property_R()
+{
+    var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
+    b_MD_set_field_property_C.disabled = false;
+    var b_MD_set_field_property_R = document.getElementById("b_MD_set_field_property_R");
+    b_MD_set_field_property_R.disabled = true;
+    var b_MD_set_field_property_U = document.getElementById("b_MD_set_field_property_U");
+    b_MD_set_field_property_U.disabled = false;
+    var b_MD_set_field_property_D = document.getElementById("b_MD_set_field_property_D");
+    b_MD_set_field_property_D.disabled = false;    
+
+    MDH_set_field_property_R();
+    MDI_set_field_property_R();
+    
+    var b_MD_create_controller = document.getElementById("b_MD_create_controller");
+    b_MD_create_controller.disabled = true; 
+    var b_MD_read_controller = document.getElementById("b_MD_read_controller");
+    b_MD_read_controller.disabled = false; 
+    var b_MD_update_controller = document.getElementById("b_MD_update_controller");
+    b_MD_update_controller.disabled = true; 
+    var b_MD_delete_controller = document.getElementById("b_MD_delete_controller");
+    b_MD_delete_controller.disabled = true;                    
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_screen_input_R()
+{
+    lv_tenant = document.getElementById('MD_tenant').value;
+
+    MDH_copy_screen_input_R(lv_tenant);
+    MDI_copy_screen_input_R(lv_tenant);
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_output_screen_R()
+{
+    MDH_copy_output_screen_R(lt_MDH_output_material_document_header);
+    MDI_copy_output_screen_R(lt_MDI_output_material_document_item);
+}
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MD_set_field_property_U()
+{
+    var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
+    b_MD_set_field_property_C.disabled = false;
+    var b_MD_set_field_property_R = document.getElementById("b_MD_set_field_property_R");
+    b_MD_set_field_property_R.disabled = false;
+    var b_MD_set_field_property_U = document.getElementById("b_MD_set_field_property_U");
+    b_MD_set_field_property_U.disabled = true;
+    var b_MD_set_field_property_D = document.getElementById("b_MD_set_field_property_D");
+    b_MD_set_field_property_D.disabled = false;    
+
+    MDH_set_field_property_U();
+    MDI_set_field_property_U();
+    
+    var b_MD_create_controller = document.getElementById("b_MD_create_controller");
+    b_MD_create_controller.disabled = true; 
+    var b_MD_read_controller = document.getElementById("b_MD_read_controller");
+    b_MD_read_controller.disabled = true; 
+    var b_MD_update_controller = document.getElementById("b_MD_update_controller");
+    b_MD_update_controller.disabled = false; 
+    var b_MD_delete_controller = document.getElementById("b_MD_delete_controller");
+    b_MD_delete_controller.disabled = true;                    
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_screen_input_U()
+{
+    lv_tenant = document.getElementById('MD_tenant').value;
+
+    MDH_copy_screen_input_U(lv_tenant);
+    MDI_copy_screen_input_U(lv_tenant);
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_output_screen_U()
+{
+    MDH_copy_output_screen_U(lt_MDH_output_material_document_header);
+    MDI_copy_output_screen_U(lt_MDI_output_material_document_item);
+}
+
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MD_set_field_property_D()
+{
+    var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
+    b_MD_set_field_property_C.disabled = false;
+    var b_MD_set_field_property_R = document.getElementById("b_MD_set_field_property_R");
+    b_MD_set_field_property_R.disabled = false;
+    var b_MD_set_field_property_U = document.getElementById("b_MD_set_field_property_U");
+    b_MD_set_field_property_U.disabled = false;
+    var b_MD_set_field_property_D = document.getElementById("b_MD_set_field_property_D");
+    b_MD_set_field_property_D.disabled = true;    
+
+    MDH_set_field_property_D();
+    MDI_set_field_property_D();
+    
+    var b_MD_create_controller = document.getElementById("b_MD_create_controller");
+    b_MD_create_controller.disabled = true; 
+    var b_MD_read_controller = document.getElementById("b_MD_read_controller");
+    b_MD_read_controller.disabled = true; 
+    var b_MD_update_controller = document.getElementById("b_MD_update_controller");
+    b_MD_update_controller.disabled = true; 
+    var b_MD_delete_controller = document.getElementById("b_MD_delete_controller");
+    b_MD_delete_controller.disabled = false;                    
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_screen_input_D()
+{
+    lv_tenant = document.getElementById('MD_tenant').value;
+
+    MDH_copy_screen_input_D(lv_tenant);
+    MDI_copy_screen_input_D(lv_tenant);
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+//--------------------------------------------------------------------------------------------------------------------//
+function MD_copy_output_screen_D()
+{
+    MDH_copy_output_screen_D(lt_MDH_output_material_document_header);
+    MDI_copy_output_screen_D(lt_MDI_output_material_document_item);
+}
+
+
+
+
+
+
 
 
 //----------------------------------------------------------------------------//
@@ -197,7 +392,8 @@ function MD_set_field_property_C()
 //----------------------------------------------------------------------------//
 function MDH_set_field_property_C()
 {
-    var MDH_material_document1 = document.getElementById("MDH_material_document1");
+    var lv_field_name = "MDH_material_document1";
+    var MDH_material_document1 = document.getElementById(lv_field_name);
     MDH_material_document1.disabled = false;
     var MDH_fiscal_year1 = document.getElementById("MDH_fiscal_year1");
     MDH_fiscal_year1.disabled = false;
@@ -458,37 +654,6 @@ function MDI_set_field_property_C()
     var MDI_item_reverse8 = document.getElementById("MDI_item_reverse8");
     MDI_item_reverse8.disabled = true;          
 }    
-
-
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MD_set_field_property_R()
-{
-    var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
-    b_MD_set_field_property_C.disabled = false;
-    var b_MD_set_field_property_R = document.getElementById("b_MD_set_field_property_R");
-    b_MD_set_field_property_R.disabled = true;
-    var b_MD_set_field_property_U = document.getElementById("b_MD_set_field_property_U");
-    b_MD_set_field_property_U.disabled = false;
-    var b_MD_set_field_property_D = document.getElementById("b_MD_set_field_property_D");
-    b_MD_set_field_property_D.disabled = false;    
-
-    MDH_set_field_property_R();
-    MDI_set_field_property_R();
-    
-    var b_MD_create_controller = document.getElementById("b_MD_create_controller");
-    b_MD_create_controller.disabled = true; 
-    var b_MD_read_controller = document.getElementById("b_MD_read_controller");
-    b_MD_read_controller.disabled = false; 
-    var b_MD_update_controller = document.getElementById("b_MD_update_controller");
-    b_MD_update_controller.disabled = true; 
-    var b_MD_delete_controller = document.getElementById("b_MD_delete_controller");
-    b_MD_delete_controller.disabled = true;                    
-}
-
 
 
 //----------------------------------------------------------------------------//
@@ -765,28 +930,446 @@ function MDI_set_field_property_R()
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-function MD_set_field_property_U()
+function MDH_copy_screen_input_R(iv_tenant)
 {
-    var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
-    b_MD_set_field_property_C.disabled = false;
-    var b_MD_set_field_property_R = document.getElementById("b_MD_set_field_property_R");
-    b_MD_set_field_property_R.disabled = false;
-    var b_MD_set_field_property_U = document.getElementById("b_MD_set_field_property_U");
-    b_MD_set_field_property_U.disabled = true;
-    var b_MD_set_field_property_D = document.getElementById("b_MD_set_field_property_D");
-    b_MD_set_field_property_D.disabled = false;    
+    var lv_material_document = '';
 
-    MDH_set_field_property_U();
-    MDI_set_field_property_U();
+    lv_material_document = document.getElementById('MDH_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document1').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year1').value,
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDH_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document2').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year2').value,
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+}
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDI_copy_screen_input_R(iv_tenant)
+{
+    var lv_material_document = '';
+
+    lv_material_document = document.getElementById('MDI_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document1').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year1').value,
+        item : document.getElementById('MDI_item1').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document2').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year2').value,
+        item : document.getElementById('MDI_item2').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document3').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[2] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document3').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year3').value,
+        item : document.getElementById('MDI_item3').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document4').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[3] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document4').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year4').value,
+        item : document.getElementById('MDI_item4').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document5').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[4] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document5').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year5').value,
+        item : document.getElementById('MDI_item5').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document6').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[5] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document6').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year6').value,
+        item : document.getElementById('MDI_item6').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document7').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document7').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year7').value,
+        item : document.getElementById('MDI_item7').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document8').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document8').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year8').value,
+        item : document.getElementById('MDI_item8').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+}
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDH_copy_output_screen_R(it_MDH_output_material_document_header)
+{
+    if (it_MDH_output_material_document_header.length >= 1)
+    {
+        document.getElementById('MDH_material_document1').value = it_MDH_output_material_document_header[0].MDH_material_document;
+        document.getElementById('MDH_fiscal_year1').value = it_MDH_output_material_document_header[0].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type1').value = it_MDH_output_material_document_header[0].MDH_material_document_type;
+        document.getElementById('MDH_document_date1').value = it_MDH_output_material_document_header[0].MDH_document_date;
+        document.getElementById('MDH_posting_date1').value = it_MDH_output_material_document_header[0].MDH_posting_date;
+        document.getElementById('MDH_header_reference1').value = it_MDH_output_material_document_header[0].MDH_header_reference;
+        document.getElementById('MDH_header_text1').value = it_MDH_output_material_document_header[0].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type1').value = it_MDH_output_material_document_header[0].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description1').value = it_MDH_output_material_document_header[0].system_field_message_description;         
+    }
     
-    var b_MD_create_controller = document.getElementById("b_MD_create_controller");
-    b_MD_create_controller.disabled = true; 
-    var b_MD_read_controller = document.getElementById("b_MD_read_controller");
-    b_MD_read_controller.disabled = true; 
-    var b_MD_update_controller = document.getElementById("b_MD_update_controller");
-    b_MD_update_controller.disabled = false; 
-    var b_MD_delete_controller = document.getElementById("b_MD_delete_controller");
-    b_MD_delete_controller.disabled = true;                    
+    if (it_MDH_output_material_document_header.length >= 2)
+    {
+        document.getElementById('MDH_material_document2').value = it_MDH_output_material_document_header[1].MDH_material_document;
+        document.getElementById('MDH_fiscal_year2').value = it_MDH_output_material_document_header[1].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type2').value = it_MDH_output_material_document_header[1].MDH_material_document_type;
+        document.getElementById('MDH_document_date2').value = it_MDH_output_material_document_header[1].MDH_document_date;
+        document.getElementById('MDH_posting_date2').value = it_MDH_output_material_document_header[1].MDH_posting_date;
+        document.getElementById('MDH_header_reference2').value = it_MDH_output_material_document_header[1].MDH_header_reference;
+        document.getElementById('MDH_header_text2').value = it_MDH_output_material_document_header[1].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type2').value = it_MDH_output_material_document_header[1].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description2').value = it_MDH_output_material_document_header[1].system_field_message_description;         
+    }
+}
+
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
+{
+    if (it_MDI_output_material_document_item.length >= 1)
+    {
+        document.getElementById('MDI_material_document1').value = it_MDI_output_material_document_item[0].MDI_material_document;
+        document.getElementById('MDI_fiscal_year1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year;
+        document.getElementById('MDI_item1').value = it_MDI_output_material_document_item[0].MDI_item;
+        document.getElementById('MDI_material1').value = it_MDI_output_material_document_item[0].MDI_material;
+        document.getElementById('MDI_plant1').value = it_MDI_output_material_document_item[0].MDI_plant;
+        document.getElementById('MDI_storage_location1').value = it_MDI_output_material_document_item[0].MDI_storage_location;
+        document.getElementById('MDI_quantity1').value = it_MDI_output_material_document_item[0].MDI_quantity;
+        document.getElementById('MDI_entry_UOM1').value = it_MDI_output_material_document_item[0].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type1').value = it_MDI_output_material_document_item[0].MDI_material_movement_type;
+        document.getElementById('MDI_item_text1').value = it_MDI_output_material_document_item[0].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse1').value = it_MDI_output_material_document_item[0].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse1').value = it_MDI_output_material_document_item[0].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type1').value = it_MDI_output_material_document_item[0].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description1').value = it_MDI_output_material_document_item[0].system_field_message_description;         
+    }
+
+    if (it_MDI_output_material_document_item.length >= 2)
+    {
+        document.getElementById('MDI_material_document2').value = it_MDI_output_material_document_item[1].MDI_material_document;
+        document.getElementById('MDI_fiscal_year2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year;
+        document.getElementById('MDI_item2').value = it_MDI_output_material_document_item[1].MDI_item;
+        document.getElementById('MDI_material2').value = it_MDI_output_material_document_item[1].MDI_material;
+        document.getElementById('MDI_plant2').value = it_MDI_output_material_document_item[1].MDI_plant;
+        document.getElementById('MDI_storage_location2').value = it_MDI_output_material_document_item[1].MDI_storage_location;
+        document.getElementById('MDI_quantity2').value = it_MDI_output_material_document_item[1].MDI_quantity;
+        document.getElementById('MDI_entry_UOM2').value = it_MDI_output_material_document_item[1].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type2').value = it_MDI_output_material_document_item[1].MDI_material_movement_type;
+        document.getElementById('MDI_item_text2').value = it_MDI_output_material_document_item[1].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse2').value = it_MDI_output_material_document_item[1].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse2').value = it_MDI_output_material_document_item[1].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type2').value = it_MDI_output_material_document_item[1].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description2').value = it_MDI_output_material_document_item[1].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 3)
+    {
+        document.getElementById('MDI_material_document3').value = it_MDI_output_material_document_item[2].MDI_material_document;
+        document.getElementById('MDI_fiscal_year3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year;
+        document.getElementById('MDI_item3').value = it_MDI_output_material_document_item[2].MDI_item;
+        document.getElementById('MDI_material3').value = it_MDI_output_material_document_item[2].MDI_material;
+        document.getElementById('MDI_plant3').value = it_MDI_output_material_document_item[2].MDI_plant;
+        document.getElementById('MDI_storage_location3').value = it_MDI_output_material_document_item[2].MDI_storage_location;
+        document.getElementById('MDI_quantity3').value = it_MDI_output_material_document_item[2].MDI_quantity;
+        document.getElementById('MDI_entry_UOM3').value = it_MDI_output_material_document_item[2].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type3').value = it_MDI_output_material_document_item[2].MDI_material_movement_type;
+        document.getElementById('MDI_item_text3').value = it_MDI_output_material_document_item[2].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse3').value = it_MDI_output_material_document_item[2].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse3').value = it_MDI_output_material_document_item[2].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type3').value = it_MDI_output_material_document_item[2].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description3').value = it_MDI_output_material_document_item[2].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 4)
+    {
+        document.getElementById('MDI_material_document4').value = it_MDI_output_material_document_item[3].MDI_material_document;
+        document.getElementById('MDI_fiscal_year4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year;
+        document.getElementById('MDI_item4').value = it_MDI_output_material_document_item[3].MDI_item;
+        document.getElementById('MDI_material4').value = it_MDI_output_material_document_item[3].MDI_material;
+        document.getElementById('MDI_plant4').value = it_MDI_output_material_document_item[3].MDI_plant;
+        document.getElementById('MDI_storage_location4').value = it_MDI_output_material_document_item[3].MDI_storage_location;
+        document.getElementById('MDI_quantity4').value = it_MDI_output_material_document_item[3].MDI_quantity;
+        document.getElementById('MDI_entry_UOM4').value = it_MDI_output_material_document_item[3].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type4').value = it_MDI_output_material_document_item[3].MDI_material_movement_type;
+        document.getElementById('MDI_item_text4').value = it_MDI_output_material_document_item[3].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse4').value = it_MDI_output_material_document_item[3].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse4').value = it_MDI_output_material_document_item[3].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type4').value = it_MDI_output_material_document_item[3].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description4').value = it_MDI_output_material_document_item[3].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 5)
+    {
+        document.getElementById('MDI_material_document5').value = it_MDI_output_material_document_item[4].MDI_material_document;
+        document.getElementById('MDI_fiscal_year5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year;
+        document.getElementById('MDI_item5').value = it_MDI_output_material_document_item[4].MDI_item;
+        document.getElementById('MDI_material5').value = it_MDI_output_material_document_item[4].MDI_material;
+        document.getElementById('MDI_plant5').value = it_MDI_output_material_document_item[4].MDI_plant;
+        document.getElementById('MDI_storage_location5').value = it_MDI_output_material_document_item[4].MDI_storage_location;
+        document.getElementById('MDI_quantity5').value = it_MDI_output_material_document_item[4].MDI_quantity;
+        document.getElementById('MDI_entry_UOM5').value = it_MDI_output_material_document_item[4].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type5').value = it_MDI_output_material_document_item[4].MDI_material_movement_type;
+        document.getElementById('MDI_item_text5').value = it_MDI_output_material_document_item[4].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse5').value = it_MDI_output_material_document_item[4].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse5').value = it_MDI_output_material_document_item[4].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type5').value = it_MDI_output_material_document_item[4].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description5').value = it_MDI_output_material_document_item[4].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 6)
+    {
+        document.getElementById('MDI_material_document6').value = it_MDI_output_material_document_item[5].MDI_material_document;
+        document.getElementById('MDI_fiscal_year6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year;
+        document.getElementById('MDI_item6').value = it_MDI_output_material_document_item[5].MDI_item;
+        document.getElementById('MDI_material6').value = it_MDI_output_material_document_item[5].MDI_material;
+        document.getElementById('MDI_plant6').value = it_MDI_output_material_document_item[5].MDI_plant;
+        document.getElementById('MDI_storage_location6').value = it_MDI_output_material_document_item[5].MDI_storage_location;
+        document.getElementById('MDI_quantity6').value = it_MDI_output_material_document_item[5].MDI_quantity;
+        document.getElementById('MDI_entry_UOM6').value = it_MDI_output_material_document_item[5].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type6').value = it_MDI_output_material_document_item[5].MDI_material_movement_type;
+        document.getElementById('MDI_item_text6').value = it_MDI_output_material_document_item[5].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse6').value = it_MDI_output_material_document_item[5].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse6').value = it_MDI_output_material_document_item[5].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type6').value = it_MDI_output_material_document_item[5].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description6').value = it_MDI_output_material_document_item[5].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 7)
+    {
+        document.getElementById('MDI_material_document7').value = it_MDI_output_material_document_item[6].MDI_material_document;
+        document.getElementById('MDI_fiscal_year7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year;
+        document.getElementById('MDI_item7').value = it_MDI_output_material_document_item[6].MDI_item;
+        document.getElementById('MDI_material7').value = it_MDI_output_material_document_item[6].MDI_material;
+        document.getElementById('MDI_plant7').value = it_MDI_output_material_document_item[6].MDI_plant;
+        document.getElementById('MDI_storage_location7').value = it_MDI_output_material_document_item[6].MDI_storage_location;
+        document.getElementById('MDI_quantity7').value = it_MDI_output_material_document_item[6].MDI_quantity;
+        document.getElementById('MDI_entry_UOM7').value = it_MDI_output_material_document_item[6].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type7').value = it_MDI_output_material_document_item[6].MDI_material_movement_type;
+        document.getElementById('MDI_item_text7').value = it_MDI_output_material_document_item[6].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse7').value = it_MDI_output_material_document_item[6].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse7').value = it_MDI_output_material_document_item[6].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type7').value = it_MDI_output_material_document_item[6].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description7').value = it_MDI_output_material_document_item[6].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 8)
+    {
+        document.getElementById('MDI_material_document8').value = it_MDI_output_material_document_item[7].MDI_material_document;
+        document.getElementById('MDI_fiscal_year8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year;
+        document.getElementById('MDI_item8').value = it_MDI_output_material_document_item[7].MDI_item;
+        document.getElementById('MDI_material8').value = it_MDI_output_material_document_item[7].MDI_material;
+        document.getElementById('MDI_plant8').value = it_MDI_output_material_document_item[7].MDI_plant;
+        document.getElementById('MDI_storage_location8').value = it_MDI_output_material_document_item[7].MDI_storage_location;
+        document.getElementById('MDI_quantity8').value = it_MDI_output_material_document_item[7].MDI_quantity;
+        document.getElementById('MDI_entry_UOM8').value = it_MDI_output_material_document_item[7].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type8').value = it_MDI_output_material_document_item[7].MDI_material_movement_type;
+        document.getElementById('MDI_item_text8').value = it_MDI_output_material_document_item[7].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse8').value = it_MDI_output_material_document_item[7].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse8').value = it_MDI_output_material_document_item[7].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type8').value = it_MDI_output_material_document_item[7].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description8').value = it_MDI_output_material_document_item[7].system_field_message_description;         
+    }    
 }
 
 
@@ -1062,32 +1645,901 @@ function MDI_set_field_property_U()
 
 
 
+
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-function MD_set_field_property_D()
+function MDH_copy_screen_input_U(iv_tenant)
 {
-    var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
-    b_MD_set_field_property_C.disabled = false;
-    var b_MD_set_field_property_R = document.getElementById("b_MD_set_field_property_R");
-    b_MD_set_field_property_R.disabled = false;
-    var b_MD_set_field_property_U = document.getElementById("b_MD_set_field_property_U");
-    b_MD_set_field_property_U.disabled = false;
-    var b_MD_set_field_property_D = document.getElementById("b_MD_set_field_property_D");
-    b_MD_set_field_property_D.disabled = true;    
+    var lv_material_document = '';
 
-    MDH_set_field_property_D();
-    MDI_set_field_property_D();
-    
-    var b_MD_create_controller = document.getElementById("b_MD_create_controller");
-    b_MD_create_controller.disabled = true; 
-    var b_MD_read_controller = document.getElementById("b_MD_read_controller");
-    b_MD_read_controller.disabled = true; 
-    var b_MD_update_controller = document.getElementById("b_MD_update_controller");
-    b_MD_update_controller.disabled = true; 
-    var b_MD_delete_controller = document.getElementById("b_MD_delete_controller");
-    b_MD_delete_controller.disabled = false;                    
+    lv_material_document = document.getElementById('MDH_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document1').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year1').value,
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : document.getElementById('MDH_header_reference1').value,
+        header_text : document.getElementById('MDH_header_text1').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDH_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document2').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year2').value,
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : document.getElementById('MDH_header_reference2').value,
+        header_text : document.getElementById('MDH_header_text2').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
 }
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDI_copy_screen_input_U(iv_tenant)
+{
+    var lv_material_document = '';
+
+    lv_material_document = document.getElementById('MDI_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document1').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year1').value,
+        item : document.getElementById('MDI_item1').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text1').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document2').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year2').value,
+        item : document.getElementById('MDI_item2').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text2').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document3').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[2] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document3').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year3').value,
+        item : document.getElementById('MDI_item3').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text3').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document4').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[3] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document4').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year4').value,
+        item : document.getElementById('MDI_item4').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text4').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document5').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[4] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document5').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year5').value,
+        item : document.getElementById('MDI_item5').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text5').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document6').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[5] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document6').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year6').value,
+        item : document.getElementById('MDI_item6').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text6').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document7').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document7').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year7').value,
+        item : document.getElementById('MDI_item7').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text7').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document8').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document8').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year8').value,
+        item : document.getElementById('MDI_item8').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : document.getElementById('MDI_item_text8').value,
+        material_document_reverse : '',
+        fiscal_year_reverse : '',
+        item_reverse : '',
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+}
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDH_copy_output_screen_U(it_MDH_output_material_document_header)
+{
+    if (it_MDH_output_material_document_header.length >= 1)
+    {
+        document.getElementById('MDH_material_document1').value = it_MDH_output_material_document_header[0].MDH_material_document;
+        document.getElementById('MDH_fiscal_year1').value = it_MDH_output_material_document_header[0].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type1').value = it_MDH_output_material_document_header[0].MDH_material_document_type;
+        document.getElementById('MDH_document_date1').value = it_MDH_output_material_document_header[0].MDH_document_date;
+        document.getElementById('MDH_posting_date1').value = it_MDH_output_material_document_header[0].MDH_posting_date;
+        document.getElementById('MDH_header_reference1').value = it_MDH_output_material_document_header[0].MDH_header_reference;
+        document.getElementById('MDH_header_text1').value = it_MDH_output_material_document_header[0].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type1').value = it_MDH_output_material_document_header[0].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description1').value = it_MDH_output_material_document_header[0].system_field_message_description;         
+    }
+    
+    if (it_MDH_output_material_document_header.length >= 2)
+    {
+        document.getElementById('MDH_material_document2').value = it_MDH_output_material_document_header[1].MDH_material_document;
+        document.getElementById('MDH_fiscal_year2').value = it_MDH_output_material_document_header[1].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type2').value = it_MDH_output_material_document_header[1].MDH_material_document_type;
+        document.getElementById('MDH_document_date2').value = it_MDH_output_material_document_header[1].MDH_document_date;
+        document.getElementById('MDH_posting_date2').value = it_MDH_output_material_document_header[1].MDH_posting_date;
+        document.getElementById('MDH_header_reference2').value = it_MDH_output_material_document_header[1].MDH_header_reference;
+        document.getElementById('MDH_header_text2').value = it_MDH_output_material_document_header[1].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type2').value = it_MDH_output_material_document_header[1].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description2').value = it_MDH_output_material_document_header[1].system_field_message_description;         
+    }
+}
+
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
+{
+    if (it_MDI_output_material_document_item.length >= 1)
+    {
+        document.getElementById('MDI_material_document1').value = it_MDI_output_material_document_item[0].MDI_material_document;
+        document.getElementById('MDI_fiscal_year1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year;
+        document.getElementById('MDI_item1').value = it_MDI_output_material_document_item[0].MDI_item;
+        document.getElementById('MDI_material1').value = it_MDI_output_material_document_item[0].MDI_material;
+        document.getElementById('MDI_plant1').value = it_MDI_output_material_document_item[0].MDI_plant;
+        document.getElementById('MDI_storage_location1').value = it_MDI_output_material_document_item[0].MDI_storage_location;
+        document.getElementById('MDI_quantity1').value = it_MDI_output_material_document_item[0].MDI_quantity;
+        document.getElementById('MDI_entry_UOM1').value = it_MDI_output_material_document_item[0].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type1').value = it_MDI_output_material_document_item[0].MDI_material_movement_type;
+        document.getElementById('MDI_item_text1').value = it_MDI_output_material_document_item[0].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse1').value = it_MDI_output_material_document_item[0].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse1').value = it_MDI_output_material_document_item[0].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type1').value = it_MDI_output_material_document_item[0].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description1').value = it_MDI_output_material_document_item[0].system_field_message_description;         
+    }
+
+    if (it_MDI_output_material_document_item.length >= 2)
+    {
+        document.getElementById('MDI_material_document2').value = it_MDI_output_material_document_item[1].MDI_material_document;
+        document.getElementById('MDI_fiscal_year2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year;
+        document.getElementById('MDI_item2').value = it_MDI_output_material_document_item[1].MDI_item;
+        document.getElementById('MDI_material2').value = it_MDI_output_material_document_item[1].MDI_material;
+        document.getElementById('MDI_plant2').value = it_MDI_output_material_document_item[1].MDI_plant;
+        document.getElementById('MDI_storage_location2').value = it_MDI_output_material_document_item[1].MDI_storage_location;
+        document.getElementById('MDI_quantity2').value = it_MDI_output_material_document_item[1].MDI_quantity;
+        document.getElementById('MDI_entry_UOM2').value = it_MDI_output_material_document_item[1].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type2').value = it_MDI_output_material_document_item[1].MDI_material_movement_type;
+        document.getElementById('MDI_item_text2').value = it_MDI_output_material_document_item[1].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse2').value = it_MDI_output_material_document_item[1].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse2').value = it_MDI_output_material_document_item[1].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type2').value = it_MDI_output_material_document_item[1].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description2').value = it_MDI_output_material_document_item[1].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 3)
+    {
+        document.getElementById('MDI_material_document3').value = it_MDI_output_material_document_item[2].MDI_material_document;
+        document.getElementById('MDI_fiscal_year3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year;
+        document.getElementById('MDI_item3').value = it_MDI_output_material_document_item[2].MDI_item;
+        document.getElementById('MDI_material3').value = it_MDI_output_material_document_item[2].MDI_material;
+        document.getElementById('MDI_plant3').value = it_MDI_output_material_document_item[2].MDI_plant;
+        document.getElementById('MDI_storage_location3').value = it_MDI_output_material_document_item[2].MDI_storage_location;
+        document.getElementById('MDI_quantity3').value = it_MDI_output_material_document_item[2].MDI_quantity;
+        document.getElementById('MDI_entry_UOM3').value = it_MDI_output_material_document_item[2].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type3').value = it_MDI_output_material_document_item[2].MDI_material_movement_type;
+        document.getElementById('MDI_item_text3').value = it_MDI_output_material_document_item[2].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse3').value = it_MDI_output_material_document_item[2].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse3').value = it_MDI_output_material_document_item[2].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type3').value = it_MDI_output_material_document_item[2].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description3').value = it_MDI_output_material_document_item[2].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 4)
+    {
+        document.getElementById('MDI_material_document4').value = it_MDI_output_material_document_item[3].MDI_material_document;
+        document.getElementById('MDI_fiscal_year4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year;
+        document.getElementById('MDI_item4').value = it_MDI_output_material_document_item[3].MDI_item;
+        document.getElementById('MDI_material4').value = it_MDI_output_material_document_item[3].MDI_material;
+        document.getElementById('MDI_plant4').value = it_MDI_output_material_document_item[3].MDI_plant;
+        document.getElementById('MDI_storage_location4').value = it_MDI_output_material_document_item[3].MDI_storage_location;
+        document.getElementById('MDI_quantity4').value = it_MDI_output_material_document_item[3].MDI_quantity;
+        document.getElementById('MDI_entry_UOM4').value = it_MDI_output_material_document_item[3].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type4').value = it_MDI_output_material_document_item[3].MDI_material_movement_type;
+        document.getElementById('MDI_item_text4').value = it_MDI_output_material_document_item[3].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse4').value = it_MDI_output_material_document_item[3].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse4').value = it_MDI_output_material_document_item[3].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type4').value = it_MDI_output_material_document_item[3].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description4').value = it_MDI_output_material_document_item[3].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 5)
+    {
+        document.getElementById('MDI_material_document5').value = it_MDI_output_material_document_item[4].MDI_material_document;
+        document.getElementById('MDI_fiscal_year5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year;
+        document.getElementById('MDI_item5').value = it_MDI_output_material_document_item[4].MDI_item;
+        document.getElementById('MDI_material5').value = it_MDI_output_material_document_item[4].MDI_material;
+        document.getElementById('MDI_plant5').value = it_MDI_output_material_document_item[4].MDI_plant;
+        document.getElementById('MDI_storage_location5').value = it_MDI_output_material_document_item[4].MDI_storage_location;
+        document.getElementById('MDI_quantity5').value = it_MDI_output_material_document_item[4].MDI_quantity;
+        document.getElementById('MDI_entry_UOM5').value = it_MDI_output_material_document_item[4].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type5').value = it_MDI_output_material_document_item[4].MDI_material_movement_type;
+        document.getElementById('MDI_item_text5').value = it_MDI_output_material_document_item[4].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse5').value = it_MDI_output_material_document_item[4].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse5').value = it_MDI_output_material_document_item[4].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type5').value = it_MDI_output_material_document_item[4].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description5').value = it_MDI_output_material_document_item[4].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 6)
+    {
+        document.getElementById('MDI_material_document6').value = it_MDI_output_material_document_item[5].MDI_material_document;
+        document.getElementById('MDI_fiscal_year6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year;
+        document.getElementById('MDI_item6').value = it_MDI_output_material_document_item[5].MDI_item;
+        document.getElementById('MDI_material6').value = it_MDI_output_material_document_item[5].MDI_material;
+        document.getElementById('MDI_plant6').value = it_MDI_output_material_document_item[5].MDI_plant;
+        document.getElementById('MDI_storage_location6').value = it_MDI_output_material_document_item[5].MDI_storage_location;
+        document.getElementById('MDI_quantity6').value = it_MDI_output_material_document_item[5].MDI_quantity;
+        document.getElementById('MDI_entry_UOM6').value = it_MDI_output_material_document_item[5].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type6').value = it_MDI_output_material_document_item[5].MDI_material_movement_type;
+        document.getElementById('MDI_item_text6').value = it_MDI_output_material_document_item[5].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse6').value = it_MDI_output_material_document_item[5].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse6').value = it_MDI_output_material_document_item[5].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type6').value = it_MDI_output_material_document_item[5].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description6').value = it_MDI_output_material_document_item[5].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 7)
+    {
+        document.getElementById('MDI_material_document7').value = it_MDI_output_material_document_item[6].MDI_material_document;
+        document.getElementById('MDI_fiscal_year7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year;
+        document.getElementById('MDI_item7').value = it_MDI_output_material_document_item[6].MDI_item;
+        document.getElementById('MDI_material7').value = it_MDI_output_material_document_item[6].MDI_material;
+        document.getElementById('MDI_plant7').value = it_MDI_output_material_document_item[6].MDI_plant;
+        document.getElementById('MDI_storage_location7').value = it_MDI_output_material_document_item[6].MDI_storage_location;
+        document.getElementById('MDI_quantity7').value = it_MDI_output_material_document_item[6].MDI_quantity;
+        document.getElementById('MDI_entry_UOM7').value = it_MDI_output_material_document_item[6].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type7').value = it_MDI_output_material_document_item[6].MDI_material_movement_type;
+        document.getElementById('MDI_item_text7').value = it_MDI_output_material_document_item[6].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse7').value = it_MDI_output_material_document_item[6].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse7').value = it_MDI_output_material_document_item[6].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type7').value = it_MDI_output_material_document_item[6].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description7').value = it_MDI_output_material_document_item[6].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 8)
+    {
+        document.getElementById('MDI_material_document8').value = it_MDI_output_material_document_item[7].MDI_material_document;
+        document.getElementById('MDI_fiscal_year8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year;
+        document.getElementById('MDI_item8').value = it_MDI_output_material_document_item[7].MDI_item;
+        document.getElementById('MDI_material8').value = it_MDI_output_material_document_item[7].MDI_material;
+        document.getElementById('MDI_plant8').value = it_MDI_output_material_document_item[7].MDI_plant;
+        document.getElementById('MDI_storage_location8').value = it_MDI_output_material_document_item[7].MDI_storage_location;
+        document.getElementById('MDI_quantity8').value = it_MDI_output_material_document_item[7].MDI_quantity;
+        document.getElementById('MDI_entry_UOM8').value = it_MDI_output_material_document_item[7].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type8').value = it_MDI_output_material_document_item[7].MDI_material_movement_type;
+        document.getElementById('MDI_item_text8').value = it_MDI_output_material_document_item[7].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse8').value = it_MDI_output_material_document_item[7].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse8').value = it_MDI_output_material_document_item[7].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type8').value = it_MDI_output_material_document_item[7].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description8').value = it_MDI_output_material_document_item[7].system_field_message_description;         
+    }    
+}
+
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDH_copy_screen_input_D(iv_tenant)
+{
+    var lv_material_document = '';
+
+    lv_material_document = document.getElementById('MDH_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document1').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year1').value,
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : document.getElementById('MDH_material_document_reverse1').value,
+        fiscal_year_reverse : document.getElementById('MDH_fiscal_year_reverse1').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDH_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document2').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year2').value,
+        material_document_type : '',
+        document_date : '',
+        posting_date : '',
+        header_reference : '',
+        header_text : '',
+        material_document_reverse : document.getElementById('MDH_material_document_reverse2').value,
+        fiscal_year_reverse : document.getElementById('MDH_fiscal_year_reverse2').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+}
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDI_copy_screen_input_D(iv_tenant)
+{
+    var lv_material_document = '';
+
+    lv_material_document = document.getElementById('MDI_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document1').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year1').value,
+        item : document.getElementById('MDI_item1').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse1').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse1').value,
+        item_reverse : document.getElementById('MDI_item_reverse1').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document2').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year2').value,
+        item : document.getElementById('MDI_item2').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse2').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse2').value,
+        item_reverse : document.getElementById('MDI_item_reverse2').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document3').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[2] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document3').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year3').value,
+        item : document.getElementById('MDI_item3').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse3').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse3').value,
+        item_reverse : document.getElementById('MDI_item_reverse3').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document4').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[3] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document4').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year4').value,
+        item : document.getElementById('MDI_item4').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse4').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse4').value,
+        item_reverse : document.getElementById('MDI_item_reverse4').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document5').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[4] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document5').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year5').value,
+        item : document.getElementById('MDI_item5').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse5').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse5').value,
+        item_reverse : document.getElementById('MDI_item_reverse5').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document6').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[5] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document6').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year6').value,
+        item : document.getElementById('MDI_item6').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse6').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse6').value,
+        item_reverse : document.getElementById('MDI_item_reverse6').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document7').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document7').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year7').value,
+        item : document.getElementById('MDI_item7').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse7').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse7').value,
+        item_reverse : document.getElementById('MDI_item_reverse7').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document8').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document8').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year8').value,
+        item : document.getElementById('MDI_item8').value,
+        material : '',
+        plant : '',
+        storage_location : '',
+        quantity : '',
+        entry_UOM : '',
+        material_movement_type : '',
+        item_text : '',
+        material_document_reverse : document.getElementById('MDI_material_document_reverse8').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse8').value,
+        item_reverse : document.getElementById('MDI_item_reverse8').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+}
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDH_copy_output_screen_D(it_MDH_output_material_document_header)
+{
+    if (it_MDH_output_material_document_header.length >= 1)
+    {
+        document.getElementById('MDH_material_document1').value = it_MDH_output_material_document_header[0].MDH_material_document;
+        document.getElementById('MDH_fiscal_year1').value = it_MDH_output_material_document_header[0].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type1').value = it_MDH_output_material_document_header[0].MDH_material_document_type;
+        document.getElementById('MDH_document_date1').value = it_MDH_output_material_document_header[0].MDH_document_date;
+        document.getElementById('MDH_posting_date1').value = it_MDH_output_material_document_header[0].MDH_posting_date;
+        document.getElementById('MDH_header_reference1').value = it_MDH_output_material_document_header[0].MDH_header_reference;
+        document.getElementById('MDH_header_text1').value = it_MDH_output_material_document_header[0].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type1').value = it_MDH_output_material_document_header[0].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description1').value = it_MDH_output_material_document_header[0].system_field_message_description;         
+    }
+    
+    if (it_MDH_output_material_document_header.length >= 2)
+    {
+        document.getElementById('MDH_material_document2').value = it_MDH_output_material_document_header[1].MDH_material_document;
+        document.getElementById('MDH_fiscal_year2').value = it_MDH_output_material_document_header[1].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type2').value = it_MDH_output_material_document_header[1].MDH_material_document_type;
+        document.getElementById('MDH_document_date2').value = it_MDH_output_material_document_header[1].MDH_document_date;
+        document.getElementById('MDH_posting_date2').value = it_MDH_output_material_document_header[1].MDH_posting_date;
+        document.getElementById('MDH_header_reference2').value = it_MDH_output_material_document_header[1].MDH_header_reference;
+        document.getElementById('MDH_header_text2').value = it_MDH_output_material_document_header[1].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type2').value = it_MDH_output_material_document_header[1].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description2').value = it_MDH_output_material_document_header[1].system_field_message_description;         
+    }
+}
+
+
+
+
+//----------------------------------------------------------------------------//
+
+//----------------------------------------------------------------------------//
+function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
+{
+    if (it_MDI_output_material_document_item.length >= 1)
+    {
+        document.getElementById('MDI_material_document1').value = it_MDI_output_material_document_item[0].MDI_material_document;
+        document.getElementById('MDI_fiscal_year1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year;
+        document.getElementById('MDI_item1').value = it_MDI_output_material_document_item[0].MDI_item;
+        document.getElementById('MDI_material1').value = it_MDI_output_material_document_item[0].MDI_material;
+        document.getElementById('MDI_plant1').value = it_MDI_output_material_document_item[0].MDI_plant;
+        document.getElementById('MDI_storage_location1').value = it_MDI_output_material_document_item[0].MDI_storage_location;
+        document.getElementById('MDI_quantity1').value = it_MDI_output_material_document_item[0].MDI_quantity;
+        document.getElementById('MDI_entry_UOM1').value = it_MDI_output_material_document_item[0].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type1').value = it_MDI_output_material_document_item[0].MDI_material_movement_type;
+        document.getElementById('MDI_item_text1').value = it_MDI_output_material_document_item[0].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse1').value = it_MDI_output_material_document_item[0].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse1').value = it_MDI_output_material_document_item[0].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type1').value = it_MDI_output_material_document_item[0].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description1').value = it_MDI_output_material_document_item[0].system_field_message_description;         
+    }
+
+    if (it_MDI_output_material_document_item.length >= 2)
+    {
+        document.getElementById('MDI_material_document2').value = it_MDI_output_material_document_item[1].MDI_material_document;
+        document.getElementById('MDI_fiscal_year2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year;
+        document.getElementById('MDI_item2').value = it_MDI_output_material_document_item[1].MDI_item;
+        document.getElementById('MDI_material2').value = it_MDI_output_material_document_item[1].MDI_material;
+        document.getElementById('MDI_plant2').value = it_MDI_output_material_document_item[1].MDI_plant;
+        document.getElementById('MDI_storage_location2').value = it_MDI_output_material_document_item[1].MDI_storage_location;
+        document.getElementById('MDI_quantity2').value = it_MDI_output_material_document_item[1].MDI_quantity;
+        document.getElementById('MDI_entry_UOM2').value = it_MDI_output_material_document_item[1].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type2').value = it_MDI_output_material_document_item[1].MDI_material_movement_type;
+        document.getElementById('MDI_item_text2').value = it_MDI_output_material_document_item[1].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse2').value = it_MDI_output_material_document_item[1].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse2').value = it_MDI_output_material_document_item[1].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type2').value = it_MDI_output_material_document_item[1].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description2').value = it_MDI_output_material_document_item[1].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 3)
+    {
+        document.getElementById('MDI_material_document3').value = it_MDI_output_material_document_item[2].MDI_material_document;
+        document.getElementById('MDI_fiscal_year3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year;
+        document.getElementById('MDI_item3').value = it_MDI_output_material_document_item[2].MDI_item;
+        document.getElementById('MDI_material3').value = it_MDI_output_material_document_item[2].MDI_material;
+        document.getElementById('MDI_plant3').value = it_MDI_output_material_document_item[2].MDI_plant;
+        document.getElementById('MDI_storage_location3').value = it_MDI_output_material_document_item[2].MDI_storage_location;
+        document.getElementById('MDI_quantity3').value = it_MDI_output_material_document_item[2].MDI_quantity;
+        document.getElementById('MDI_entry_UOM3').value = it_MDI_output_material_document_item[2].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type3').value = it_MDI_output_material_document_item[2].MDI_material_movement_type;
+        document.getElementById('MDI_item_text3').value = it_MDI_output_material_document_item[2].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse3').value = it_MDI_output_material_document_item[2].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse3').value = it_MDI_output_material_document_item[2].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type3').value = it_MDI_output_material_document_item[2].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description3').value = it_MDI_output_material_document_item[2].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 4)
+    {
+        document.getElementById('MDI_material_document4').value = it_MDI_output_material_document_item[3].MDI_material_document;
+        document.getElementById('MDI_fiscal_year4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year;
+        document.getElementById('MDI_item4').value = it_MDI_output_material_document_item[3].MDI_item;
+        document.getElementById('MDI_material4').value = it_MDI_output_material_document_item[3].MDI_material;
+        document.getElementById('MDI_plant4').value = it_MDI_output_material_document_item[3].MDI_plant;
+        document.getElementById('MDI_storage_location4').value = it_MDI_output_material_document_item[3].MDI_storage_location;
+        document.getElementById('MDI_quantity4').value = it_MDI_output_material_document_item[3].MDI_quantity;
+        document.getElementById('MDI_entry_UOM4').value = it_MDI_output_material_document_item[3].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type4').value = it_MDI_output_material_document_item[3].MDI_material_movement_type;
+        document.getElementById('MDI_item_text4').value = it_MDI_output_material_document_item[3].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse4').value = it_MDI_output_material_document_item[3].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse4').value = it_MDI_output_material_document_item[3].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type4').value = it_MDI_output_material_document_item[3].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description4').value = it_MDI_output_material_document_item[3].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 5)
+    {
+        document.getElementById('MDI_material_document5').value = it_MDI_output_material_document_item[4].MDI_material_document;
+        document.getElementById('MDI_fiscal_year5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year;
+        document.getElementById('MDI_item5').value = it_MDI_output_material_document_item[4].MDI_item;
+        document.getElementById('MDI_material5').value = it_MDI_output_material_document_item[4].MDI_material;
+        document.getElementById('MDI_plant5').value = it_MDI_output_material_document_item[4].MDI_plant;
+        document.getElementById('MDI_storage_location5').value = it_MDI_output_material_document_item[4].MDI_storage_location;
+        document.getElementById('MDI_quantity5').value = it_MDI_output_material_document_item[4].MDI_quantity;
+        document.getElementById('MDI_entry_UOM5').value = it_MDI_output_material_document_item[4].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type5').value = it_MDI_output_material_document_item[4].MDI_material_movement_type;
+        document.getElementById('MDI_item_text5').value = it_MDI_output_material_document_item[4].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse5').value = it_MDI_output_material_document_item[4].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse5').value = it_MDI_output_material_document_item[4].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type5').value = it_MDI_output_material_document_item[4].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description5').value = it_MDI_output_material_document_item[4].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 6)
+    {
+        document.getElementById('MDI_material_document6').value = it_MDI_output_material_document_item[5].MDI_material_document;
+        document.getElementById('MDI_fiscal_year6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year;
+        document.getElementById('MDI_item6').value = it_MDI_output_material_document_item[5].MDI_item;
+        document.getElementById('MDI_material6').value = it_MDI_output_material_document_item[5].MDI_material;
+        document.getElementById('MDI_plant6').value = it_MDI_output_material_document_item[5].MDI_plant;
+        document.getElementById('MDI_storage_location6').value = it_MDI_output_material_document_item[5].MDI_storage_location;
+        document.getElementById('MDI_quantity6').value = it_MDI_output_material_document_item[5].MDI_quantity;
+        document.getElementById('MDI_entry_UOM6').value = it_MDI_output_material_document_item[5].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type6').value = it_MDI_output_material_document_item[5].MDI_material_movement_type;
+        document.getElementById('MDI_item_text6').value = it_MDI_output_material_document_item[5].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse6').value = it_MDI_output_material_document_item[5].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse6').value = it_MDI_output_material_document_item[5].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type6').value = it_MDI_output_material_document_item[5].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description6').value = it_MDI_output_material_document_item[5].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 7)
+    {
+        document.getElementById('MDI_material_document7').value = it_MDI_output_material_document_item[6].MDI_material_document;
+        document.getElementById('MDI_fiscal_year7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year;
+        document.getElementById('MDI_item7').value = it_MDI_output_material_document_item[6].MDI_item;
+        document.getElementById('MDI_material7').value = it_MDI_output_material_document_item[6].MDI_material;
+        document.getElementById('MDI_plant7').value = it_MDI_output_material_document_item[6].MDI_plant;
+        document.getElementById('MDI_storage_location7').value = it_MDI_output_material_document_item[6].MDI_storage_location;
+        document.getElementById('MDI_quantity7').value = it_MDI_output_material_document_item[6].MDI_quantity;
+        document.getElementById('MDI_entry_UOM7').value = it_MDI_output_material_document_item[6].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type7').value = it_MDI_output_material_document_item[6].MDI_material_movement_type;
+        document.getElementById('MDI_item_text7').value = it_MDI_output_material_document_item[6].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse7').value = it_MDI_output_material_document_item[6].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse7').value = it_MDI_output_material_document_item[6].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type7').value = it_MDI_output_material_document_item[6].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description7').value = it_MDI_output_material_document_item[6].system_field_message_description;         
+    }
+    
+    if (it_MDI_output_material_document_item.length >= 8)
+    {
+        document.getElementById('MDI_material_document8').value = it_MDI_output_material_document_item[7].MDI_material_document;
+        document.getElementById('MDI_fiscal_year8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year;
+        document.getElementById('MDI_item8').value = it_MDI_output_material_document_item[7].MDI_item;
+        document.getElementById('MDI_material8').value = it_MDI_output_material_document_item[7].MDI_material;
+        document.getElementById('MDI_plant8').value = it_MDI_output_material_document_item[7].MDI_plant;
+        document.getElementById('MDI_storage_location8').value = it_MDI_output_material_document_item[7].MDI_storage_location;
+        document.getElementById('MDI_quantity8').value = it_MDI_output_material_document_item[7].MDI_quantity;
+        document.getElementById('MDI_entry_UOM8').value = it_MDI_output_material_document_item[7].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type8').value = it_MDI_output_material_document_item[7].MDI_material_movement_type;
+        document.getElementById('MDI_item_text8').value = it_MDI_output_material_document_item[7].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse8').value = it_MDI_output_material_document_item[7].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse8').value = it_MDI_output_material_document_item[7].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type8').value = it_MDI_output_material_document_item[7].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description8').value = it_MDI_output_material_document_item[7].system_field_message_description;         
+    }    
+}
+
+
 
 
 
@@ -1362,102 +2814,52 @@ function MDI_set_field_property_D()
 }    
 
 
-//--------------------------------------------------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
 
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_screen_input_C()
+//----------------------------------------------------------------------------//
+function MDH_copy_screen_input_C(iv_tenant)
 {
-    lv_tenant = document.getElementById('M_tenant').value;
+    var lv_material_document = '';
 
-    MG_copy_screen_input_C(lv_tenant);
-    MP_copy_screen_input_C(lv_tenant);
-    MSL_copy_screen_input_C(lv_tenant);
-}
+    lv_material_document = document.getElementById('MDH_material_document1').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[0] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document1').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year1').value,
+        material_document_type : document.getElementById('MDH_material_document_type1').value,
+        document_date : document.getElementById('MDH_document_date1').value,
+        posting_date : document.getElementById('MDH_posting_date1').value,
+        header_reference : document.getElementById('MDH_header_reference1').value,
+        header_text : document.getElementById('MDH_header_text1').value,
+        material_document_reverse : document.getElementById('MDH_material_document_reverse1').value,
+        fiscal_year_reverse : document.getElementById('MDH_fiscal_year_reverse1').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
 
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_output_screen_C()
-{
-    MG_copy_output_screen_C(lt_MG_output_material_general);
-    MP_copy_output_screen_C(lt_MP_output_material_plant);
-    MSL_copy_output_screen_C(lt_MSL_output_material_storage_location); 
-}
-
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_screen_input_R()
-{
-    lv_tenant = document.getElementById('M_tenant').value;
-
-    MG_copy_screen_input_R(lv_tenant);
-    MP_copy_screen_input_R(lv_tenant);
-    MSL_copy_screen_input_R(lv_tenant);
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_output_screen_R()
-{
-    MG_copy_output_screen_R(lt_MG_output_material_general);
-    MP_copy_output_screen_R(lt_MP_output_material_plant);
-    MSL_copy_output_screen_R(lt_MSL_output_material_storage_location); 
-}
-
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_screen_input_U()
-{
-    lv_tenant = document.getElementById('M_tenant').value;
-
-    MG_copy_screen_input_U(lv_tenant);
-    MP_copy_screen_input_U(lv_tenant);
-    MSL_copy_screen_input_U(lv_tenant);
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_output_screen_U()
-{
-    MG_copy_output_screen_U(lt_MG_output_material_general);
-    MP_copy_output_screen_U(lt_MP_output_material_plant);
-    MSL_copy_output_screen_U(lt_MSL_output_material_storage_location); 
-}
-
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_screen_input_D()
-{
-    lv_tenant = document.getElementById('M_tenant').value;
-
-    MG_copy_screen_input_D(lv_tenant);
-    MP_copy_screen_input_D(lv_tenant);
-    MSL_copy_screen_input_D(lv_tenant);
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-
-//--------------------------------------------------------------------------------------------------------------------//
-function M_copy_output_screen_D()
-{
-    MG_copy_output_screen_D(lt_MG_output_material_general);
-    MP_copy_output_screen_D(lt_MP_output_material_plant);
-    MSL_copy_output_screen_D(lt_MSL_output_material_storage_location); 
+    lv_material_document = document.getElementById('MDH_material_document2').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDH_input_material_document_header[1] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDH_material_document2').value,
+        fiscal_year : document.getElementById('MDH_fiscal_year2').value,
+        material_document_type : document.getElementById('MDH_material_document_type2').value,
+        document_date : document.getElementById('MDH_document_date2').value,
+        posting_date : document.getElementById('MDH_posting_date2').value,
+        header_reference : document.getElementById('MDH_header_reference2').value,
+        header_text : document.getElementById('MDH_header_text2').value,
+        material_document_reverse : document.getElementById('MDH_material_document_reverse2').value,
+        fiscal_year_reverse : document.getElementById('MDH_fiscal_year_reverse2').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
 }
 
 
@@ -1465,203 +2867,197 @@ function M_copy_output_screen_D()
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-function MG_copy_screen_input_C(iv_tenant)
+function MDI_copy_screen_input_C(iv_tenant)
 {
-    var l_material = '';
+    var lv_material_document = '';
 
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document1').value;
+    if ( lv_material_document != '')
     {
-        lt_MG_input_material_general[0] =
+        lt_MDI_input_material_document_item[0] =
         {
         tenant : iv_tenant,
-        material : document.getElementById('MG_material1').value,
-        material_type : document.getElementById('MG_material_type1').value,
-        material_description : document.getElementById('MG_material_description1').value,
-        base_UOM : document.getElementById('MG_base_UOM1').value,
-        material_group : document.getElementById('MG_material_group1').value,
+        material_document : document.getElementById('MDI_material_document1').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year1').value,
+        item : document.getElementById('MDI_item1').value,
+        material : document.getElementById('MDI_material1').value,
+        plant : document.getElementById('MDI_plant1').value,
+        storage_location : document.getElementById('MDI_storage_location1').value,
+        quantity : document.getElementById('MDI_quantity1').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM1').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type1').value,
+        item_text : document.getElementById('MDI_item_text1').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse1').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse1').value,
+        item_reverse : document.getElementById('MDI_item_reverse1').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
     }
 
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document2').value;
+    if ( lv_material_document != '')
     {
-        lt_MG_input_material_general[1] =
+        lt_MDI_input_material_document_item[1] =
         {
         tenant : iv_tenant,
-        material : document.getElementById('MG_material2').value,
-        material_type : document.getElementById('MG_material_type2').value,
-        material_description : document.getElementById('MG_material_description2').value,
-        base_UOM : document.getElementById('MG_base_UOM2').value,
-        material_group : document.getElementById('MG_material_group2').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MG_material3').value,
-        material_type : document.getElementById('MG_material_type3').value,
-        material_description : document.getElementById('MG_material_description3').value,
-        base_UOM : document.getElementById('MG_base_UOM3').value,
-        material_group : document.getElementById('MG_material_group3').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MG_material4').value,
-        material_type : document.getElementById('MG_material_type4').value,
-        material_description : document.getElementById('MG_material_description4').value,
-        base_UOM : document.getElementById('MG_base_UOM4').value,
-        material_group : document.getElementById('MG_material_group4').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };        
-    }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_screen_input_C(iv_tenant)
-{  
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[0] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MP_material1').value,
-        plant : document.getElementById('MP_plant1').value,
-        reorder_point : document.getElementById('MP_reorder_point1').value,
-        moving_average_price : document.getElementById('MP_moving_average_price1').value,
+        material_document : document.getElementById('MDI_material_document2').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year2').value,
+        item : document.getElementById('MDI_item2').value,
+        material : document.getElementById('MDI_material2').value,
+        plant : document.getElementById('MDI_plant2').value,
+        storage_location : document.getElementById('MDI_storage_location2').value,
+        quantity : document.getElementById('MDI_quantity2').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM2').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type2').value,
+        item_text : document.getElementById('MDI_item_text2').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse2').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse2').value,
+        item_reverse : document.getElementById('MDI_item_reverse2').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
     }
 
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document3').value;
+    if ( lv_material_document != '')
     {
-        lt_MP_input_material_plant[1] =
+        lt_MDI_input_material_document_item[2] =
         {
-        tenant : iv_tenant,    
-        material : document.getElementById('MP_material2').value,
-        plant : document.getElementById('MP_plant2').value,
-        reorder_point : document.getElementById('MP_reorder_point2').value,
-        moving_average_price : document.getElementById('MP_moving_average_price2').value,
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document3').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year3').value,
+        item : document.getElementById('MDI_item3').value,
+        material : document.getElementById('MDI_material3').value,
+        plant : document.getElementById('MDI_plant3').value,
+        storage_location : document.getElementById('MDI_storage_location3').value,
+        quantity : document.getElementById('MDI_quantity3').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM3').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type3').value,
+        item_text : document.getElementById('MDI_item_text3').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse3').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse3').value,
+        item_reverse : document.getElementById('MDI_item_reverse3').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
     }
 
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document4').value;
+    if ( lv_material_document != '')
     {
-        lt_MP_input_material_plant[2] =
+        lt_MDI_input_material_document_item[3] =
         {
         tenant : iv_tenant,
-        material : document.getElementById('MP_material3').value,
-        plant : document.getElementById('MP_plant3').value,
-        reorder_point : document.getElementById('MP_reorder_point3').value,
-        moving_average_price : document.getElementById('MP_moving_average_price3').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MP_material4').value,
-        plant : document.getElementById('MP_plant4').value,
-        reorder_point : document.getElementById('MP_reorder_point4').value,
-        moving_average_price : document.getElementById('MP_moving_average_price4').value,
-        system_field_message_type : '',
-        system_field_message_description : ''
-        };
-    }    
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_screen_input_C(iv_tenant)
-{    
-    l_material = document.getElementById('MSL_material1').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[0] =
-        {
-        tenant : iv_tenant,
-        material : document.getElementById('MSL_material1').value,
-        plant : document.getElementById('MSL_plant1').value,
-        storage_location : document.getElementById('MSL_storage_location1').value,
-        storage_bin : document.getElementById('MSL_storage_bin1').value,
+        material_document : document.getElementById('MDI_material_document4').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year4').value,
+        item : document.getElementById('MDI_item4').value,
+        material : document.getElementById('MDI_material4').value,
+        plant : document.getElementById('MDI_plant4').value,
+        storage_location : document.getElementById('MDI_storage_location4').value,
+        quantity : document.getElementById('MDI_quantity4').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM4').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type4').value,
+        item_text : document.getElementById('MDI_item_text4').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse4').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse4').value,
+        item_reverse : document.getElementById('MDI_item_reverse4').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
     }
 
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document5').value;
+    if ( lv_material_document != '')
     {
-        lt_MSL_input_material_storage_location[1] =
+        lt_MDI_input_material_document_item[4] =
         {
         tenant : iv_tenant,
-        material : document.getElementById('MSL_material2').value,
-        plant : document.getElementById('MSL_plant2').value,
-        storage_location : document.getElementById('MSL_storage_location2').value,
-        storage_bin : document.getElementById('MSL_storage_bin2').value,
+        material_document : document.getElementById('MDI_material_document5').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year5').value,
+        item : document.getElementById('MDI_item5').value,
+        material : document.getElementById('MDI_material5').value,
+        plant : document.getElementById('MDI_plant5').value,
+        storage_location : document.getElementById('MDI_storage_location5').value,
+        quantity : document.getElementById('MDI_quantity5').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM5').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type5').value,
+        item_text : document.getElementById('MDI_item_text5').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse5').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse5').value,
+        item_reverse : document.getElementById('MDI_item_reverse5').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
     }
 
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document6').value;
+    if ( lv_material_document != '')
     {
-        lt_MSL_input_material_storage_location[2] =
+        lt_MDI_input_material_document_item[5] =
         {
         tenant : iv_tenant,
-        material : document.getElementById('MSL_material3').value,
-        plant : document.getElementById('MSL_plant3').value,
-        storage_location : document.getElementById('MSL_storage_location3').value,
-        storage_bin : document.getElementById('MSL_storage_bin3').value,
+        material_document : document.getElementById('MDI_material_document6').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year6').value,
+        item : document.getElementById('MDI_item6').value,
+        material : document.getElementById('MDI_material6').value,
+        plant : document.getElementById('MDI_plant6').value,
+        storage_location : document.getElementById('MDI_storage_location6').value,
+        quantity : document.getElementById('MDI_quantity6').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM6').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type6').value,
+        item_text : document.getElementById('MDI_item_text6').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse6').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse6').value,
+        item_reverse : document.getElementById('MDI_item_reverse6').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
     }
 
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
+    lv_material_document = document.getElementById('MDI_material_document7').value;
+    if ( lv_material_document != '')
     {
-        lt_MSL_input_material_storage_location[3] =
+        lt_MDI_input_material_document_item[7] =
         {
         tenant : iv_tenant,
-        material : document.getElementById('MSL_material4').value,
-        plant : document.getElementById('MSL_plant4').value,
-        storage_location : document.getElementById('MSL_storage_location4').value,
-        storage_bin : document.getElementById('MSL_storage_bin4').value,
+        material_document : document.getElementById('MDI_material_document7').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year7').value,
+        item : document.getElementById('MDI_item7').value,
+        material : document.getElementById('MDI_material7').value,
+        plant : document.getElementById('MDI_plant7').value,
+        storage_location : document.getElementById('MDI_storage_location7').value,
+        quantity : document.getElementById('MDI_quantity7').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM7').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type7').value,
+        item_text : document.getElementById('MDI_item_text7').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse7').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse7').value,
+        item_reverse : document.getElementById('MDI_item_reverse7').value,
+        system_field_message_type : '',
+        system_field_message_description : ''
+        };
+    }
+
+    lv_material_document = document.getElementById('MDI_material_document8').value;
+    if ( lv_material_document != '')
+    {
+        lt_MDI_input_material_document_item[7] =
+        {
+        tenant : iv_tenant,
+        material_document : document.getElementById('MDI_material_document8').value,
+        fiscal_year : document.getElementById('MDI_fiscal_year8').value,
+        item : document.getElementById('MDI_item8').value,
+        material : document.getElementById('MDI_material8').value,
+        plant : document.getElementById('MDI_plant8').value,
+        storage_location : document.getElementById('MDI_storage_location8').value,
+        quantity : document.getElementById('MDI_quantity8').value,
+        entry_UOM : document.getElementById('MDI_entry_UOM8').value,
+        material_movement_type : document.getElementById('MDI_material_movement_type8').value,
+        item_text : document.getElementById('MDI_item_text8').value,
+        material_document_reverse : document.getElementById('MDI_material_document_reverse8').value,
+        fiscal_year_reverse : document.getElementById('MDI_fiscal_year_reverse8').value,
+        item_reverse : document.getElementById('MDI_item_reverse8').value,
         system_field_message_type : '',
         system_field_message_description : ''
         };
@@ -1669,1244 +3065,203 @@ function MSL_copy_screen_input_C(iv_tenant)
 }
 
 
+
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-function MG_copy_output_screen_C(it_MG_output_material_general)
+function MDH_copy_output_screen_C(it_MDH_output_material_document_header)
 {
-    if (it_MG_output_material_general.length >= 1)
+    if (it_MDH_output_material_document_header.length >= 1)
     {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM;
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
-        
-        if (document.getElementById('MG_system_field_message_type1').value == 'ERROR')
-        {
-            document.getElementById('MG_material1').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material1').style.color = '';
-        }            
+        document.getElementById('MDH_material_document1').value = it_MDH_output_material_document_header[0].MDH_material_document;
+        document.getElementById('MDH_fiscal_year1').value = it_MDH_output_material_document_header[0].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type1').value = it_MDH_output_material_document_header[0].MDH_material_document_type;
+        document.getElementById('MDH_document_date1').value = it_MDH_output_material_document_header[0].MDH_document_date;
+        document.getElementById('MDH_posting_date1').value = it_MDH_output_material_document_header[0].MDH_posting_date;
+        document.getElementById('MDH_header_reference1').value = it_MDH_output_material_document_header[0].MDH_header_reference;
+        document.getElementById('MDH_header_text1').value = it_MDH_output_material_document_header[0].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type1').value = it_MDH_output_material_document_header[0].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description1').value = it_MDH_output_material_document_header[0].system_field_message_description;         
     }
     
-    if (it_MG_output_material_general.length >= 2)
-    {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-
-        if (document.getElementById('MG_system_field_message_type2').value == 'ERROR')
-        {
-            document.getElementById('MG_material2').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material2').style.color = '';
-        }     
-    }
-    
-    if (it_MG_output_material_general.length >= 3)
-    {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-
-        if (document.getElementById('MG_system_field_message_type3').value == 'ERROR')
-        {
-            document.getElementById('MG_material3').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material3').style.color = '';
-        }     
-    }
-    
-    if (it_MG_output_material_general.length >= 4)
-    {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-    
-        if (document.getElementById('MG_system_field_message_type4').value == 'ERROR')
-        {
-            document.getElementById('MG_material4').style.color = 'red';
-        }
-        else        
-        {
-            document.getElementById('MG_material4').style.color = '';
-        }         
+    if (it_MDH_output_material_document_header.length >= 2)
+    {
+        document.getElementById('MDH_material_document2').value = it_MDH_output_material_document_header[1].MDH_material_document;
+        document.getElementById('MDH_fiscal_year2').value = it_MDH_output_material_document_header[1].MDH_fiscal_year;
+        document.getElementById('MDH_material_document_type2').value = it_MDH_output_material_document_header[1].MDH_material_document_type;
+        document.getElementById('MDH_document_date2').value = it_MDH_output_material_document_header[1].MDH_document_date;
+        document.getElementById('MDH_posting_date2').value = it_MDH_output_material_document_header[1].MDH_posting_date;
+        document.getElementById('MDH_header_reference2').value = it_MDH_output_material_document_header[1].MDH_header_reference;
+        document.getElementById('MDH_header_text2').value = it_MDH_output_material_document_header[1].MDH_header_text;
+        document.getElementById('MDH_system_field_message_type2').value = it_MDH_output_material_document_header[1].system_field_message_type;
+        document.getElementById('MDH_system_field_message_description2').value = it_MDH_output_material_document_header[1].system_field_message_description;         
     }
 }
 
 
+
+
 //----------------------------------------------------------------------------//
 
 //----------------------------------------------------------------------------//
-function MP_copy_output_screen_C(it_MP_output_material_plant)
+function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
 {
-    if (it_MP_output_material_plant.length >= 1)
+    if (it_MDI_output_material_document_item.length >= 1)
     {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
+        document.getElementById('MDI_material_document1').value = it_MDI_output_material_document_item[0].MDI_material_document;
+        document.getElementById('MDI_fiscal_year1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year;
+        document.getElementById('MDI_item1').value = it_MDI_output_material_document_item[0].MDI_item;
+        document.getElementById('MDI_material1').value = it_MDI_output_material_document_item[0].MDI_material;
+        document.getElementById('MDI_plant1').value = it_MDI_output_material_document_item[0].MDI_plant;
+        document.getElementById('MDI_storage_location1').value = it_MDI_output_material_document_item[0].MDI_storage_location;
+        document.getElementById('MDI_quantity1').value = it_MDI_output_material_document_item[0].MDI_quantity;
+        document.getElementById('MDI_entry_UOM1').value = it_MDI_output_material_document_item[0].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type1').value = it_MDI_output_material_document_item[0].MDI_material_movement_type;
+        document.getElementById('MDI_item_text1').value = it_MDI_output_material_document_item[0].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse1').value = it_MDI_output_material_document_item[0].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse1').value = it_MDI_output_material_document_item[0].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse1').value = it_MDI_output_material_document_item[0].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type1').value = it_MDI_output_material_document_item[0].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description1').value = it_MDI_output_material_document_item[0].system_field_message_description;         
+    }
+
+    if (it_MDI_output_material_document_item.length >= 2)
+    {
+        document.getElementById('MDI_material_document2').value = it_MDI_output_material_document_item[1].MDI_material_document;
+        document.getElementById('MDI_fiscal_year2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year;
+        document.getElementById('MDI_item2').value = it_MDI_output_material_document_item[1].MDI_item;
+        document.getElementById('MDI_material2').value = it_MDI_output_material_document_item[1].MDI_material;
+        document.getElementById('MDI_plant2').value = it_MDI_output_material_document_item[1].MDI_plant;
+        document.getElementById('MDI_storage_location2').value = it_MDI_output_material_document_item[1].MDI_storage_location;
+        document.getElementById('MDI_quantity2').value = it_MDI_output_material_document_item[1].MDI_quantity;
+        document.getElementById('MDI_entry_UOM2').value = it_MDI_output_material_document_item[1].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type2').value = it_MDI_output_material_document_item[1].MDI_material_movement_type;
+        document.getElementById('MDI_item_text2').value = it_MDI_output_material_document_item[1].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse2').value = it_MDI_output_material_document_item[1].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse2').value = it_MDI_output_material_document_item[1].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse2').value = it_MDI_output_material_document_item[1].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type2').value = it_MDI_output_material_document_item[1].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description2').value = it_MDI_output_material_document_item[1].system_field_message_description;         
     }
     
-    if (it_MP_output_material_plant.length >= 2)
+    if (it_MDI_output_material_document_item.length >= 3)
     {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
-
-    if (it_MP_output_material_plant.length >= 3)
-    {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_output_screen_C(it_MSL_output_material_storage_location)
-{
-    if (it_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = it_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = it_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = it_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = it_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = it_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = it_MSL_output_material_storage_location[0].system_field_message_description;
-    }
-
-    if (it_MSL_output_material_storage_location.length >= 2)
-    {
-        document.getElementById('MSL_material2').value = it_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = it_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = it_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = it_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = it_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = it_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (it_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = it_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = it_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = it_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = it_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = it_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = it_MSL_output_material_storage_location[2].system_field_message_description;
+        document.getElementById('MDI_material_document3').value = it_MDI_output_material_document_item[2].MDI_material_document;
+        document.getElementById('MDI_fiscal_year3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year;
+        document.getElementById('MDI_item3').value = it_MDI_output_material_document_item[2].MDI_item;
+        document.getElementById('MDI_material3').value = it_MDI_output_material_document_item[2].MDI_material;
+        document.getElementById('MDI_plant3').value = it_MDI_output_material_document_item[2].MDI_plant;
+        document.getElementById('MDI_storage_location3').value = it_MDI_output_material_document_item[2].MDI_storage_location;
+        document.getElementById('MDI_quantity3').value = it_MDI_output_material_document_item[2].MDI_quantity;
+        document.getElementById('MDI_entry_UOM3').value = it_MDI_output_material_document_item[2].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type3').value = it_MDI_output_material_document_item[2].MDI_material_movement_type;
+        document.getElementById('MDI_item_text3').value = it_MDI_output_material_document_item[2].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse3').value = it_MDI_output_material_document_item[2].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse3').value = it_MDI_output_material_document_item[2].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse3').value = it_MDI_output_material_document_item[2].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type3').value = it_MDI_output_material_document_item[2].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description3').value = it_MDI_output_material_document_item[2].system_field_message_description;         
     }
     
-    if (it_MSL_output_material_storage_location.length >= 4)
+    if (it_MDI_output_material_document_item.length >= 4)
     {
-        document.getElementById('MSL_material4').value = it_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = it_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = it_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = it_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = it_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = it_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_copy_screen_input_R(iv_tenant)
-{
-    var l_material = '';
-
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material1').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
+        document.getElementById('MDI_material_document4').value = it_MDI_output_material_document_item[3].MDI_material_document;
+        document.getElementById('MDI_fiscal_year4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year;
+        document.getElementById('MDI_item4').value = it_MDI_output_material_document_item[3].MDI_item;
+        document.getElementById('MDI_material4').value = it_MDI_output_material_document_item[3].MDI_material;
+        document.getElementById('MDI_plant4').value = it_MDI_output_material_document_item[3].MDI_plant;
+        document.getElementById('MDI_storage_location4').value = it_MDI_output_material_document_item[3].MDI_storage_location;
+        document.getElementById('MDI_quantity4').value = it_MDI_output_material_document_item[3].MDI_quantity;
+        document.getElementById('MDI_entry_UOM4').value = it_MDI_output_material_document_item[3].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type4').value = it_MDI_output_material_document_item[3].MDI_material_movement_type;
+        document.getElementById('MDI_item_text4').value = it_MDI_output_material_document_item[3].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse4').value = it_MDI_output_material_document_item[3].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse4').value = it_MDI_output_material_document_item[3].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse4').value = it_MDI_output_material_document_item[3].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type4').value = it_MDI_output_material_document_item[3].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description4').value = it_MDI_output_material_document_item[3].system_field_message_description;         
     }
-
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
+    
+    if (it_MDI_output_material_document_item.length >= 5)
     {
-        lt_MG_input_material_general[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material2').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
+        document.getElementById('MDI_material_document5').value = it_MDI_output_material_document_item[4].MDI_material_document;
+        document.getElementById('MDI_fiscal_year5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year;
+        document.getElementById('MDI_item5').value = it_MDI_output_material_document_item[4].MDI_item;
+        document.getElementById('MDI_material5').value = it_MDI_output_material_document_item[4].MDI_material;
+        document.getElementById('MDI_plant5').value = it_MDI_output_material_document_item[4].MDI_plant;
+        document.getElementById('MDI_storage_location5').value = it_MDI_output_material_document_item[4].MDI_storage_location;
+        document.getElementById('MDI_quantity5').value = it_MDI_output_material_document_item[4].MDI_quantity;
+        document.getElementById('MDI_entry_UOM5').value = it_MDI_output_material_document_item[4].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type5').value = it_MDI_output_material_document_item[4].MDI_material_movement_type;
+        document.getElementById('MDI_item_text5').value = it_MDI_output_material_document_item[4].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse5').value = it_MDI_output_material_document_item[4].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse5').value = it_MDI_output_material_document_item[4].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse5').value = it_MDI_output_material_document_item[4].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type5').value = it_MDI_output_material_document_item[4].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description5').value = it_MDI_output_material_document_item[4].system_field_message_description;         
     }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material3').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material4').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };        
-    }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_screen_input_R(iv_tenant)
-{
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
+    
+    if (it_MDI_output_material_document_item.length >= 6)
     {
-        lt_MP_input_material_plant[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material1').value,
-            plant : document.getElementById('MP_plant1').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
+        document.getElementById('MDI_material_document6').value = it_MDI_output_material_document_item[5].MDI_material_document;
+        document.getElementById('MDI_fiscal_year6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year;
+        document.getElementById('MDI_item6').value = it_MDI_output_material_document_item[5].MDI_item;
+        document.getElementById('MDI_material6').value = it_MDI_output_material_document_item[5].MDI_material;
+        document.getElementById('MDI_plant6').value = it_MDI_output_material_document_item[5].MDI_plant;
+        document.getElementById('MDI_storage_location6').value = it_MDI_output_material_document_item[5].MDI_storage_location;
+        document.getElementById('MDI_quantity6').value = it_MDI_output_material_document_item[5].MDI_quantity;
+        document.getElementById('MDI_entry_UOM6').value = it_MDI_output_material_document_item[5].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type6').value = it_MDI_output_material_document_item[5].MDI_material_movement_type;
+        document.getElementById('MDI_item_text6').value = it_MDI_output_material_document_item[5].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse6').value = it_MDI_output_material_document_item[5].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse6').value = it_MDI_output_material_document_item[5].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse6').value = it_MDI_output_material_document_item[5].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type6').value = it_MDI_output_material_document_item[5].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description6').value = it_MDI_output_material_document_item[5].system_field_message_description;         
     }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
+    
+    if (it_MDI_output_material_document_item.length >= 7)
     {
-        lt_MP_input_material_plant[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material2').value,
-            plant : document.getElementById('MP_plant2').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
+        document.getElementById('MDI_material_document7').value = it_MDI_output_material_document_item[6].MDI_material_document;
+        document.getElementById('MDI_fiscal_year7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year;
+        document.getElementById('MDI_item7').value = it_MDI_output_material_document_item[6].MDI_item;
+        document.getElementById('MDI_material7').value = it_MDI_output_material_document_item[6].MDI_material;
+        document.getElementById('MDI_plant7').value = it_MDI_output_material_document_item[6].MDI_plant;
+        document.getElementById('MDI_storage_location7').value = it_MDI_output_material_document_item[6].MDI_storage_location;
+        document.getElementById('MDI_quantity7').value = it_MDI_output_material_document_item[6].MDI_quantity;
+        document.getElementById('MDI_entry_UOM7').value = it_MDI_output_material_document_item[6].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type7').value = it_MDI_output_material_document_item[6].MDI_material_movement_type;
+        document.getElementById('MDI_item_text7').value = it_MDI_output_material_document_item[6].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse7').value = it_MDI_output_material_document_item[6].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse7').value = it_MDI_output_material_document_item[6].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse7').value = it_MDI_output_material_document_item[6].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type7').value = it_MDI_output_material_document_item[6].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description7').value = it_MDI_output_material_document_item[6].system_field_message_description;         
     }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
+    
+    if (it_MDI_output_material_document_item.length >= 8)
     {
-        lt_MP_input_material_plant[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material3').value,
-            plant : document.getElementById('MP_plant3').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material4').value,
-            plant : document.getElementById('MP_plant4').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
+        document.getElementById('MDI_material_document8').value = it_MDI_output_material_document_item[7].MDI_material_document;
+        document.getElementById('MDI_fiscal_year8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year;
+        document.getElementById('MDI_item8').value = it_MDI_output_material_document_item[7].MDI_item;
+        document.getElementById('MDI_material8').value = it_MDI_output_material_document_item[7].MDI_material;
+        document.getElementById('MDI_plant8').value = it_MDI_output_material_document_item[7].MDI_plant;
+        document.getElementById('MDI_storage_location8').value = it_MDI_output_material_document_item[7].MDI_storage_location;
+        document.getElementById('MDI_quantity8').value = it_MDI_output_material_document_item[7].MDI_quantity;
+        document.getElementById('MDI_entry_UOM8').value = it_MDI_output_material_document_item[7].MDI_entry_UOM;
+        document.getElementById('MDI_material_movement_type8').value = it_MDI_output_material_document_item[7].MDI_material_movement_type;
+        document.getElementById('MDI_item_text8').value = it_MDI_output_material_document_item[7].MDI_item_text;
+        document.getElementById('MDI_material_document_reverse8').value = it_MDI_output_material_document_item[7].MDI_material_document_reverse;
+        document.getElementById('MDI_fiscal_year_reverse8').value = it_MDI_output_material_document_item[7].MDI_fiscal_year_reverse;
+        document.getElementById('MDI_item_reverse8').value = it_MDI_output_material_document_item[7].MDI_item_reverse;
+        document.getElementById('MDI_system_field_message_type8').value = it_MDI_output_material_document_item[7].system_field_message_type;
+        document.getElementById('MDI_system_field_message_description8').value = it_MDI_output_material_document_item[7].system_field_message_description;         
     }    
 }
 
 
-//----------------------------------------------------------------------------//
 
-//----------------------------------------------------------------------------//
-function MSL_copy_screen_input_R(iv_tenant)
-{
-    l_material = document.getElementById('MSL_material1').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material1').value,
-            plant : document.getElementById('MSL_plant1').value,
-            storage_location : document.getElementById('MSL_storage_location1').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
 
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material2').value,
-            plant : document.getElementById('MSL_plant2').value,
-            storage_location : document.getElementById('MSL_storage_location2').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material3').value,
-            plant : document.getElementById('MSL_plant3').value,
-            storage_location : document.getElementById('MSL_storage_location3').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material4').value,
-            plant : document.getElementById('MSL_plant4').value,
-            storage_location : document.getElementById('MSL_storage_location4').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_copy_output_screen_R(it_MG_output_material_general)
-{
-    if (it_MG_output_material_general.length >= 1)
-        {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM; 
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
-        }
-    
-        if (it_MG_output_material_general.length >= 2)
-        {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 3)
-        {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 4)
-        {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-        }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_output_screen_R(it_MP_output_material_plant)
-{
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
-
-    if (it_MP_output_material_plant.length >= 3)
-    {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_output_screen_R(it_MSL_output_material_storage_location)
-{
-    if (it_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = it_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = it_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = it_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = it_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = it_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = it_MSL_output_material_storage_location[0].system_field_message_description;
-    }
-
-    if (it_MSL_output_material_storage_location.length >= 2)
-    {
-        document.getElementById('MSL_material2').value = it_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = it_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = it_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = it_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = it_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = it_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (it_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = it_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = it_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = it_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = it_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = it_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = it_MSL_output_material_storage_location[2].system_field_message_description;
-    }
-    
-    if (it_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = it_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = it_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = it_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = it_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = it_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = it_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_copy_screen_input_U(iv_tenant)
-{
-    var l_material = '';
-
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material1').value,
-            material_type : document.getElementById('MG_material_type1').value,
-            material_description : document.getElementById('MG_material_description1').value,
-            base_UOM : document.getElementById('MG_base_UOM1').value,
-            material_group : document.getElementById('MG_material_group1').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material2').value,
-            material_type : document.getElementById('MG_material_type2').value,
-            material_description : document.getElementById('MG_material_description2').value,
-            base_UOM : document.getElementById('MG_base_UOM2').value,
-            material_group : document.getElementById('MG_material_group2').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material3').value,
-            material_type : document.getElementById('MG_material_type3').value,
-            material_description : document.getElementById('MG_material_description3').value,
-            base_UOM : document.getElementById('MG_base_UOM3').value,
-            material_group : document.getElementById('MG_material_group3').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material4').value,
-            material_type : document.getElementById('MG_material_type4').value,
-            material_description : document.getElementById('MG_material_description4').value,
-            base_UOM : document.getElementById('MG_base_UOM4').value,
-            material_group : document.getElementById('MG_material_group4').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };        
-    }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_screen_input_U(iv_tenant)
-{
-    
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material1').value,
-            plant : document.getElementById('MP_plant1').value,
-            reorder_point : document.getElementById('MP_reorder_point1').value,
-            moving_average_price : document.getElementById('MP_moving_average_price1').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material2').value,
-            plant : document.getElementById('MP_plant2').value,
-            reorder_point : document.getElementById('MP_reorder_point2').value,
-            moving_average_price : document.getElementById('MP_moving_average_price2').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material3').value,
-            plant : document.getElementById('MP_plant3').value,
-            reorder_point : document.getElementById('MP_reorder_point3').value,
-            moving_average_price : document.getElementById('MP_moving_average_price3').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material4').value,
-            plant : document.getElementById('MP_plant4').value,
-            reorder_point : document.getElementById('MP_reorder_point4').value,
-            moving_average_price : document.getElementById('MP_moving_average_price4').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_screen_input_U(iv_tenant)
-{    
-    l_material = document.getElementById('MSL_material1').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material1').value,
-            plant : document.getElementById('MSL_plant1').value,
-            storage_location : document.getElementById('MSL_storage_location1').value,
-            storage_bin : document.getElementById('MSL_storage_bin1').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material2').value,
-            plant : document.getElementById('MSL_plant2').value,
-            storage_location : document.getElementById('MSL_storage_location2').value,
-            storage_bin : document.getElementById('MSL_storage_bin2').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material3').value,
-            plant : document.getElementById('MSL_plant3').value,
-            storage_location : document.getElementById('MSL_storage_location3').value,
-            storage_bin : document.getElementById('MSL_storage_bin3').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material4').value,
-            plant : document.getElementById('MSL_plant4').value,
-            storage_location : document.getElementById('MSL_storage_location4').value,
-            storage_bin : document.getElementById('MSL_storage_bin4').value,
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_copy_output_screen_U(it_MG_output_material_general)
-{
-    if (it_MG_output_material_general.length >= 1)
-        {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM; 
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
-        }
-    
-        if (it_MG_output_material_general.length >= 2)
-        {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 3)
-        {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 4)
-        {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-        }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_output_screen_U(it_MP_output_material_plant)
-{
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
-
-    if (it_MP_output_material_plant.length >= 3)
-    {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_output_screen_U(it_MSL_output_material_storage_location)
-{
-    if (lt_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = lt_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = lt_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = lt_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = lt_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = lt_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = lt_MSL_output_material_storage_location[0].system_field_message_description;
-    }
-
-    if (lt_MSL_output_material_storage_location.length >= 2)
-    {
-        document.getElementById('MSL_material2').value = lt_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = lt_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = lt_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = lt_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = lt_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = lt_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (lt_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = lt_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = lt_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = lt_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = lt_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = lt_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = lt_MSL_output_material_storage_location[2].system_field_message_description;
-    }
-    
-    if (lt_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = lt_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = lt_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = lt_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = lt_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = lt_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = lt_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_copy_screen_input_D(iv_tenant)
-{
-    var l_material = '';
-
-    l_material = document.getElementById('MG_material1').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material1').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MG_material2').value;
-    if ( l_material != '')
-    {
-        lt_MG_input_material_general[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material2').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material3').value;
-    if ( l_material != '')
-    {    
-        lt_MG_input_material_general[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material3').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        }; 
-    }
-
-    l_material = document.getElementById('MG_material4').value;
-    if ( l_material != '')
-    {     
-        lt_MG_input_material_general[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MG_material4').value,
-            material_type : '',
-            material_description : '',
-            base_UOM : '',
-            material_group : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };        
-    }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_screen_input_D(iv_tenant)
-{
-    l_material = document.getElementById('MP_material1').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material1').value,
-            plant : document.getElementById('MP_plant1').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material2').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material2').value,
-            plant : document.getElementById('MP_plant2').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MP_material3').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material3').value,
-            plant : document.getElementById('MP_plant3').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-
-    l_material = document.getElementById('MP_material4').value;
-    if ( l_material != '')
-    {
-        lt_MP_input_material_plant[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MP_material4').value,
-            plant : document.getElementById('MP_plant4').value,
-            reorder_point : '',
-            moving_average_price : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }    
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_screen_input_D(iv_tenant)
-{
-    l_material = document.getElementById('MSL_material1').value;
-
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[0] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material1').value,
-            plant : document.getElementById('MSL_plant1').value,
-            storage_location : document.getElementById('MSL_storage_location1').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material2').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[1] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material2').value,
-            plant : document.getElementById('MSL_plant2').value,
-            storage_location : document.getElementById('MSL_storage_location2').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material3').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[2] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material3').value,
-            plant : document.getElementById('MSL_plant3').value,
-            storage_location : document.getElementById('MSL_storage_location3').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-
-    l_material = document.getElementById('MSL_material4').value;
-    if ( l_material != '')
-    {
-        lt_MSL_input_material_storage_location[3] =
-        {
-            tenant : iv_tenant,
-            material : document.getElementById('MSL_material4').value,
-            plant : document.getElementById('MSL_plant4').value,
-            storage_location : document.getElementById('MSL_storage_location4').value,
-            storage_bin : '',
-            system_field_message_type : '',
-            system_field_message_description : ''
-        };
-    }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MG_copy_output_screen_D(it_MG_output_material_general)
-{
-    if (it_MG_output_material_general.length >= 1)
-        {
-        document.getElementById('MG_material1').value = it_MG_output_material_general[0].material;
-        document.getElementById('MG_material_type1').value = it_MG_output_material_general[0].material_type;
-        document.getElementById('MG_material_description1').value = it_MG_output_material_general[0].material_description;
-        document.getElementById('MG_base_UOM1').value = it_MG_output_material_general[0].base_UOM; 
-        document.getElementById('MG_material_group1').value = it_MG_output_material_general[0].material_group;
-        document.getElementById('MG_system_field_message_type1').value = it_MG_output_material_general[0].system_field_message_type;
-        document.getElementById('MG_system_field_message_description1').value = it_MG_output_material_general[0].system_field_message_description;
-        }
-    
-        if (it_MG_output_material_general.length >= 2)
-        {    
-        document.getElementById('MG_material2').value = it_MG_output_material_general[1].material;
-        document.getElementById('MG_material_type2').value = it_MG_output_material_general[1].material_type;
-        document.getElementById('MG_material_description2').value = it_MG_output_material_general[1].material_description;
-        document.getElementById('MG_base_UOM2').value = it_MG_output_material_general[1].base_UOM;
-        document.getElementById('MG_material_group2').value = it_MG_output_material_general[1].material_group;
-        document.getElementById('MG_system_field_message_type2').value = it_MG_output_material_general[1].system_field_message_type;
-        document.getElementById('MG_system_field_message_description2').value = it_MG_output_material_general[1].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 3)
-        {        
-        document.getElementById('MG_material3').value = it_MG_output_material_general[2].material;
-        document.getElementById('MG_material_type3').value = it_MG_output_material_general[2].material_type;
-        document.getElementById('MG_material_description3').value = it_MG_output_material_general[2].material_description;
-        document.getElementById('MG_base_UOM3').value = it_MG_output_material_general[2].base_UOM;
-        document.getElementById('MG_material_group3').value = it_MG_output_material_general[2].material_group;
-        document.getElementById('MG_system_field_message_type3').value = it_MG_output_material_general[2].system_field_message_type;
-        document.getElementById('MG_system_field_message_description3').value = it_MG_output_material_general[2].system_field_message_description;  
-        }
-    
-        if (it_MG_output_material_general.length >= 4)
-        {            
-        document.getElementById('MG_material4').value = it_MG_output_material_general[3].material;
-        document.getElementById('MG_material_type4').value = it_MG_output_material_general[3].material_type;
-        document.getElementById('MG_material_description4').value = it_MG_output_material_general[3].material_description;
-        document.getElementById('MG_base_UOM4').value = it_MG_output_material_general[3].base_UOM;
-        document.getElementById('MG_material_group4').value = it_MG_output_material_general[3].material_group;
-        document.getElementById('MG_system_field_message_type4').value = it_MG_output_material_general[3].system_field_message_type;
-        document.getElementById('MG_system_field_message_description4').value = it_MG_output_material_general[3].system_field_message_description;
-        }
-}
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MP_copy_output_screen_D(it_MP_output_material_plant)
-{
-    if (it_MP_output_material_plant.length >= 1)
-    {
-        document.getElementById('MP_material1').value = it_MP_output_material_plant[0].material;
-        document.getElementById('MP_plant1').value = it_MP_output_material_plant[0].plant;
-        document.getElementById('MP_reorder_point1').value = it_MP_output_material_plant[0].reorder_point;
-        document.getElementById('MP_moving_average_price1').value = it_MP_output_material_plant[0].moving_average_price; 
-        document.getElementById('MP_system_field_message_type1').value = it_MP_output_material_plant[0].system_field_message_type;
-        document.getElementById('MP_system_field_message_description1').value = it_MP_output_material_plant[0].system_field_message_description;
-    }
-    
-    if (it_MP_output_material_plant.length >= 2)
-    {
-        document.getElementById('MP_material2').value = it_MP_output_material_plant[1].material;
-        document.getElementById('MP_plant2').value = it_MP_output_material_plant[1].plant;
-        document.getElementById('MP_reorder_point2').value = it_MP_output_material_plant[1].reorder_point;
-        document.getElementById('MP_moving_average_price2').value = it_MP_output_material_plant[1].moving_average_price; 
-        document.getElementById('MP_system_field_message_type2').value = it_MP_output_material_plant[1].system_field_message_type;
-        document.getElementById('MP_system_field_message_description2').value = it_MP_output_material_plant[1].system_field_message_description;
-    }
-
-    if (it_MP_output_material_plant.length >= 3)
-    {
-        document.getElementById('MP_material3').value = it_MP_output_material_plant[2].material;
-        document.getElementById('MP_plant3').value = it_MP_output_material_plant[2].plant;
-        document.getElementById('MP_reorder_point3').value = it_MP_output_material_plant[2].reorder_point;
-        document.getElementById('MP_moving_average_price3').value = it_MP_output_material_plant[2].moving_average_price; 
-        document.getElementById('MP_system_field_message_type3').value = it_MP_output_material_plant[2].system_field_message_type;
-        document.getElementById('MP_system_field_message_description3').value = it_MP_output_material_plant[2].system_field_message_description;
-    }  
-    
-    if (it_MP_output_material_plant.length >= 4)
-    {
-        document.getElementById('MP_material4').value = it_MP_output_material_plant[3].material;
-        document.getElementById('MP_plant4').value = it_MP_output_material_plant[3].plant;
-        document.getElementById('MP_reorder_point4').value = it_MP_output_material_plant[3].reorder_point;
-        document.getElementById('MP_moving_average_price4').value = it_MP_output_material_plant[3].moving_average_price; 
-        document.getElementById('MP_system_field_message_type4').value = it_MP_output_material_plant[3].system_field_message_type;
-        document.getElementById('MP_system_field_message_description4').value = it_MP_output_material_plant[3].system_field_message_description;
-    }      
-}    
-
-
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
-function MSL_copy_output_screen_D(it_MSL_output_material_storage_location)
-{
-    if (lt_MSL_output_material_storage_location.length >= 1)
-    {
-        document.getElementById('MSL_material1').value = lt_MSL_output_material_storage_location[0].material;
-        document.getElementById('MSL_plant1').value = lt_MSL_output_material_storage_location[0].plant;
-        document.getElementById('MSL_storage_location1').value = lt_MSL_output_material_storage_location[0].storage_location;
-        document.getElementById('MSL_storage_bin1').value = lt_MSL_output_material_storage_location[0].storage_bin; 
-        document.getElementById('MSL_system_field_message_type1').value = lt_MSL_output_material_storage_location[0].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description1').value = lt_MSL_output_material_storage_location[0].system_field_message_description;
-    }
-
-    if (lt_MSL_output_material_storage_location.length >= 2)
-    {
-        document.getElementById('MSL_material2').value = lt_MSL_output_material_storage_location[1].material;
-        document.getElementById('MSL_plant2').value = lt_MSL_output_material_storage_location[1].plant;
-        document.getElementById('MSL_storage_location2').value = lt_MSL_output_material_storage_location[1].storage_location;
-        document.getElementById('MSL_storage_bin2').value = lt_MSL_output_material_storage_location[1].storage_bin; 
-        document.getElementById('MSL_system_field_message_type2').value = lt_MSL_output_material_storage_location[1].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description2').value = lt_MSL_output_material_storage_location[1].system_field_message_description;
-    } 
-    
-    if (lt_MSL_output_material_storage_location.length >= 3)
-    {
-        document.getElementById('MSL_material3').value = lt_MSL_output_material_storage_location[2].material;
-        document.getElementById('MSL_plant3').value = lt_MSL_output_material_storage_location[2].plant;
-        document.getElementById('MSL_storage_location3').value = lt_MSL_output_material_storage_location[2].storage_location;
-        document.getElementById('MSL_storage_bin3').value = lt_MSL_output_material_storage_location[2].storage_bin; 
-        document.getElementById('MSL_system_field_message_type3').value = lt_MSL_output_material_storage_location[2].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description3').value = lt_MSL_output_material_storage_location[2].system_field_message_description;
-    }
-    
-    if (lt_MSL_output_material_storage_location.length >= 4)
-    {
-        document.getElementById('MSL_material4').value = lt_MSL_output_material_storage_location[3].material;
-        document.getElementById('MSL_plant4').value = lt_MSL_output_material_storage_location[3].plant;
-        document.getElementById('MSL_storage_location4').value = lt_MSL_output_material_storage_location[3].storage_location;
-        document.getElementById('MSL_storage_bin4').value = lt_MSL_output_material_storage_location[3].storage_bin; 
-        document.getElementById('MSL_system_field_message_type4').value = lt_MSL_output_material_storage_location[3].system_field_message_type;
-        document.getElementById('MSL_system_field_message_description4').value = lt_MSL_output_material_storage_location[3].system_field_message_description;
-    }        
-}
 
 
 //----------------------------------------------------------------------------//
