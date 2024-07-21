@@ -1,9 +1,5 @@
-/*
-
-*/
-
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 var lt_MDH_material_document_header = 
 [
@@ -61,7 +57,7 @@ var lt_MDH_output_material_document_header =
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 var lt_MDI_material_document_item = 
 [
@@ -131,7 +127,7 @@ var lt_MDI_output_material_document_item =
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_set_material_document_header_hide()
 {
@@ -142,7 +138,7 @@ function MDH_set_material_document_header_hide()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_set_material_document_header_unhide()
 {
@@ -154,7 +150,7 @@ function MDH_set_material_document_header_unhide()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_set_material_document_item_hide()
 {
@@ -165,7 +161,7 @@ function MDI_set_material_document_item_hide()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_set_material_document_item_unhide()
 {
@@ -176,7 +172,7 @@ function MDI_set_material_document_item_unhide()
 
 
 //----------------------------------------------------------------------------//
-
+// Version 20240700
 //----------------------------------------------------------------------------//
 function MD_set_field_property_C()
 {
@@ -204,7 +200,7 @@ function MD_set_field_property_C()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_C()
 {
@@ -216,7 +212,7 @@ function MD_copy_screen_input_C()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_output_screen_C()
 {
@@ -226,7 +222,7 @@ function MD_copy_output_screen_C()
 
 
 //----------------------------------------------------------------------------//
-
+// Version 20240700
 //----------------------------------------------------------------------------//
 function MD_set_field_property_R()
 {
@@ -254,7 +250,7 @@ function MD_set_field_property_R()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_R()
 {
@@ -266,7 +262,7 @@ function MD_copy_screen_input_R()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_output_screen_R()
 {
@@ -275,9 +271,9 @@ function MD_copy_output_screen_R()
 }
 
 
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240700
+//--------------------------------------------------------------------------------------------------------------------//
 function MD_set_field_property_U()
 {
     var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
@@ -304,7 +300,7 @@ function MD_set_field_property_U()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_U()
 {
@@ -316,7 +312,7 @@ function MD_copy_screen_input_U()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_output_screen_U()
 {
@@ -325,9 +321,9 @@ function MD_copy_output_screen_U()
 }
 
 
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240700
+//--------------------------------------------------------------------------------------------------------------------//
 function MD_set_field_property_D()
 {
     var b_MD_set_field_property_C = document.getElementById("b_MD_set_field_property_C");
@@ -354,7 +350,7 @@ function MD_set_field_property_D()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_D()
 {
@@ -366,7 +362,7 @@ function MD_copy_screen_input_D()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_output_screen_D()
 {
@@ -376,7 +372,7 @@ function MD_copy_output_screen_D()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_set_field_property_C()
 {
@@ -425,7 +421,7 @@ function MDH_set_field_property_C()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_set_field_property_C()
 {
@@ -490,7 +486,7 @@ function MDI_set_field_property_C()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_set_field_property_R()
 {
@@ -539,7 +535,7 @@ function MDH_set_field_property_R()
    
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_set_field_property_R()
 {
@@ -604,7 +600,7 @@ function MDI_set_field_property_R()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_R(iv_tenant)
 {
@@ -656,7 +652,7 @@ function MDH_copy_screen_input_R(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_R(iv_tenant)
 {
@@ -695,7 +691,7 @@ function MDI_copy_screen_input_R(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            lt_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -720,7 +716,7 @@ function MDI_copy_screen_input_R(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_output_screen_R(it_MDH_output_material_document_header)
 {
@@ -734,7 +730,9 @@ function MDH_copy_output_screen_R(it_MDH_output_material_document_header)
         lv_field_name_header_reference = '',
         lv_field_name_header_text = '',
         lv_field_name_material_document_reverse = '',
-        lv_field_name_fiscal_year_reverse = '';
+        lv_field_name_fiscal_year_reverse = '',
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
     for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
     {
@@ -749,6 +747,8 @@ function MDH_copy_output_screen_R(it_MDH_output_material_document_header)
             lv_field_name_header_text = 'MDH_header_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDH_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDH_fiscal_year_reverse' + (lv_counter + 1); 
+            lv_field_name_system_field_message_type = 'MDH_system_field_message_type' + (lv_counter + 1); 
+            lv_field_name_system_field_message_description = 'MDH_system_field_message_description' + (lv_counter + 1);
 
             document.getElementById(lv_field_name_material_document).value = it_MDH_output_material_document_header[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDH_output_material_document_header[lv_counter].fiscal_year;
@@ -777,7 +777,7 @@ function MDH_copy_output_screen_R(it_MDH_output_material_document_header)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
 {
@@ -795,9 +795,11 @@ function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
         lv_field_name_item_text = '',
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
-        lv_field_name_item_reverse = '';
+        lv_field_name_item_reverse = '',
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
-    for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
+    for (lv_counter = 0; lv_counter < 8; lv_counter = lv_counter + 1)
     {
         if (lv_counter < it_MDI_output_material_document_item.length)
         {
@@ -813,7 +815,9 @@ function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
-            lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1); 
+            lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MDI_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MDI_system_field_message_description' + (lv_counter + 1); 
 
             document.getElementById(lv_field_name_material_document).value = it_MDI_output_material_document_item[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDI_output_material_document_item[lv_counter].fiscal_year;
@@ -845,7 +849,7 @@ function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_set_field_property_U()
 {
@@ -894,7 +898,7 @@ function MDH_set_field_property_U()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_set_field_property_U()
 {
@@ -959,7 +963,7 @@ function MDI_set_field_property_U()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_U(iv_tenant)
 {
@@ -1011,7 +1015,7 @@ function MDH_copy_screen_input_U(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_U(iv_tenant)
 {
@@ -1050,7 +1054,7 @@ function MDI_copy_screen_input_U(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            lt_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -1075,7 +1079,7 @@ function MDI_copy_screen_input_U(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_output_screen_U(it_MDH_output_material_document_header)
 {
@@ -1089,7 +1093,9 @@ function MDH_copy_output_screen_U(it_MDH_output_material_document_header)
         lv_field_name_header_reference = '',
         lv_field_name_header_text = '',
         lv_field_name_material_document_reverse = '',
-        lv_field_name_fiscal_year_reverse = '';
+        lv_field_name_fiscal_year_reverse = ''
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
     for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
     {
@@ -1104,6 +1110,8 @@ function MDH_copy_output_screen_U(it_MDH_output_material_document_header)
             lv_field_name_header_text = 'MDH_header_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDH_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDH_fiscal_year_reverse' + (lv_counter + 1); 
+            lv_field_name_system_field_message_type = 'MDH_system_field_message_type' + (lv_counter + 1); 
+            lv_field_name_system_field_message_description = 'MDH_system_field_message_description' + (lv_counter + 1);
 
             document.getElementById(lv_field_name_material_document).value = it_MDH_output_material_document_header[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDH_output_material_document_header[lv_counter].fiscal_year;
@@ -1132,7 +1140,7 @@ function MDH_copy_output_screen_U(it_MDH_output_material_document_header)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
 {
@@ -1150,7 +1158,9 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
         lv_field_name_item_text = '',
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
-        lv_field_name_item_reverse = '';
+        lv_field_name_item_reverse = ''
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
     for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
     {
@@ -1168,7 +1178,9 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
-            lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1); 
+            lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MDI_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MDI_system_field_message_description' + (lv_counter + 1);  
 
             document.getElementById(lv_field_name_material_document).value = it_MDI_output_material_document_item[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDI_output_material_document_item[lv_counter].fiscal_year;
@@ -1200,7 +1212,7 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_D(iv_tenant)
 {
@@ -1252,7 +1264,7 @@ function MDH_copy_screen_input_D(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_D(iv_tenant)
 {
@@ -1291,7 +1303,7 @@ function MDI_copy_screen_input_D(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            lt_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -1316,7 +1328,7 @@ function MDI_copy_screen_input_D(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_output_screen_D(it_MDH_output_material_document_header)
 {
@@ -1330,7 +1342,9 @@ function MDH_copy_output_screen_D(it_MDH_output_material_document_header)
         lv_field_name_header_reference = '',
         lv_field_name_header_text = '',
         lv_field_name_material_document_reverse = '',
-        lv_field_name_fiscal_year_reverse = '';
+        lv_field_name_fiscal_year_reverse = '',
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';        
 
     for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
     {
@@ -1344,7 +1358,9 @@ function MDH_copy_output_screen_D(it_MDH_output_material_document_header)
             lv_field_name_header_reference = 'MDH_header_reference' + (lv_counter + 1);
             lv_field_name_header_text = 'MDH_header_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDH_material_document_reverse' + (lv_counter + 1);
-            lv_field_name_fiscal_year_reverse = 'MDH_fiscal_year_reverse' + (lv_counter + 1); 
+            lv_field_name_fiscal_year_reverse = 'MDH_fiscal_year_reverse' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MDH_system_field_message_type' + (lv_counter + 1); 
+            lv_field_name_system_field_message_description = 'MDH_system_field_message_description' + (lv_counter + 1);             
 
             document.getElementById(lv_field_name_material_document).value = it_MDH_output_material_document_header[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDH_output_material_document_header[lv_counter].fiscal_year;
@@ -1373,7 +1389,7 @@ function MDH_copy_output_screen_D(it_MDH_output_material_document_header)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
 {
@@ -1391,7 +1407,9 @@ function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
         lv_field_name_item_text = '',
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
-        lv_field_name_item_reverse = '';
+        lv_field_name_item_reverse = '',
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
     for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
     {
@@ -1410,6 +1428,8 @@ function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
             lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1); 
+            lv_field_name_system_field_message_type = 'MDI_system_field_message_type' + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MDI_system_field_message_description' + (lv_counter + 1); 
 
             document.getElementById(lv_field_name_material_document).value = it_MDI_output_material_document_item[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDI_output_material_document_item[lv_counter].fiscal_year;
@@ -1441,7 +1461,7 @@ function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_set_field_property_D()
 {
@@ -1490,7 +1510,7 @@ function MDH_set_field_property_D()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_set_field_property_D()
 {
@@ -1555,7 +1575,7 @@ function MDI_set_field_property_D()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_C(iv_tenant)
 {
@@ -1607,7 +1627,7 @@ function MDH_copy_screen_input_C(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_C(iv_tenant)
 {
@@ -1646,7 +1666,7 @@ function MDI_copy_screen_input_C(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            lt_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -1671,7 +1691,7 @@ function MDI_copy_screen_input_C(iv_tenant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_output_screen_C(it_MDH_output_material_document_header)
 {
@@ -1685,7 +1705,9 @@ function MDH_copy_output_screen_C(it_MDH_output_material_document_header)
         lv_field_name_header_reference = '',
         lv_field_name_header_text = '',
         lv_field_name_material_document_reverse = '',
-        lv_field_name_fiscal_year_reverse = '';
+        lv_field_name_fiscal_year_reverse = '',
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
     for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
     {
@@ -1699,7 +1721,9 @@ function MDH_copy_output_screen_C(it_MDH_output_material_document_header)
             lv_field_name_header_reference = 'MDH_header_reference' + (lv_counter + 1);
             lv_field_name_header_text = 'MDH_header_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDH_material_document_reverse' + (lv_counter + 1);
-            lv_field_name_fiscal_year_reverse = 'MDH_fiscal_year_reverse' + (lv_counter + 1); 
+            lv_field_name_fiscal_year_reverse = 'MDH_fiscal_year_reverse' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MDH_system_field_message_type'  + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MDH_system_field_message_description'   + (lv_counter + 1);
 
             document.getElementById(lv_field_name_material_document).value = it_MDH_output_material_document_header[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDH_output_material_document_header[lv_counter].fiscal_year;
@@ -1728,7 +1752,7 @@ function MDH_copy_output_screen_C(it_MDH_output_material_document_header)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-
+// Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
 {
@@ -1746,9 +1770,11 @@ function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
         lv_field_name_item_text = '',
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
-        lv_field_name_item_reverse = '';
+        lv_field_name_item_reverse = '',
+        lv_field_name_system_field_message_type = '',
+        lv_field_name_system_field_message_description = '';
 
-    for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
+    for (lv_counter = 0; lv_counter < 8; lv_counter = lv_counter + 1)
     {
         if (lv_counter < it_MDI_output_material_document_item.length)
         {
@@ -1764,7 +1790,9 @@ function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
-            lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1); 
+            lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);
+            lv_field_name_system_field_message_type = 'MDI_system_field_message_type'  + (lv_counter + 1);
+            lv_field_name_system_field_message_description = 'MDI_system_field_message_description'   + (lv_counter + 1);             
 
             document.getElementById(lv_field_name_material_document).value = it_MDI_output_material_document_item[lv_counter].material_document;
             document.getElementById(lv_field_name_fiscal_year).value = it_MDI_output_material_document_item[lv_counter].fiscal_year;
@@ -1795,9 +1823,9 @@ function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
 }
 
 
-//----------------------------------------------------------------------------//
-
-//----------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240700
+//--------------------------------------------------------------------------------------------------------------------//
 function submitForm(event){
     event.preventDefault();
 //    console.log(lt_MG_input_material_general[1].material_description.value);

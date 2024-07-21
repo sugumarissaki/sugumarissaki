@@ -1,3 +1,5 @@
+<!-- Version 20240700 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,9 +39,9 @@
 <!-- Material General -->
         <table>
             <tr>        
-                <td><h2 style="color:black;">General</h2></td>
                 <td><button id="b_MG_set_material_general_hide" onclick="MG_set_material_general_hide()">-</button></td>
                 <td><button id="b_MG_set_material_general_unhide" onclick="MG_set_material_general_unhide()" disabled>+</button></td>
+                <td><h2 style="color:black;">General</h2></td>
             </tr>
         </table>
         <table id="t_MG_material_general" style="display:table">
@@ -88,16 +90,51 @@
                 <td><input type="text" id="MG_system_field_message_type4" style="width:100px" disabled></td>
                 <td><input type="text" id="MG_system_field_message_description4" style="width:300px" disabled></td>
             </tr>
-                        
+            <tr>
+                <td><input type="text" id="MG_material5" style="width:100px"></td>
+                <td><input type="text" id="MG_material_type5" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_description5" disabled></td>
+                <td><input type="text" id="MG_base_UOM5" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_group5" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_type5" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_description5" style="width:300px" disabled>
+            </tr>                
+            <tr>
+                <td><input type="text" id="MG_material6" style="width:100px" ></td>
+                <td><input type="text" id="MG_material_type6" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_description6" disabled></td>
+                <td><input type="text" id="MG_base_UOM6" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_group6" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_type6" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_description6" style="width:300px" disabled></td>
+            </tr> 
+            <tr>
+                <td><input type="text" id="MG_material7" style="width:100px" ></td>
+                <td><input type="text" id="MG_material_type7" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_description7" disabled></td>
+                <td><input type="text" id="MG_base_UOM7" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_group7" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_type7" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_description7" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MG_material8" style="width:100px" ></td>
+                <td><input type="text" id="MG_material_type8" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_description8" disabled></td>
+                <td><input type="text" id="MG_base_UOM8" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_material_group8" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_type8" style="width:100px" disabled></td>
+                <td><input type="text" id="MG_system_field_message_description8" style="width:300px" disabled></td>
+            </tr>                        
         </table>
 
 
 <!-- Material Plant -->
         <table>
             <tr>        
-                <td><h2 style="color:black;">Plant</h2></td>
                 <td><button id="b_MP_material_plant_hide" onclick="MP_set_material_plant_hide()">-</button></td>
                 <td><button id="b_MP_material_plant_unhide" onclick="MP_set_material_plant_unhide()" disabled>+</button></td>
+                <td><h2 style="color:black;">Plant</h2></td>                
             </tr>
         </table>
         <table id="t_MP_material_plant" style="display:table">
@@ -139,15 +176,47 @@
                 <td><input type="text" id="MP_system_field_message_type4" style="width:100px" disabled></td>
                 <td><input type="text" id="MP_system_field_message_description4" style="width:300px" disabled></td>
             </tr>
+            <tr>
+                <td><input type="text" id="MP_material5" style="width:100px" ></td>
+                <td><input type="text" id="MP_plant5" style="width:100px" ></td>
+                <td><input type="text" id="MP_reorder_point5" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_moving_average_price5" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_type5" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_description5" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MP_material6" style="width:100px" ></td>
+                <td><input type="text" id="MP_plant6" style="width:100px" ></td>
+                <td><input type="text" id="MP_reorder_point6" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_moving_average_price6" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_type6" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_description6" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MP_material7" style="width:100px" ></td>
+                <td><input type="text" id="MP_plant7" style="width:100px" ></td>
+                <td><input type="text" id="MP_reorder_point7" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_moving_average_price7" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_type7" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_description7" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MP_material8" style="width:100px" ></td>
+                <td><input type="text" id="MP_plant8" style="width:100px" ></td>
+                <td><input type="text" id="MP_reorder_point8" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_moving_average_price8" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_type8" style="width:100px" disabled></td>
+                <td><input type="text" id="MP_system_field_message_description8" style="width:300px" disabled></td>
+            </tr>            
         </table>
 
 
 <!-- Material Storage Location -->
         <table>
             <tr>        
-                <td><h2 style="color:black;">Storage Location</h2></td>
                 <td><button id="b_MP_material_storage_location_hide" onclick="MSL_set_material_storage_location_hide()">-</button></td>
                 <td><button id="b_MP_material_storage_location_unhide" onclick="MSL_set_material_storage_location_unhide()" disabled>+</button></td>
+                <td><h2 style="color:black;">Storage Location</h2></td>                
             </tr>
         </table>
         <table id="t_MSL_material_storage_location" style="display:table">
@@ -189,6 +258,38 @@
                 <td><input type="text" id="MSL_system_field_message_type4" style="width:100px" disabled></td>
                 <td><input type="text" id="MSL_system_field_message_description4" style="width:300px" disabled></td>
             </tr>
+            <tr>
+                <td><input type="text" id="MSL_material5" style="width:100px" ></td>
+                <td><input type="text" id="MSL_plant5" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_location5" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_bin5" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_type5" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_description5" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MSL_material6" style="width:100px" ></td>
+                <td><input type="text" id="MSL_plant6" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_location6" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_bin6" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_type6" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_description6" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MSL_material7" style="width:100px" ></td>
+                <td><input type="text" id="MSL_plant7" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_location7" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_bin7" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_type7" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_description7" style="width:300px" disabled></td>
+            </tr>
+            <tr>
+                <td><input type="text" id="MSL_material8" style="width:100px" ></td>
+                <td><input type="text" id="MSL_plant8" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_location8" style="width:100px" ></td>
+                <td><input type="text" id="MSL_storage_bin8" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_type8" style="width:100px" disabled></td>
+                <td><input type="text" id="MSL_system_field_message_description8" style="width:300px" disabled></td>
+            </tr>            
         </table>
         
         <table>
