@@ -1,12 +1,15 @@
-//--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
-//--------------------------------------------------------------------------------------------------------------------//
-var lt_MDH_material_document_header = 
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_MDH_material_document_header = 
 [
     {
         tenant : '',
         material_document : '',
         fiscal_year : '',
+
         material_document_type : '',
         document_date : '',
         posting_date : '',
@@ -19,53 +22,21 @@ var lt_MDH_material_document_header =
     }
 ];
 
-var lt_MDH_input_material_document_header = 
-[
-    {
-        tenant : '',
-        material_document : '',
-        fiscal_year : '',
-        material_document_type : '',
-        document_date : '',
-        posting_date : '',
-        header_reference : '',
-        header_text : '',
-        material_document_reverse : '',
-        fiscal_year_reverse : '',        
-        system_field_message_type : '',
-        system_field_message_description : ''
-    }
-];
-
-var lt_MDH_output_material_document_header = 
-[
-    {
-        tenant : '',
-        material_document : '',
-        fiscal_year : '',
-        material_document_type : '',
-        document_date : '',
-        posting_date : '',
-        header_reference : '',
-        header_text : '',
-        material_document_reverse : '',
-        fiscal_year_reverse : '',        
-        system_field_message_type : '',
-        system_field_message_description : ''
-    }
-];
+var tt_MDH_input_material_document_header = structuredClone(tt_MDH_material_document_header),
+    tt_MDH_output_material_document_header = structuredClone(tt_MDH_material_document_header);
 
 
-//--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
-//--------------------------------------------------------------------------------------------------------------------//
-var lt_MDI_material_document_item = 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_MDI_material_document_item = 
 [
     {
         tenant : '',
         material_document : '',
         fiscal_year : '',
         item : '',
+
         material : '',
         plant : '',
         storage_location : '',
@@ -73,6 +44,17 @@ var lt_MDI_material_document_item =
         entry_UOM : '',
         material_movement_type : '',
         item_text : '',
+        purchase_order : '',
+        purchase_order_item : '',
+        sales_order : '',
+        sales_order_item : '',
+        unrestricted_stock_before_post : '',
+        restricted_stock_before_post : '',
+        reserved_stock_before_post : '',
+        blocked_stock_before_post : '',
+        quality_in_stock_before_post : '',
+        purchase_order_goods_receipt_quantity_before_post : '',
+        sales_order_goods_issue_quantity_before_post : '',
         material_document_reverse : '',
         fiscal_year_reverse : '',
         item_reverse : '',
@@ -81,49 +63,142 @@ var lt_MDI_material_document_item =
     }
 ];
 
-var lt_MDI_input_material_document_item = 
-[
-    {
-        tenant : '',
-        material_document : '',
-        fiscal_year : '',
-        item : '',
-        material : '',
-        plant : '',
-        storage_location : '',
-        quantity : '',
-        entry_UOM : '',
-        material_movement_type : '',
-        item_text : '',
-        material_document_reverse : '',
-        fiscal_year_reverse : '',
-        item_reverse : '',
-        system_field_message_type : '',
-        system_field_message_description : ''
-    }
-];
+var tt_MDI_input_material_document_item = structuredClone(tt_MDI_material_document_item),
+    tt_MDI_output_material_document_item = structuredClone(tt_MDI_material_document_item);
 
-var lt_MDI_output_material_document_item = 
-[
-    {
-        tenant : '',
-        material_document : '',
-        fiscal_year : '',
-        item : '',
-        material : '',
-        plant : '',
-        storage_location : '',
-        quantity : '',
-        entry_UOM : '',
-        material_movement_type : '',
-        item_text : '',
-        material_document_reverse : '',
-        fiscal_year_reverse : '',
-        item_reverse : '',
-        system_field_message_type : '',
-        system_field_message_description : ''
-    }
-];
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_MSL_material_storage_location = 
+    [
+        {
+            tenant : '',
+            material : '',
+            plant : '',
+            storage_location : '',
+
+            storage_bin : '',
+            unrestricted_stock : '',
+            restricted_stock : '',
+            reserved_stock : '',
+            blocked_stock : '',
+            quality_in_stock : '',
+            last_material_document : '',
+            last_fiscal_year : '',
+            last_item : '',
+            system_field_message_type : '',
+            system_field_message_description : ''
+        }
+    ];
+
+    var tt_MSL_input_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+        tt_MSL_output_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+        tt_MSL_output_material_storage_location_copy = structuredClone(tt_MSL_material_storage_location);
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_MMT_material_movement_type = 
+    [
+        {
+            tenant : '',
+            material_movement_type : '',
+            
+            material_movement_type_description : '',
+            material_movement_type_reverse : '',
+            system_field_message_type : '',
+            system_field_message_description : ''
+        }
+    ];
+
+    var tt_MMT_input_material_movement_type = structuredClone(tt_MMT_material_movement_type),
+        tt_MMT_output_material_movement_type = structuredClone(tt_MMT_material_movement_type);
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_POI_purchase_order_header = 
+    [
+        {
+            tenant : '',
+            purchase_order : '',
+            
+            vendor : '',
+        }
+    ];
+
+var tt_POI_input_purchase_order_header = structuredClone(tt_POI_purchase_order_header),    
+    tt_POI_output_purchase_order_header = structuredClone(tt_POI_purchase_order_header);
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_POI_purchase_order_item = 
+    [
+        {
+            tenant : '',
+            purchase_order : '',
+            item : '',
+            
+            material : '',
+            plant : '',
+            storage_location : '',
+            purchase_order_quantity : '',
+            purchase_UOM : '',
+            goods_receipt_quantity : ''
+        }
+    ];
+
+
+    var tt_POI_input_purchase_order_item = structuredClone(tt_POI_purchase_order_item),    
+    tt_POI_output_purchase_order_item = structuredClone(tt_POI_purchase_order_item);
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_SOI_sales_order_header = 
+    [
+        {
+            tenant : '',
+            sales_order : '',
+            
+            customer : '',
+        }
+    ];
+
+var tt_SOI_input_sales_order_header = structuredClone(tt_SOI_sales_order_header),    
+    tt_SOI_output_sales_order_header = structuredClone(tt_SOI_sales_order_header);
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_SOI_sales_order_item = 
+    [
+        {
+            tenant : '',
+            sales_order : '',
+            item : '',
+            
+            material : '',
+            plant : '',
+            storage_location : '',
+            sales_order_quantity : '',
+            sales_UOM : '',
+            goods_issue_quantity : ''
+        }
+    ];
+
+    var tt_SOI_input_sales_order_item = structuredClone(tt_SOI_sales_order_item),    
+    tt_SOI_output_sales_order_item = structuredClone(tt_SOI_sales_order_item);
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -204,20 +279,25 @@ function MD_set_field_property_C()
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_C()
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header),
+        ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     lv_tenant = document.getElementById('MD_tenant').value;
 
-    MDH_copy_screen_input_C(lv_tenant);
-    MDI_copy_screen_input_C(lv_tenant);
+    ot_MDH_input_material_document_header = MDH_copy_screen_input_C(lv_tenant);
+    ot_MDI_input_material_document_item = MDI_copy_screen_input_C(lv_tenant);
+
+    return [ot_MDH_input_material_document_header, ot_MDI_input_material_document_item];
 }
 
 
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
-function MD_copy_output_screen_C()
+function MD_copy_output_screen_C(it_MDH_output_material_document_header, it_MDI_output_material_document_item)
 {
-    MDH_copy_output_screen_C(lt_MDH_output_material_document_header);
-    MDI_copy_output_screen_C(lt_MDI_output_material_document_item);
+    MDH_copy_output_screen_C(it_MDH_output_material_document_header);
+    MDI_copy_output_screen_C(it_MDI_output_material_document_item);
 }
 
 
@@ -250,24 +330,30 @@ function MD_set_field_property_R()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_R()
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header),
+        ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     lv_tenant = document.getElementById('MD_tenant').value;
 
-    MDH_copy_screen_input_R(lv_tenant);
-    MDI_copy_screen_input_R(lv_tenant);
+    ot_MDH_input_material_document_header = MDH_copy_screen_input_R(lv_tenant);
+    ot_MDI_input_material_document_item = MDI_copy_screen_input_R(lv_tenant);
+
+    return [ot_MDH_input_material_document_header, ot_MDI_input_material_document_item];    
 }
 
 
+
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MD_copy_output_screen_R()
+function MD_copy_output_screen_R(it_MDH_output_material_document_header, it_MDI_output_material_document_item)
 {
-    MDH_copy_output_screen_R(lt_MDH_output_material_document_header);
-    MDI_copy_output_screen_R(lt_MDI_output_material_document_item);
+    MDH_copy_output_screen_R(it_MDH_output_material_document_header);
+    MDI_copy_output_screen_R(it_MDI_output_material_document_item);
 }
 
 
@@ -300,24 +386,29 @@ function MD_set_field_property_U()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_U()
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header),
+        ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     lv_tenant = document.getElementById('MD_tenant').value;
 
-    MDH_copy_screen_input_U(lv_tenant);
-    MDI_copy_screen_input_U(lv_tenant);
+    ot_MDH_input_material_document_header = MDH_copy_screen_input_U(lv_tenant);
+    ot_MDI_input_material_document_item = MDI_copy_screen_input_U(lv_tenant);
+
+    return [ot_MDH_input_material_document_header, ot_MDI_input_material_document_item];
 }
 
 
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
-function MD_copy_output_screen_U()
+function MD_copy_output_screen_U(it_MDH_output_material_document_header, it_MDI_output_material_document_item)
 {
-    MDH_copy_output_screen_U(lt_MDH_output_material_document_header);
-    MDI_copy_output_screen_U(lt_MDI_output_material_document_item);
+    MDH_copy_output_screen_U(it_MDH_output_material_document_header);
+    MDI_copy_output_screen_U(it_MDI_output_material_document_item);
 }
 
 
@@ -354,20 +445,25 @@ function MD_set_field_property_D()
 //--------------------------------------------------------------------------------------------------------------------//
 function MD_copy_screen_input_D()
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header),
+        ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     lv_tenant = document.getElementById('MD_tenant').value;
 
-    MDH_copy_screen_input_D(lv_tenant);
-    MDI_copy_screen_input_D(lv_tenant);
+    ot_MDH_input_material_document_header = MDH_copy_screen_input_D(lv_tenant);
+    ot_MDI_input_material_document_item = MDI_copy_screen_input_D(lv_tenant);
+
+    return [ot_MDH_input_material_document_header, ot_MDI_input_material_document_item]; 
 }
 
 
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240700
 //--------------------------------------------------------------------------------------------------------------------//
-function MD_copy_output_screen_D()
+function MD_copy_output_screen_D(it_MDH_output_material_document_header, it_MDI_output_material_document_item)
 {
-    MDH_copy_output_screen_D(lt_MDH_output_material_document_header);
-    MDI_copy_output_screen_D(lt_MDI_output_material_document_item);
+    MDH_copy_output_screen_D(it_MDH_output_material_document_header);
+    MDI_copy_output_screen_D(it_MDI_output_material_document_item);
 }
 
 
@@ -469,6 +565,22 @@ function MDI_set_field_property_C()
         lv_field_name = 'MDI_item_text' + lv_counter;        
         var MDI_item_text = document.getElementById(lv_field_name);
         MDI_item_text.disabled = false;          
+
+        lv_field_name = 'MDI_purchase_order' + lv_counter;        
+        var MDI_purchase_order = document.getElementById(lv_field_name);
+        MDI_purchase_order.disabled = false;  
+
+        lv_field_name = 'MDI_purchase_order_item' + lv_counter;        
+        var MDI_purchase_order_item = document.getElementById(lv_field_name);
+        MDI_purchase_order_item.disabled = false;  
+
+        lv_field_name = 'MDI_sales_order' + lv_counter;        
+        var MDI_sales_order = document.getElementById(lv_field_name);
+        MDI_sales_order.disabled = false;  
+
+        lv_field_name = 'MDI_sales_order_item' + lv_counter;        
+        var MDI_sales_order_item = document.getElementById(lv_field_name);
+        MDI_sales_order_item.disabled = false;  
 
         lv_field_name = 'MDI_material_document_reverse' + lv_counter;        
         var MDI_material_document_reverse = document.getElementById(lv_field_name);
@@ -584,6 +696,22 @@ function MDI_set_field_property_R()
         var MDI_item_text = document.getElementById(lv_field_name);
         MDI_item_text.disabled = true;          
 
+        lv_field_name = 'MDI_purchase_order' + lv_counter;        
+        var MDI_purchase_order = document.getElementById(lv_field_name);
+        MDI_purchase_order.disabled = true;  
+
+        lv_field_name = 'MDI_purchase_order_item' + lv_counter;        
+        var MDI_purchase_order_item = document.getElementById(lv_field_name);
+        MDI_purchase_order_item.disabled = true;  
+
+        lv_field_name = 'MDI_sales_order' + lv_counter;        
+        var MDI_sales_order = document.getElementById(lv_field_name);
+        MDI_sales_order.disabled = true;  
+
+        lv_field_name = 'MDI_sales_order_item' + lv_counter;        
+        var MDI_sales_order_item = document.getElementById(lv_field_name);
+        MDI_sales_order_item.disabled = true;          
+
         lv_field_name = 'MDI_material_document_reverse' + lv_counter;        
         var MDI_material_document_reverse = document.getElementById(lv_field_name);
         MDI_material_document_reverse.disabled = true;  
@@ -600,10 +728,12 @@ function MDI_set_field_property_R()
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_R(iv_tenant)
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -631,7 +761,7 @@ function MDH_copy_screen_input_R(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            ot_MDH_input_material_document_header[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -648,14 +778,18 @@ function MDH_copy_screen_input_R(iv_tenant)
             };
         }
     }
+
+    return ot_MDH_input_material_document_header;   
 }
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_R(iv_tenant)
 {
+    var ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -668,6 +802,10 @@ function MDI_copy_screen_input_R(iv_tenant)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '';
@@ -684,6 +822,10 @@ function MDI_copy_screen_input_R(iv_tenant)
         lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
         lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
         lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+        lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+        lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+        lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+        lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);        
         lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
         lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1);
         lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);        
@@ -691,7 +833,7 @@ function MDI_copy_screen_input_R(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDI_input_material_document_item[lv_counter] =
+            ot_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -704,6 +846,10 @@ function MDI_copy_screen_input_R(iv_tenant)
             entry_UOM : '',
             material_movement_type : '',
             item_text : '',
+            purchase_order : '',
+            purchase_order_item : '',
+            sales_order : '',
+            sales_order_item : '',            
             material_document_reverse : '',
             fiscal_year_reverse : '',
             item_reverse : '',
@@ -712,7 +858,10 @@ function MDI_copy_screen_input_R(iv_tenant)
             };
         }
     }
+
+    return ot_MDI_input_material_document_item;
 }
+
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -793,6 +942,10 @@ function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '',
@@ -813,6 +966,10 @@ function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
             lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
             lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+            lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+            lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+            lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+            lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);            
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
             lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);
@@ -829,6 +986,10 @@ function MDI_copy_output_screen_R(it_MDI_output_material_document_item)
             document.getElementById(lv_field_name_entry_UOM).value = it_MDI_output_material_document_item[lv_counter].entry_UOM;
             document.getElementById(lv_field_name_material_movement_type).value = it_MDI_output_material_document_item[lv_counter].material_movement_type;
             document.getElementById(lv_field_name_item_text).value = it_MDI_output_material_document_item[lv_counter].item_text;
+            document.getElementById(lv_field_name_purchase_order).value = it_MDI_output_material_document_item[lv_counter].purchase_order;
+            document.getElementById(lv_field_name_purchase_order_item).value = it_MDI_output_material_document_item[lv_counter].purchase_order_item;
+            document.getElementById(lv_field_name_sales_order).value = it_MDI_output_material_document_item[lv_counter].sales_order;
+            document.getElementById(lv_field_name_sales_order_item).value = it_MDI_output_material_document_item[lv_counter].sales_order_item;
             document.getElementById(lv_field_name_material_document_reverse).value = it_MDI_output_material_document_item[lv_counter].material_document_reverse;
             document.getElementById(lv_field_name_fiscal_year_reverse).value = it_MDI_output_material_document_item[lv_counter].fiscal_year_reverse;
             document.getElementById(lv_field_name_item_reverse).value = it_MDI_output_material_document_item[lv_counter].item_reverse;
@@ -947,6 +1108,22 @@ function MDI_set_field_property_U()
         var MDI_item_text = document.getElementById(lv_field_name);
         MDI_item_text.disabled = false;          
 
+        lv_field_name = 'MDI_purchase_order' + lv_counter;        
+        var MDI_purchase_order = document.getElementById(lv_field_name);
+        MDI_purchase_order.disabled = true;  
+
+        lv_field_name = 'MDI_purchase_order_item' + lv_counter;        
+        var MDI_purchase_order_item = document.getElementById(lv_field_name);
+        MDI_purchase_order_item.disabled = true;  
+
+        lv_field_name = 'MDI_sales_order' + lv_counter;        
+        var MDI_sales_order = document.getElementById(lv_field_name);
+        MDI_sales_order.disabled = true;  
+
+        lv_field_name = 'MDI_sales_order_item' + lv_counter;        
+        var MDI_sales_order_item = document.getElementById(lv_field_name);
+        MDI_sales_order_item.disabled = true;   
+
         lv_field_name = 'MDI_material_document_reverse' + lv_counter;        
         var MDI_material_document_reverse = document.getElementById(lv_field_name);
         MDI_material_document_reverse.disabled = true;  
@@ -967,6 +1144,8 @@ function MDI_set_field_property_U()
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_U(iv_tenant)
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -994,14 +1173,14 @@ function MDH_copy_screen_input_U(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            ot_MDH_input_material_document_header[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
             fiscal_year : document.getElementById(lv_field_name_fiscal_year).value,
-            material_document_type : '',
-            document_date : '',
-            posting_date : '',
+            material_document_type : document.getElementById(lv_field_name_material_document_type).value,
+            document_date : document.getElementById(lv_field_name_document_date).value,
+            posting_date : document.getElementById(lv_field_name_posting_date).value,
             header_reference : document.getElementById(lv_field_name_header_reference).value,
             header_text : document.getElementById(lv_field_name_header_text).value,
             material_document_reverse : '',
@@ -1011,6 +1190,8 @@ function MDH_copy_screen_input_U(iv_tenant)
             };
         }
     }
+
+    return ot_MDH_input_material_document_header;
 }
 
 
@@ -1019,6 +1200,8 @@ function MDH_copy_screen_input_U(iv_tenant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_U(iv_tenant)
 {
+    var ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -1031,6 +1214,10 @@ function MDI_copy_screen_input_U(iv_tenant)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '';
@@ -1047,6 +1234,10 @@ function MDI_copy_screen_input_U(iv_tenant)
         lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
         lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
         lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+        lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+        lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+        lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+        lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);        
         lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
         lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1);
         lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);        
@@ -1054,19 +1245,23 @@ function MDI_copy_screen_input_U(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDI_input_material_document_item[lv_counter] =
+            ot_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
             fiscal_year : document.getElementById(lv_field_name_fiscal_year).value,
             item : document.getElementById(lv_field_name_item).value,
-            material : '',
-            plant : '',
-            storage_location : '',
-            quantity : '',
-            entry_UOM : '',
-            material_movement_type : '',
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            storage_location : document.getElementById(lv_field_name_storage_location).value,
+            quantity : document.getElementById(lv_field_name_quantity).value,
+            entry_UOM : document.getElementById(lv_field_name_entry_UOM).value,
+            material_movement_type : document.getElementById(lv_field_name_material_movement_type).value,
             item_text : document.getElementById(lv_field_name_item_text).value,
+            purchase_order : '',
+            purchase_order_item : '',
+            sales_order : '',
+            sales_order_item : '',            
             material_document_reverse : '',
             fiscal_year_reverse : '',
             item_reverse : '',
@@ -1075,6 +1270,8 @@ function MDI_copy_screen_input_U(iv_tenant)
             };
         }
     }
+
+    return ot_MDI_input_material_document_item;
 }
 
 
@@ -1156,13 +1353,17 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = ''
         lv_field_name_system_field_message_type = '',
         lv_field_name_system_field_message_description = '';
 
-    for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
+    for (lv_counter = 0; lv_counter < 8; lv_counter = lv_counter + 1)
     {
         if (lv_counter < it_MDI_output_material_document_item.length)
         {
@@ -1176,6 +1377,10 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
             lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
             lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+            lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+            lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+            lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+            lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);            
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
             lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);
@@ -1192,6 +1397,10 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
             document.getElementById(lv_field_name_entry_UOM).value = it_MDI_output_material_document_item[lv_counter].entry_UOM;
             document.getElementById(lv_field_name_material_movement_type).value = it_MDI_output_material_document_item[lv_counter].material_movement_type;
             document.getElementById(lv_field_name_item_text).value = it_MDI_output_material_document_item[lv_counter].item_text;
+            document.getElementById(lv_field_name_purchase_order).value = it_MDI_output_material_document_item[lv_counter].purchase_order;
+            document.getElementById(lv_field_name_purchase_order_item).value = it_MDI_output_material_document_item[lv_counter].purchase_order_item;
+            document.getElementById(lv_field_name_sales_order).value = it_MDI_output_material_document_item[lv_counter].sales_order;
+            document.getElementById(lv_field_name_sales_order_item).value = it_MDI_output_material_document_item[lv_counter].sales_order_item;
             document.getElementById(lv_field_name_material_document_reverse).value = it_MDI_output_material_document_item[lv_counter].material_document_reverse;
             document.getElementById(lv_field_name_fiscal_year_reverse).value = it_MDI_output_material_document_item[lv_counter].fiscal_year_reverse;
             document.getElementById(lv_field_name_item_reverse).value = it_MDI_output_material_document_item[lv_counter].item_reverse;
@@ -1216,6 +1425,8 @@ function MDI_copy_output_screen_U(it_MDI_output_material_document_item)
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_D(iv_tenant)
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -1243,16 +1454,16 @@ function MDH_copy_screen_input_D(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            ot_MDH_input_material_document_header[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
             fiscal_year : document.getElementById(lv_field_name_fiscal_year).value,
-            material_document_type : '',
-            document_date : '',
-            posting_date : '',
-            header_reference : '',
-            header_text : '',
+            material_document_type : document.getElementById(lv_field_name_material_document_type).value,
+            document_date : document.getElementById(lv_field_name_document_date).value,
+            posting_date : document.getElementById(lv_field_name_posting_date).value,
+            header_reference : document.getElementById(lv_field_name_header_reference).value,
+            header_text : document.getElementById(lv_field_name_header_text).value,
             material_document_reverse : document.getElementById(lv_field_name_material_document_reverse).value,
             fiscal_year_reverse : document.getElementById(lv_field_name_fiscal_year_reverse).value,
             system_field_message_type : '',
@@ -1260,6 +1471,8 @@ function MDH_copy_screen_input_D(iv_tenant)
             };
         }
     }
+
+    return ot_MDH_input_material_document_header; 
 }
 
 
@@ -1268,6 +1481,8 @@ function MDH_copy_screen_input_D(iv_tenant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_D(iv_tenant)
 {
+    var ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -1280,6 +1495,10 @@ function MDI_copy_screen_input_D(iv_tenant)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '';
@@ -1296,6 +1515,10 @@ function MDI_copy_screen_input_D(iv_tenant)
         lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
         lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
         lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+        lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+        lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+        lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+        lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);        
         lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
         lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1);
         lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);        
@@ -1303,19 +1526,23 @@ function MDI_copy_screen_input_D(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDI_input_material_document_item[lv_counter] =
+            ot_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
             fiscal_year : document.getElementById(lv_field_name_fiscal_year).value,
             item : document.getElementById(lv_field_name_item).value,
-            material : '',
-            plant : '',
-            storage_location : '',
-            quantity : '',
-            entry_UOM : '',
-            material_movement_type : '',
-            item_text : '',
+            material : document.getElementById(lv_field_name_material).value,
+            plant : document.getElementById(lv_field_name_plant).value,
+            storage_location : document.getElementById(lv_field_name_storage_location).value,
+            quantity : document.getElementById(lv_field_name_quantity).value,
+            entry_UOM : document.getElementById(lv_field_name_entry_UOM).value,
+            material_movement_type : document.getElementById(lv_field_name_material_movement_type).value,
+            item_text : document.getElementById(lv_field_name_item_text).value,
+            purchase_order : document.getElementById(lv_field_name_purchase_order).value,
+            purchase_order_item : document.getElementById(lv_field_name_purchase_order_item).value,
+            sales_order : document.getElementById(lv_field_name_sales_order).value,
+            sales_order_item : document.getElementById(lv_field_name_sales_order_item).value,            
             material_document_reverse : document.getElementById(lv_field_name_material_document_reverse).value,
             fiscal_year_reverse : document.getElementById(lv_field_name_fiscal_year_reverse).value,
             item_reverse : document.getElementById(lv_field_name_item_reverse).value,
@@ -1324,6 +1551,8 @@ function MDI_copy_screen_input_D(iv_tenant)
             };
         }
     }
+
+    return ot_MDI_input_material_document_item;
 }
 
 
@@ -1405,13 +1634,17 @@ function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '',
         lv_field_name_system_field_message_type = '',
         lv_field_name_system_field_message_description = '';
 
-    for (lv_counter = 0; lv_counter < 2; lv_counter = lv_counter + 1)
+    for (lv_counter = 0; lv_counter < 8; lv_counter = lv_counter + 1)
     {
         if (lv_counter < it_MDI_output_material_document_item.length)
         {
@@ -1425,6 +1658,10 @@ function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
             lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
             lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+            lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+            lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+            lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+            lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);            
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
             lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1); 
@@ -1441,6 +1678,10 @@ function MDI_copy_output_screen_D(it_MDI_output_material_document_item)
             document.getElementById(lv_field_name_entry_UOM).value = it_MDI_output_material_document_item[lv_counter].entry_UOM;
             document.getElementById(lv_field_name_material_movement_type).value = it_MDI_output_material_document_item[lv_counter].material_movement_type;
             document.getElementById(lv_field_name_item_text).value = it_MDI_output_material_document_item[lv_counter].item_text;
+            document.getElementById(lv_field_name_purchase_order).value = it_MDI_output_material_document_item[lv_counter].purchase_order;
+            document.getElementById(lv_field_name_purchase_order_item).value = it_MDI_output_material_document_item[lv_counter].purchase_order_item;
+            document.getElementById(lv_field_name_sales_order).value = it_MDI_output_material_document_item[lv_counter].sales_order;
+            document.getElementById(lv_field_name_sales_order_item).value = it_MDI_output_material_document_item[lv_counter].sales_order_item;            
             document.getElementById(lv_field_name_material_document_reverse).value = it_MDI_output_material_document_item[lv_counter].material_document_reverse;
             document.getElementById(lv_field_name_fiscal_year_reverse).value = it_MDI_output_material_document_item[lv_counter].fiscal_year_reverse;
             document.getElementById(lv_field_name_item_reverse).value = it_MDI_output_material_document_item[lv_counter].item_reverse;
@@ -1559,6 +1800,22 @@ function MDI_set_field_property_D()
         var MDI_item_text = document.getElementById(lv_field_name);
         MDI_item_text.disabled = true;          
 
+        lv_field_name = 'MDI_purchase_order' + lv_counter;        
+        var MDI_purchase_order = document.getElementById(lv_field_name);
+        MDI_purchase_order.disabled = true;  
+
+        lv_field_name = 'MDI_purchase_order_item' + lv_counter;        
+        var MDI_purchase_order_item = document.getElementById(lv_field_name);
+        MDI_purchase_order_item.disabled = true;  
+
+        lv_field_name = 'MDI_sales_order' + lv_counter;        
+        var MDI_sales_order = document.getElementById(lv_field_name);
+        MDI_sales_order.disabled = true;  
+
+        lv_field_name = 'MDI_sales_order_item' + lv_counter;        
+        var MDI_sales_order_item = document.getElementById(lv_field_name);
+        MDI_sales_order_item.disabled = true;           
+
         lv_field_name = 'MDI_material_document_reverse' + lv_counter;        
         var MDI_material_document_reverse = document.getElementById(lv_field_name);
         MDI_material_document_reverse.disabled = false;  
@@ -1579,6 +1836,8 @@ function MDI_set_field_property_D()
 //--------------------------------------------------------------------------------------------------------------------//
 function MDH_copy_screen_input_C(iv_tenant)
 {
+    var ot_MDH_input_material_document_header = structuredClone(tt_MDH_input_material_document_header);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -1606,7 +1865,7 @@ function MDH_copy_screen_input_C(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDH_input_material_document_header[lv_counter] =
+            ot_MDH_input_material_document_header[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -1623,6 +1882,8 @@ function MDH_copy_screen_input_C(iv_tenant)
             };
         }
     }
+
+    return ot_MDH_input_material_document_header;   
 }
 
 
@@ -1631,6 +1892,8 @@ function MDH_copy_screen_input_C(iv_tenant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MDI_copy_screen_input_C(iv_tenant)
 {
+    var ot_MDI_input_material_document_item = structuredClone(tt_MDI_input_material_document_item);
+
     var lv_material_document = '',
         lv_counter = 0,
         lv_field_name_material_document = '',
@@ -1643,6 +1906,10 @@ function MDI_copy_screen_input_C(iv_tenant)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '';
@@ -1659,6 +1926,10 @@ function MDI_copy_screen_input_C(iv_tenant)
         lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
         lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
         lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+        lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+        lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+        lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+        lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);
         lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
         lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1);
         lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);        
@@ -1666,7 +1937,7 @@ function MDI_copy_screen_input_C(iv_tenant)
         lv_material_document = document.getElementById(lv_field_name_material_document).value;
         if ( lv_material_document != '')
         {
-            lt_MDI_input_material_document_item[lv_counter] =
+            ot_MDI_input_material_document_item[lv_counter] =
             {
             tenant : iv_tenant,
             material_document : document.getElementById(lv_field_name_material_document).value,
@@ -1679,6 +1950,10 @@ function MDI_copy_screen_input_C(iv_tenant)
             entry_UOM : document.getElementById(lv_field_name_entry_UOM).value,
             material_movement_type : document.getElementById(lv_field_name_material_movement_type).value,
             item_text : document.getElementById(lv_field_name_item_text).value,
+            purchase_order : document.getElementById(lv_field_name_purchase_order).value,
+            purchase_order_item : document.getElementById(lv_field_name_purchase_order_item).value,
+            sales_order : document.getElementById(lv_field_name_sales_order).value,
+            sales_order_item : document.getElementById(lv_field_name_sales_order_item).value,
             material_document_reverse : '',
             fiscal_year_reverse : '',
             item_reverse : '',
@@ -1687,6 +1962,8 @@ function MDI_copy_screen_input_C(iv_tenant)
             };
         }
     }
+
+    return ot_MDI_input_material_document_item;
 }
 
 
@@ -1768,6 +2045,10 @@ function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
         lv_field_name_entry_UOM = '',
         lv_field_name_material_movement_type = '',
         lv_field_name_item_text = '',
+        lv_field_name_purchase_order = '',
+        lv_field_name_purchase_order_item = '',
+        lv_field_name_sales_order = '',
+        lv_field_name_sales_order_item = '',        
         lv_field_name_material_document_reverse = '',
         lv_field_name_fiscal_year_reverse = '',
         lv_field_name_item_reverse = '',
@@ -1788,6 +2069,10 @@ function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
             lv_field_name_entry_UOM = 'MDI_entry_UOM' + (lv_counter + 1);
             lv_field_name_material_movement_type = 'MDI_material_movement_type' + (lv_counter + 1);
             lv_field_name_item_text = 'MDI_item_text' + (lv_counter + 1);
+            lv_field_name_purchase_order = 'MDI_purchase_order' + (lv_counter + 1);
+            lv_field_name_purchase_order_item = 'MDI_purchase_order_item' + (lv_counter + 1);
+            lv_field_name_sales_order = 'MDI_sales_order' + (lv_counter + 1);
+            lv_field_name_sales_order_item = 'MDI_sales_order_item' + (lv_counter + 1);            
             lv_field_name_material_document_reverse = 'MDI_material_document_reverse' + (lv_counter + 1);
             lv_field_name_fiscal_year_reverse = 'MDI_fiscal_year_reverse' + (lv_counter + 1); 
             lv_field_name_item_reverse = 'MDI_item_reverse' + (lv_counter + 1);
@@ -1804,6 +2089,10 @@ function MDI_copy_output_screen_C(it_MDI_output_material_document_item)
             document.getElementById(lv_field_name_entry_UOM).value = it_MDI_output_material_document_item[lv_counter].entry_UOM;
             document.getElementById(lv_field_name_material_movement_type).value = it_MDI_output_material_document_item[lv_counter].material_movement_type;
             document.getElementById(lv_field_name_item_text).value = it_MDI_output_material_document_item[lv_counter].item_text;
+            document.getElementById(lv_field_name_purchase_order).value = it_MDI_output_material_document_item[lv_counter].purchase_order;
+            document.getElementById(lv_field_name_purchase_order_item).value = it_MDI_output_material_document_item[lv_counter].purchase_order_item;
+            document.getElementById(lv_field_name_sales_order).value = it_MDI_output_material_document_item[lv_counter].sales_order;
+            document.getElementById(lv_field_name_sales_order_item).value = it_MDI_output_material_document_item[lv_counter].sales_order_item;
             document.getElementById(lv_field_name_material_document_reverse).value = it_MDI_output_material_document_item[lv_counter].material_document_reverse;
             document.getElementById(lv_field_name_fiscal_year_reverse).value = it_MDI_output_material_document_item[lv_counter].fiscal_year_reverse;
             document.getElementById(lv_field_name_item_reverse).value = it_MDI_output_material_document_item[lv_counter].item_reverse;

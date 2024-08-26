@@ -1,4 +1,4 @@
-<!-- Version 20240700 -->
+<!-- Version 20240800 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +22,7 @@
 
         <table id="material_document">
             <tr>
-                <td><input type="text" id="MD_tenant"></td>
+                <td><input type="text" id="MD_tenant" autofocus></td>
             </tr>
         </table>        
 
@@ -61,8 +61,8 @@
                 <td><input type="text" id="MDH_material_document_type1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDH_document_date1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDH_posting_date1" style="width:100px" disabled></td>
-                <td><input type="text" id="MDH_header_reference1" disabled></td>
-                <td><input type="text" id="MDH_header_text1" disabled></td>
+                <td><input type="text" id="MDH_header_reference1" style="width:200px" disabled></td>
+                <td><input type="text" id="MDH_header_text1" style="width:200px" disabled></td>
                 <td><input type="text" id="MDH_material_document_reverse1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDH_fiscal_year_reverse1" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDH_system_field_message_type1" style="width:100px" disabled></td>
@@ -74,8 +74,8 @@
                 <td><input type="text" id="MDH_material_document_type2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDH_document_date2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDH_posting_date2" style="width:100px" disabled></td>
-                <td><input type="text" id="MDH_header_reference2" disabled></td>
-                <td><input type="text" id="MDH_header_text2" disabled></td>
+                <td><input type="text" id="MDH_header_reference2" style="width:200px" disabled></td>
+                <td><input type="text" id="MDH_header_text2" style="width:200px" disabled></td>
                 <td><input type="text" id="MDH_material_document_reverse2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDH_fiscal_year_reverse2" style="width:100px" disabled></td>                                 
                 <td><input type="text" id="MDH_system_field_message_type2" style="width:100px" disabled></td>
@@ -104,6 +104,10 @@
                 <td>Entry UOM</td>
                 <td>Mat Mov Type</td>
                 <td>Item Text</td>
+                <td>Pur Ord</td>
+                <td>Pur Ord Item</td>
+                <td>Sales Ord</td>
+                <td>Sales Ord Item</td>
                 <td>Mat Doc Rev</td>
                 <td>Fiscal Year Rev</td>
                 <td>Item Reverse</td>                
@@ -118,7 +122,11 @@
                 <td><input type="text" id="MDI_quantity1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type1" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text1" disabled></td>
+                <td><input type="text" id="MDI_item_text1" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order1" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item1" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order1" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_document_reverse1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse1" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse1" style="width:100px" disabled></td>                                
@@ -135,7 +143,11 @@
                 <td><input type="text" id="MDI_quantity2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type2" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text2" disabled></td>
+                <td><input type="text" id="MDI_item_text2" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order2" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item2" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order2" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item2" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse2" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse2" style="width:100px" disabled></td>                
@@ -152,7 +164,11 @@
                 <td><input type="text" id="MDI_quantity3" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM3" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type3" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text3" disabled></td>
+                <td><input type="text" id="MDI_item_text3" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order3" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item3" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order3" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item3" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse3" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse3" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse3" style="width:100px" disabled></td>                
@@ -169,7 +185,11 @@
                 <td><input type="text" id="MDI_quantity4" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM4" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type4" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text4" disabled></td>
+                <td><input type="text" id="MDI_item_text4" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order4" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item4" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order4" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item4" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse4" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse4" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse4" style="width:100px" disabled></td>                
@@ -186,7 +206,11 @@
                 <td><input type="text" id="MDI_quantity5" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM5" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type5" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text5" disabled></td>
+                <td><input type="text" id="MDI_item_text5" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order5" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item5" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order5" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item5" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse5" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse5" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse5" style="width:100px" disabled></td>                
@@ -203,7 +227,11 @@
                 <td><input type="text" id="MDI_quantity6" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM6" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type6" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text6" disabled></td>
+                <td><input type="text" id="MDI_item_text6" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order6" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item6" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order6" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item6" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse6" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse6" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse6" style="width:100px" disabled></td>                
@@ -220,7 +248,11 @@
                 <td><input type="text" id="MDI_quantity7" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM7" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type7" style="width:100px" disabled></td>
-                <td><input type="text" id="MDI_item_text7" disabled></td>
+                <td><input type="text" id="MDI_item_text7" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order7" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item7" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order7" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item7" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse7" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse7" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse7" style="width:100px" disabled></td>                
@@ -237,7 +269,11 @@
                 <td><input type="text" id="MDI_quantity8" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_entry_UOM8" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_material_movement_type8" style="width:100px"disabled></td>
-                <td><input type="text" id="MDI_item_text8" disabled></td>
+                <td><input type="text" id="MDI_item_text8" style="width:200px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order8" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_purchase_order_item8" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order8" style="width:100px" disabled></td>
+                <td><input type="text" id="MDI_sales_order_item8" style="width:100px" disabled></td>                
                 <td><input type="text" id="MDI_material_document_reverse8" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_fiscal_year_reverse8" style="width:100px" disabled></td>
                 <td><input type="text" id="MDI_item_reverse8" style="width:100px" disabled></td>                
