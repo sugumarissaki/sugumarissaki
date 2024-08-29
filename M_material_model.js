@@ -1,14 +1,13 @@
 /*
-
- 
-    do not allow to delete when material documents already posted
-    data type in seperate file
+    keep data global
     class methods
-    log information message too
+    submit, get, post
 
-
-    check all childs in delete mode   - COMPLETE    
-    check _copy_input_D  - COMPLETE
+    data type in only in model file - COMPLETE
+    log (general, plant, storage location)  - COMPLETE 
+    do not allow to delete when material documents already posted - COMPLETE     
+    check all childs in delete mode - COMPLETE    
+    check _copy_input_D - COMPLETE
     break  - COMPLETE
     plant = *, storage location = * in read mode - COMPLETE    
     populate other fields (material type) in update mode - COMPLETE
@@ -18,6 +17,15 @@
     missing ; is not syntax error. it is logical error - COMPLETE
     missing parameters is not syntax error. it is logical error - COMPLETE
     add data type - COMPLETE
+
+
+// On page1.html 
+localStorage.setItem('name', 'John'); 
+localStorage.setItem('age', '30'); 
+ 
+// On page2.html 
+let name = localStorage.getItem('name'); 
+let age = localStorage.getItem('age'); 
 
 */
 
@@ -34,6 +42,15 @@ var tt_MT_material_type =
     }
 ];
 
+var MT_material_type = structuredClone(tt_MT_material_type);
+
+MT_material_type = 
+[
+    { tenant : 'TEST', material_type : 'RM', material_type_description : 'Raw Material' },
+    { tenant : 'TEST', material_type : 'SFM', material_type_description : 'Semi Finish Material' },
+    { tenant : 'TEST', material_type : 'FM', material_type_description : 'Finish Material' }
+];
+
 
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
@@ -45,6 +62,16 @@ var tt_UOM_unit_measure =
         UOM : '',
         UOM_description : ''
     }
+];
+
+var UOM_unit_measure = structuredClone(tt_UOM_unit_measure);
+
+UOM_unit_measure = 
+[
+    { tenant : 'TEST', UOM : 'BUOM1', UOM_description : 'base UOM 1' },
+    { tenant : 'TEST', UOM : 'BUOM2', UOM_description : 'base UOM 2' },
+    { tenant : 'TEST', UOM : 'BUOM3', UOM_description : 'base UOM 3' },
+    { tenant : 'TEST', UOM : 'BUOM4', UOM_description : 'base UOM 4' }    
 ];
 
 
@@ -62,6 +89,14 @@ var tt_P_plant =
     }
 ];
 
+var P_plant = structuredClone(tt_P_plant);
+
+P_plant = 
+[
+    { tenant : 'TEST', plant : 'P1', plant_description : 'Plant 1' },
+    { tenant : 'TEST', plant : 'P2', plant_description : 'Plant 2' }    
+];
+
 
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240700
@@ -76,6 +111,15 @@ var tt_SL_storage_location =
     }
 ];
 
+var SL_storage_location = structuredClone(tt_SL_storage_location);
+
+SL_storage_location = 
+[
+    { tenant : 'TEST', plant : 'P1', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
+    { tenant : 'TEST', plant : 'P1', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },
+    { tenant : 'TEST', plant : 'P2', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
+    { tenant : 'TEST', plant : 'P2', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },    
+];
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -85,6 +129,7 @@ var tt_MG_material_general = [
     {
     tenant : '',
     material : '',
+
     material_type : '',
     material_description : '',
     base_UOM : '',
@@ -94,9 +139,33 @@ var tt_MG_material_general = [
     }
 ];
 
-var tt_MG_input_material_general = structuredClone(tt_MG_material_general),
+var MG_material_general = structuredClone(tt_MG_material_general),
+    tt_MG_input_material_general = structuredClone(tt_MG_material_general),
     tt_MG_output_material_general = structuredClone(tt_MG_material_general);
 
+    MG_material_general = 
+    [        
+        { tenant : 'TEST', material : 'M1', material_type : 'MT1', material_description : 'MD1', base_UOM : 'BUOM1', material_group : 'MG1', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material : 'M2', material_type : 'MT2', material_description : 'MD2', base_UOM : 'BUOM2', material_group : 'MG2', system_field_message_type : '', system_field_message_description : '' }        
+    ];
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//--------------------------------------------------------------------------------------------------------------------//
+var tt_MG_material_general_log = 
+[
+    {
+    tenant : '',
+    material : '',
+    // message : '',
+
+    message_type : '',
+    message_description : '',
+    }
+];
+
+var tt_MG_output_material_general_log = structuredClone(tt_MG_material_general_log);
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -107,6 +176,7 @@ var tt_MP_material_plant = [
         tenant : '',
         material : '',
         plant : '',
+
         reorder_point : '',
         moving_average_price : '',
         system_field_message_type : '',
@@ -114,27 +184,99 @@ var tt_MP_material_plant = [
     }
 ];
 
-var tt_MP_input_material_plant = structuredClone(tt_MP_material_plant),
+var MP_material_plant = structuredClone(tt_MP_material_plant),
+    tt_MP_input_material_plant = structuredClone(tt_MP_material_plant),
     tt_MP_output_material_plant = structuredClone(tt_MP_material_plant);
+
+    MP_material_plant = 
+    [
+        { tenant : 'TEST', material : 'M1', plant : 'P1', reorder_point : '1', moving_average_price : '11', system_field_message_type : '', system_field_message_description : ''},
+        { tenant : 'TEST', material : 'M1', plant : 'P2', reorder_point : '2', moving_average_price : '22', system_field_message_type : '', system_field_message_description : ''},    
+        { tenant : 'TEST', material : 'M2', plant : 'P1', reorder_point : '3', moving_average_price : '33', system_field_message_type : '', system_field_message_description : ''},
+        { tenant : 'TEST', material : 'M2', plant : 'P2', reorder_point : '4', moving_average_price : '44', system_field_message_type : '', system_field_message_description : ''}        
+    ];
 
 
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-var tt_MSL_material_storage_location = [
+var tt_MP_material_plant_log = 
+[
     {
-        tenant : '',
-        material : '',
-        plant : '',
-        storage_location : '',
-        storage_bin : '',
-        system_field_message_type : '',
-        system_field_message_description : ''
+    tenant : '',
+    material : '',
+    plant : '',
+    // message : '',
+
+    message_type : '',
+    message_description : '',
     }
 ];
 
-var tt_MSL_input_material_storage_location = structuredClone(tt_MSL_material_storage_location),
-    tt_MSL_output_material_storage_location = structuredClone(tt_MSL_material_storage_location);
+var tt_MP_output_material_plant_log = structuredClone(tt_MP_material_plant_log);
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//--------------------------------------------------------------------------------------------------------------------//
+var tt_MSL_material_storage_location = 
+    [
+        {
+            tenant : '',
+            material : '',
+            plant : '',
+            storage_location : '',
+
+            storage_bin : '',
+            unrestricted_stock : '',
+            restricted_stock : '',
+            reserved_stock : '',
+            blocked_stock : '',
+            quality_in_stock : '',
+            last_material_document : '',
+            last_fiscal_year : '',
+            last_item : '',
+            system_field_message_type : '',
+            system_field_message_description : ''
+        }
+    ];
+
+    var MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+        tt_MSL_input_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+        tt_MSL_output_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+        tt_MSL_output_material_storage_location_copy = structuredClone(tt_MSL_material_storage_location);
+
+        MSL_material_storage_location = 
+        [
+            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },    
+            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },    
+            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', last_material_document : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', last_material_document : '', system_field_message_type : '', system_field_message_description : '' }        
+        ];
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//--------------------------------------------------------------------------------------------------------------------//
+    var tt_MSL_material_storage_location_log = 
+    [
+        {
+            tenant : '',
+            material : '',
+            plant : '',
+            storage_location : '',
+            // message : '',
+
+            message_type : '',
+            message_description : '',
+        }
+    ];
+
+    var tt_MSL_output_material_storage_location_log = structuredClone(tt_MSL_material_storage_location_log);
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -144,7 +286,11 @@ function M_create_model(it_MG_input_material_general, it_MP_input_material_plant
 {
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
     var lt_MT_material_type = structuredClone(tt_MT_material_type),
         lt_UOM_unit_measure = structuredClone(tt_UOM_unit_measure),
@@ -155,10 +301,10 @@ function M_create_model(it_MG_input_material_general, it_MP_input_material_plant
         lt_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
 
     [lt_MT_material_type, lt_UOM_unit_measure, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location] = M_select_C(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location);
-    [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location] = M_check_C(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_MT_material_type, lt_UOM_unit_measure, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
+    [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log] = M_check_C(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_MT_material_type, lt_UOM_unit_measure, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
     //M_save_C()
 
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];
+    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -197,18 +343,23 @@ function M_check_C(it_MG_input_material_general, it_MP_input_material_plant, it_
 
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
 
 // Material General    
     ot_MG_output_material_general = MG_copy_input_C(it_MG_input_material_general);
     for (lv_counter = 0; lv_counter < ot_MG_output_material_general.length; lv_counter = lv_counter + 1)
     {
-        MG_check_tenant_C(ot_MG_output_material_general[lv_counter]);
-        MG_check_material_general_C(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter);
-        MG_check_material_type_C(it_MT_material_type, ot_MG_output_material_general[lv_counter]);
-        MG_check_material_description_C(ot_MG_output_material_general[lv_counter]);
-        MG_check_base_UOM_C(it_UOM_unit_measure, ot_MG_output_material_general[lv_counter]); 
+        MG_check_tenant_C(ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
+        // MG_check_authorization_C
+        MG_check_material_general_C(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter, ot_MG_output_material_general_log);
+        MG_check_material_type_C(it_MT_material_type, ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
+        MG_check_material_description_C(ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
+        MG_check_base_UOM_C(it_UOM_unit_measure, ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log); 
     }
 
 
@@ -216,10 +367,11 @@ function M_check_C(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MP_output_material_plant = MP_copy_input_C(it_MP_input_material_plant);
     for (lv_counter = 0; lv_counter < ot_MP_output_material_plant.length; lv_counter = lv_counter + 1)
     {
-        MP_check_tenant_C(ot_MP_output_material_plant[lv_counter]);
-        MP_check_plant_C(it_P_plant, ot_MP_output_material_plant[lv_counter]);
-        MP_check_material_plant_C(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter);
-        MP_check_parent_C(it_MG_material_general, ot_MG_output_material_general, ot_MP_output_material_plant[lv_counter]);
+        MP_check_tenant_C(ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        // MP_check_authorization_C
+        MP_check_plant_C(it_P_plant, ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        MP_check_material_plant_C(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter, ot_MP_output_material_plant_log);
+        MP_check_parent_C(it_MG_material_general, ot_MG_output_material_general, ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
     }
 
 
@@ -227,11 +379,12 @@ function M_check_C(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MSL_output_material_storage_location = MSL_copy_input_C(it_MSL_input_material_storage_location);
     for (lv_counter = 0; lv_counter < ot_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
     {
-        MSL_check_tenant_C(ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_plant_C(it_P_plant, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_storage_location_C(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_material_storage_location_C(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter); 
-        MSL_check_parent_C(it_MP_material_plant, ot_MP_output_material_plant, ot_MSL_output_material_storage_location[lv_counter]);  
+        MSL_check_tenant_C(ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        // MSL_check_authorization_C
+        MSL_check_plant_C(it_P_plant, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_storage_location_C(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_material_storage_location_C(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter, ot_MSL_output_material_storage_location_log); 
+        MSL_check_parent_C(it_MP_material_plant, ot_MP_output_material_plant, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);  
     }
 
 // Insert Data into database tables   
@@ -239,15 +392,18 @@ function M_check_C(it_MG_input_material_general, it_MP_input_material_plant, it_
     console.log('it_MG_input_material_general'); console.log(it_MG_input_material_general);
     console.log('it_MG_material_general'); console.log(it_MG_material_general);    
     console.log('ot_MG_output_material_general'); console.log(ot_MG_output_material_general);
+    console.log('ot_MG_output_material_general_log'); console.log(ot_MG_output_material_general_log);
     console.log('it_MP_input_material_plant'); console.log(it_MP_input_material_plant);
     console.log('it_MP_material_plant'); console.log(it_MP_material_plant);    
     console.log('ot_MP_output_material_plant'); console.log(ot_MP_output_material_plant);
+    console.log('ot_MP_output_material_plant_log'); console.log(ot_MP_output_material_plant_log);
     console.log('it_MSL_input_material_storage_location'); console.log(it_MSL_input_material_storage_location);
     console.log('it_MSL_material_storage_location'); console.log(it_MSL_material_storage_location);    
-    console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);   
+    console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);
+    console.log('ot_MSL_output_material_storage_location_log'); console.log(ot_MSL_output_material_storage_location_log);   
 
 
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];
+    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -267,7 +423,11 @@ function M_read_model(it_MG_input_material_general, it_MP_input_material_plant, 
 {
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
     var lt_P_plant = structuredClone(tt_P_plant),
         lt_SL_storage_location = structuredClone(tt_SL_storage_location),
@@ -276,10 +436,10 @@ function M_read_model(it_MG_input_material_general, it_MP_input_material_plant, 
         lt_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
     
         [lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location] = M_select_R(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location);
-        [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location] = M_check_R(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
+        [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log] = M_check_R(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
         // M_save_R()
 
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];    
+        return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -316,15 +476,20 @@ function M_check_R(it_MG_input_material_general, it_MP_input_material_plant, it_
 
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
 
 // Material General    
     ot_MG_output_material_general = MG_copy_input_R(it_MG_material_general, it_MG_input_material_general);
     for (var lv_counter = 0; lv_counter < ot_MG_output_material_general.length; lv_counter = lv_counter + 1)
     {
-        MG_check_tenant_R(ot_MG_output_material_general[lv_counter]);
-        MG_check_material_general_R(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter);
+        MG_check_tenant_R(ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
+        // MG_check_authorization_R
+        MG_check_material_general_R(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter, ot_MG_output_material_general_log);
     }
 
 
@@ -332,9 +497,10 @@ function M_check_R(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MP_output_material_plant = MP_copy_input_R(it_MP_material_plant, it_MP_input_material_plant);    
     for (var lv_counter = 0; lv_counter < ot_MP_output_material_plant.length; lv_counter = lv_counter + 1)
     {
-        MP_check_tenant_R(ot_MP_output_material_plant[lv_counter]);
-        MP_check_plant_R(it_P_plant, ot_MP_output_material_plant[lv_counter]);
-        MP_check_material_plant_R(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter);
+        MP_check_tenant_R(ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        // MP_check_authorization_R
+        MP_check_plant_R(it_P_plant, ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        MP_check_material_plant_R(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter, ot_MP_output_material_plant_log);
     }
 
 
@@ -342,23 +508,27 @@ function M_check_R(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MSL_output_material_storage_location = MSL_copy_input_R(it_MSL_material_storage_location, it_MSL_input_material_storage_location);    
     for (var lv_counter = 0; lv_counter < ot_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
     {
-        MSL_check_tenant_R(ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_plant_R(it_P_plant, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_storage_location_R(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_material_storage_location_R(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter);
+        MSL_check_tenant_R(ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        // MSL_check_authorization_R
+        MSL_check_plant_R(it_P_plant, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_storage_location_R(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_material_storage_location_R(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter, ot_MSL_output_material_storage_location_log);
     }
       
     console.log('it_MG_input_material_general'); console.log(it_MG_input_material_general);
     console.log('it_MG_material_general'); console.log(it_MG_material_general);    
     console.log('ot_MG_output_material_general'); console.log(ot_MG_output_material_general);
+    console.log('ot_MG_output_material_general_log'); console.log(ot_MG_output_material_general_log);    
     console.log('it_MP_input_material_plant'); console.log(it_MP_input_material_plant);
+    console.log('ot_MP_output_material_plant_log'); console.log(ot_MP_output_material_plant_log);
     console.log('it_MP_material_plant'); console.log(it_MP_material_plant);    
     console.log('ot_MP_output_material_plant'); console.log(ot_MP_output_material_plant);
     console.log('it_MSL_input_material_storage_location'); console.log(it_MSL_input_material_storage_location);
     console.log('it_MSL_material_storage_location'); console.log(it_MSL_material_storage_location);    
     console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);
+    console.log('ot_MSL_output_material_storage_location_log'); console.log(ot_MSL_output_material_storage_location_log);   
     
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];    
+    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -378,7 +548,11 @@ function M_update_model(it_MG_input_material_general, it_MP_input_material_plant
 {
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
     var lt_P_plant = structuredClone(tt_P_plant),
         lt_SL_storage_location = structuredClone(tt_SL_storage_location),
@@ -387,10 +561,10 @@ function M_update_model(it_MG_input_material_general, it_MP_input_material_plant
         lt_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
 
         [lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location] = M_select_U(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location);
-        [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location] = M_check_U(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
+        [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log] = M_check_U(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
         // M_save_U()
 
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];      
+        return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -429,15 +603,20 @@ function M_check_U(it_MG_input_material_general, it_MP_input_material_plant, it_
 
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
 
 // Material General    
     ot_MG_output_material_general = MG_copy_input_U(it_MG_input_material_general, it_MG_material_general);
     for (var lv_counter = 0; lv_counter < ot_MG_output_material_general.length; lv_counter = lv_counter + 1)
     {
-        MG_check_tenant_U(ot_MG_output_material_general[lv_counter]);
-        MG_check_material_general_U(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter);
+        MG_check_tenant_U(ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
+        // MG_check_authorization_U
+        MG_check_material_general_U(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter, ot_MG_output_material_general_log);
     }
 
 
@@ -445,9 +624,10 @@ function M_check_U(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MP_output_material_plant = MP_copy_input_U(it_MP_input_material_plant, it_MP_material_plant);    
     for (var lv_counter = 0; lv_counter < ot_MP_output_material_plant.length; lv_counter = lv_counter + 1)
     {
-        MP_check_tenant_U(ot_MP_output_material_plant[lv_counter]);
-        MP_check_plant_U(it_P_plant, ot_MP_output_material_plant[lv_counter]);
-        MP_check_material_plant_U(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter);
+        MP_check_tenant_U(ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        // MP_check_authorization_U
+        MP_check_plant_U(it_P_plant, ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        MP_check_material_plant_U(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter, ot_MP_output_material_plant_log);
     }
 
 
@@ -455,24 +635,28 @@ function M_check_U(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MSL_output_material_storage_location = MSL_copy_input_U(it_MSL_input_material_storage_location, it_MSL_material_storage_location);    
     for (var lv_counter = 0; lv_counter < ot_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
     {
-        MSL_check_tenant_U(ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_plant_U(it_P_plant, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_storage_location_U(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_material_storage_location_U(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter);
+        MSL_check_tenant_U(ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        // MSL_check_authorization_U
+        MSL_check_plant_U(it_P_plant, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_storage_location_U(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_material_storage_location_U(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter, ot_MSL_output_material_storage_location_log);
     }
 
 
     console.log('it_MG_input_material_general'); console.log(it_MG_input_material_general);
     console.log('it_MG_material_general'); console.log(it_MG_material_general);    
     console.log('ot_MG_output_material_general'); console.log(ot_MG_output_material_general);
+    console.log('ot_MG_output_material_general_log'); console.log(ot_MG_output_material_general_log);    
     console.log('it_MP_input_material_plant'); console.log(it_MP_input_material_plant);
     console.log('it_MP_material_plant'); console.log(it_MP_material_plant);    
     console.log('ot_MP_output_material_plant'); console.log(ot_MP_output_material_plant);
+    console.log('ot_MP_output_material_plant_log'); console.log(ot_MP_output_material_plant_log);
     console.log('it_MSL_input_material_storage_location'); console.log(it_MSL_input_material_storage_location);
     console.log('it_MSL_material_storage_location'); console.log(it_MSL_material_storage_location);    
     console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);
+    console.log('ot_MSL_output_material_storage_location_log'); console.log(ot_MSL_output_material_storage_location_log); 
     
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];      
+    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -483,7 +667,11 @@ function M_delete_model(it_MG_input_material_general, it_MP_input_material_plant
 {
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
     var lt_P_plant = structuredClone(tt_P_plant),
         lt_SL_storage_location = structuredClone(tt_SL_storage_location),
@@ -492,10 +680,10 @@ function M_delete_model(it_MG_input_material_general, it_MP_input_material_plant
         lt_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
 
         [lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location] = M_select_D(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location);
-        [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location] = M_check_D(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
+        [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log] = M_check_D(it_MG_input_material_general, it_MP_input_material_plant, it_MSL_input_material_storage_location, lt_P_plant, lt_SL_storage_location, lt_MG_material_general, lt_MP_material_plant, lt_MSL_material_storage_location);
         // M_save_D()
 
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];
+        return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -531,17 +719,23 @@ function M_check_D(it_MG_input_material_general, it_MP_input_material_plant, it_
 
     var ot_MG_output_material_general = structuredClone(tt_MG_output_material_general),
         ot_MP_output_material_plant = structuredClone(tt_MP_output_material_plant),
-        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
+        ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location),
+
+        ot_MG_output_material_general_log = structuredClone(tt_MG_output_material_general_log),
+        ot_MP_output_material_plant_log = structuredClone(tt_MP_output_material_plant_log),
+        ot_MSL_output_material_storage_location_log = structuredClone(tt_MSL_output_material_storage_location_log);
 
 
 // Material Storage Location    
     ot_MSL_output_material_storage_location = MSL_copy_input_D(it_MSL_material_storage_location, it_MSL_input_material_storage_location);    
     for (var lv_counter = 0; lv_counter < ot_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
     {
-        MSL_check_tenant_D(ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_plant_D(it_P_plant, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_storage_location_D(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter]);
-        MSL_check_material_storage_location_D(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter);
+        MSL_check_tenant_D(ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        // MSL_check_authorization_D
+        MSL_check_plant_D(it_P_plant, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_storage_location_D(it_SL_storage_location, ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
+        MSL_check_material_storage_location_D(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MSL_output_material_storage_location[lv_counter], lv_counter, ot_MSL_output_material_storage_location_log);
+        MSL_check_material_document_D(ot_MSL_output_material_storage_location[lv_counter], ot_MSL_output_material_storage_location_log);
     }
 
 
@@ -549,10 +743,11 @@ function M_check_D(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MP_output_material_plant = MP_copy_input_D(it_MP_material_plant, it_MP_input_material_plant);    
     for (var lv_counter = 0; lv_counter < ot_MP_output_material_plant.length; lv_counter = lv_counter + 1)
     {
-        MP_check_tenant_D(ot_MP_output_material_plant[lv_counter]);
-        MP_check_plant_D(it_P_plant, ot_MP_output_material_plant[lv_counter]);
-        MP_check_material_plant_D(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter);
-        MP_check_child_D(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MP_output_material_plant[lv_counter]);                                    // ???? check all child records
+        MP_check_tenant_D(ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        // MP_check_authorization_D
+        MP_check_plant_D(it_P_plant, ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
+        MP_check_material_plant_D(it_MP_material_plant, ot_MP_output_material_plant, ot_MP_output_material_plant[lv_counter], lv_counter, ot_MP_output_material_plant_log);
+        MP_check_child_D(it_MSL_material_storage_location, ot_MSL_output_material_storage_location, ot_MP_output_material_plant[lv_counter], ot_MP_output_material_plant_log);
     }
 
 
@@ -560,23 +755,27 @@ function M_check_D(it_MG_input_material_general, it_MP_input_material_plant, it_
     ot_MG_output_material_general = MG_copy_input_D(it_MG_material_general, it_MG_input_material_general);
     for (var lv_counter = 0; lv_counter < ot_MG_output_material_general.length; lv_counter = lv_counter + 1)
     {
-        MG_check_tenant_D(ot_MG_output_material_general[lv_counter]);
-        MG_check_material_general_D(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter);
-        MG_check_child_D(it_MP_material_plant, ot_MP_output_material_plant, ot_MG_output_material_general[lv_counter]);                                  // ???? check all child records
+        MG_check_tenant_D(ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
+        // MG_check_authorization_D
+        MG_check_material_general_D(it_MG_material_general, ot_MG_output_material_general, ot_MG_output_material_general[lv_counter], lv_counter, ot_MG_output_material_general_log);
+        MG_check_child_D(it_MP_material_plant, ot_MP_output_material_plant, ot_MG_output_material_general[lv_counter], ot_MG_output_material_general_log);
     }
 
 
     console.log('it_MG_input_material_general'); console.log(it_MG_input_material_general);
     console.log('it_MG_material_general'); console.log(it_MG_material_general);    
     console.log('ot_MG_output_material_general'); console.log(ot_MG_output_material_general);
+    console.log('ot_MG_output_material_general_log'); console.log(ot_MG_output_material_general_log); 
     console.log('it_MP_input_material_plant'); console.log(it_MP_input_material_plant);
     console.log('it_MP_material_plant'); console.log(it_MP_material_plant);    
     console.log('ot_MP_output_material_plant'); console.log(ot_MP_output_material_plant);
+    console.log('ot_MP_output_material_plant_log'); console.log(ot_MP_output_material_plant_log);
     console.log('it_MSL_input_material_storage_location'); console.log(it_MSL_input_material_storage_location);
     console.log('it_MSL_material_storage_location'); console.log(it_MSL_material_storage_location);    
-    console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location); 
+    console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);
+    console.log('ot_MSL_output_material_storage_location_log'); console.log(ot_MSL_output_material_storage_location_log);  
     
-    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location];     
+    return [ot_MG_output_material_general, ot_MP_output_material_plant, ot_MSL_output_material_storage_location, ot_MG_output_material_general_log, ot_MP_output_material_plant_log, ot_MSL_output_material_storage_location_log];
 }
 
 
@@ -595,15 +794,7 @@ function M_save_D()
 //--------------------------------------------------------------------------------------------------------------------//
 function MT_select_C()
 {
-    var ot_MT_material_type = structuredClone(tt_MT_material_type);
-
-    ot_MT_material_type = 
-    [
-        { tenant : 'TEST', material_type : 'RM', material_type_description : 'Raw Material' },
-        { tenant : 'TEST', material_type : 'SFM', material_type_description : 'Semi Finish Material' },
-        { tenant : 'TEST', material_type : 'FM', material_type_description : 'Finish Material' }
-    ];
-
+    var ot_MT_material_type = structuredClone(MT_material_type);
     return ot_MT_material_type;
 }
 
@@ -613,16 +804,7 @@ function MT_select_C()
 //--------------------------------------------------------------------------------------------------------------------//
 function UOM_select_C()
 {
-    ot_UOM_unit_measure = structuredClone(tt_UOM_unit_measure);
-
-    ot_UOM_unit_measure = 
-    [
-        { tenant : 'TEST', UOM : 'BUOM1', UOM_description : 'base UOM 1' },
-        { tenant : 'TEST', UOM : 'BUOM2', UOM_description : 'base UOM 2' },
-        { tenant : 'TEST', UOM : 'BUOM3', UOM_description : 'base UOM 3' },
-        { tenant : 'TEST', UOM : 'BUOM4', UOM_description : 'base UOM 4' }    
-    ];
-
+    var ot_UOM_unit_measure = structuredClone(UOM_unit_measure);
     return ot_UOM_unit_measure;
 }
 
@@ -632,14 +814,7 @@ function UOM_select_C()
 //--------------------------------------------------------------------------------------------------------------------//
 function P_select_C()
 {
-    var ot_P_plant = structuredClone(tt_P_plant);
-
-    ot_P_plant = 
-    [
-        { tenant : 'TEST', plant : 'P1', plant_description : 'Plant 1' },
-        { tenant : 'TEST', plant : 'P2', plant_description : 'Plant 2' }    
-    ];
-
+    var ot_P_plant = structuredClone(P_plant);
     return ot_P_plant;
 }
 
@@ -649,16 +824,7 @@ function P_select_C()
 //--------------------------------------------------------------------------------------------------------------------//
 function SL_select_C()
 {
-    var ot_SL_storage_location = structuredClone(tt_SL_storage_location);
-
-    ot_SL_storage_location = 
-    [
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },    
-    ];
-
+    var ot_SL_storage_location = structuredClone(SL_storage_location);
     return ot_SL_storage_location;
 }
 
@@ -670,14 +836,7 @@ function SL_select_C()
 //--------------------------------------------------------------------------------------------------------------------//
 function MG_select_C(it_MG_input_material_general)
 {
-    var ot_MG_material_general = structuredClone(tt_MG_material_general);
-
-    ot_MG_material_general = 
-    [        
-        { tenant : 'TEST', material : 'M1', material_type : 'MT1', material_description : 'MD1', base_UOM : 'BUOM1', material_group : 'MG1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', material_type : 'MT2', material_description : 'MD2', base_UOM : 'BUOM2', material_group : 'MG2', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-    
+    var ot_MG_material_general = structuredClone(MG_material_general);
     return ot_MG_material_general;
 }
 
@@ -687,16 +846,7 @@ function MG_select_C(it_MG_input_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 function MP_select_C(it_MP_input_material_plant)
 {
-    var ot_MP_material_plant = structuredClone(tt_MP_material_plant);
-
-    ot_MP_material_plant = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', reorder_point : '1', moving_average_price : '11', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M1', plant : 'P2', reorder_point : '2', moving_average_price : '22', system_field_message_type : '', system_field_message_description : ''},    
-        { tenant : 'TEST', material : 'M2', plant : 'P1', reorder_point : '3', moving_average_price : '33', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M2', plant : 'P2', reorder_point : '4', moving_average_price : '44', system_field_message_type : '', system_field_message_description : ''}        
-    ];
-
+    var ot_MP_material_plant = structuredClone(MP_material_plant);
     return ot_MP_material_plant;
 }
 
@@ -706,20 +856,7 @@ function MP_select_C(it_MP_input_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MSL_select_C(it_MSL_input_material_storage_location)
 {
-    var ot_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
-
-    ot_MSL_material_storage_location = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-
+    var ot_MSL_material_storage_location = structuredClone(MSL_material_storage_location);
     return ot_MSL_material_storage_location;
 }
 
@@ -738,9 +875,9 @@ function MG_copy_input_C(it_MG_input_material_general)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_tenant_C(c_MG_output_material_general)
+function MG_check_tenant_C(c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     if (c_MG_output_material_general.material == '')
     {
@@ -754,6 +891,11 @@ function MG_check_tenant_C(c_MG_output_material_general)
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Tenant does not have data';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
+            }
+            else
+            {
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -763,7 +905,7 @@ function MG_check_tenant_C(c_MG_output_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_general_C(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter)
+function MG_check_material_general_C(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter, ct_MG_output_material_general_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -791,10 +933,11 @@ function MG_check_material_general_C(it_MG_material_general, it_MG_output_materi
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Duplicate record';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
             else
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -815,33 +958,11 @@ function MG_check_material_general_C(it_MG_material_general, it_MG_output_materi
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Material General already exist';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
             else
             {
-
-            }
-        }
-    }
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
-//--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_description_C(c_MG_output_material_general)
-{
-    if (c_MG_output_material_general.material == '')
-    {
-
-    }
-    else
-    {
-        if (c_MG_output_material_general.system_field_message_type == '')
-        {
-            if (c_MG_output_material_general.material_description == '')
-            {
-                c_MG_output_material_general.system_field_message_type = 'ERROR';
-                c_MG_output_material_general.system_field_message_description = 'Material Description does not have data';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Material General does not exist'});
             }
         }
     }
@@ -851,7 +972,7 @@ function MG_check_material_description_C(c_MG_output_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_type_C(it_MT_material_type, c_MG_output_material_general)
+function MG_check_material_type_C(it_MT_material_type, c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -868,6 +989,7 @@ function MG_check_material_type_C(it_MT_material_type, c_MG_output_material_gene
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Material Type does not have data';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
             else
             {
@@ -883,12 +1005,13 @@ function MG_check_material_type_C(it_MT_material_type, c_MG_output_material_gene
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Material Type exist'});
                 }
                 else
                 {
                     c_MG_output_material_general.system_field_message_type = 'ERROR';
                     c_MG_output_material_general.system_field_message_description = 'Material Type does not exist';
+                    ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
                 }
             }
         }
@@ -896,24 +1019,30 @@ function MG_check_material_type_C(it_MT_material_type, c_MG_output_material_gene
 }
 
 
+
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_description_C(ct_MG_output_material_general)
+function MG_check_material_description_C(c_MG_output_material_general, ct_MG_output_material_general_log)
 {
-    if (ct_MG_output_material_general.material == '')
+    if (c_MG_output_material_general.material == '')
     {
 
     }
     else
     {    
-        if (ct_MG_output_material_general.system_field_message_type == '')
+        if (c_MG_output_material_general.system_field_message_type == '')
         {        
-            if (ct_MG_output_material_general.material_description == '')
+            if (c_MG_output_material_general.material_description == '')
             {
 
-                ct_MG_output_material_general.system_field_message_type = 'ERROR';
-                ct_MG_output_material_general.system_field_message_description = 'Material Description does not have data';
+                c_MG_output_material_general.system_field_message_type = 'ERROR';
+                c_MG_output_material_general.system_field_message_description = 'Material Description does not have data';
+                c_MG_output_material_general.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                
+            }
+            else
+            {
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Material Description has data'});
             }
         }
     }   
@@ -923,7 +1052,7 @@ function MG_check_material_description_C(ct_MG_output_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_base_UOM_C(it_UOM_unit_measure, c_MG_output_material_general)
+function MG_check_base_UOM_C(it_UOM_unit_measure, c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     var lv_record_exist = '',
     lv_counter = 0;
@@ -940,6 +1069,7 @@ function MG_check_base_UOM_C(it_UOM_unit_measure, c_MG_output_material_general)
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Base UOM does not have data';
+                c_MG_output_material_general.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                                
             }
             else
             {
@@ -955,12 +1085,13 @@ function MG_check_base_UOM_C(it_UOM_unit_measure, c_MG_output_material_general)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Base UOM exist'});
                 }
                 else
                 {
                     c_MG_output_material_general.system_field_message_type = 'ERROR';
                     c_MG_output_material_general.system_field_message_description = 'Base UOM does not exist';
+                    c_MG_output_material_general.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                                    
                 }
             }        
         }
@@ -982,9 +1113,9 @@ function MP_copy_input_C(it_MP_input_material_plant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_tenant_C(c_MP_output_material_plant)
+function MP_check_tenant_C(c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     if (c_MP_output_material_plant.material == '')
     {
@@ -998,6 +1129,11 @@ function MP_check_tenant_C(c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
+            }
+            else
+            {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -1007,7 +1143,7 @@ function MP_check_tenant_C(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_plant_C(it_P_plant, c_MP_output_material_plant)
+function MP_check_plant_C(it_P_plant, c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -1024,10 +1160,11 @@ function MP_check_plant_C(it_P_plant, c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Plant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
-
             else
             {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MP_output_material_plant.tenant &&
@@ -1040,12 +1177,13 @@ function MP_check_plant_C(it_P_plant, c_MP_output_material_plant)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else
                 {
                     c_MP_output_material_plant.system_field_message_type = 'ERROR';
                     c_MP_output_material_plant.system_field_message_description = 'Plant does not exist';
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
                 }
             }
         }
@@ -1056,7 +1194,7 @@ function MP_check_plant_C(it_P_plant, c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_material_plant_C(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter)
+function MP_check_material_plant_C(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter, ct_MP_output_material_plant_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -1085,10 +1223,11 @@ function MP_check_material_plant_C(it_MP_material_plant, it_MP_output_material_p
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Duplicate record';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
             else
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -1111,10 +1250,11 @@ function MP_check_material_plant_C(it_MP_material_plant, it_MP_output_material_p
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Material Plant already exist';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
             else
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Material Plant does not exist'});
             }
         }  
     }
@@ -1124,7 +1264,7 @@ function MP_check_material_plant_C(it_MP_material_plant, it_MP_output_material_p
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_parent_C(it_MG_material_general, it_MG_output_material_general, c_MP_output_material_plant)
+function MP_check_parent_C(it_MG_material_general, it_MG_output_material_general, c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     var lv_record_exist = '';
 
@@ -1153,12 +1293,13 @@ function MP_check_parent_C(it_MG_material_general, it_MG_output_material_general
                 {
                     if (it_MG_output_material_general[counter].system_field_message_type == '')
                     {
-
+                        ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Parent (Material General) has no error'});
                     }
                     else
                     {
                         c_MP_output_material_plant.system_field_message_type = 'ERROR';
                         c_MP_output_material_plant.system_field_message_description = 'Parent (Material General) has error';
+                        ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
                     }
                     lv_record_exist = 'X';
                     break;
@@ -1167,12 +1308,13 @@ function MP_check_parent_C(it_MG_material_general, it_MG_output_material_general
             
             if (lv_record_exist == 'X')
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Parent (Material General) exist'});
             }
             else
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Parent (Material General) does not exist';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
         }
     }
@@ -1193,22 +1335,27 @@ function MSL_copy_input_C(it_MSL_input_material_storage_location)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_tenant_C(c_MP_output_material_plant)
+function MSL_check_tenant_C(c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
-    if (c_MP_output_material_plant.material == '')
+    if (c_MSL_output_material_storage_location.material == '')
     {
 
     }
     else
     {
-        if (c_MP_output_material_plant.system_field_message_type == '')
+        if (c_MSL_output_material_storage_location.system_field_message_type == '')
         {
-            if (c_MP_output_material_plant.tenant == '')
+            if (c_MSL_output_material_storage_location.tenant == '')
             {
-                c_MP_output_material_plant.system_field_message_type = 'ERROR';
-                c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
+                c_MSL_output_material_storage_location.system_field_message_description = 'Tenant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
+            }
+            else
+            {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -1218,7 +1365,7 @@ function MSL_check_tenant_C(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_plant_C(it_P_plant, c_MSL_output_material_storage_location)
+function MSL_check_plant_C(it_P_plant, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -1235,9 +1382,11 @@ function MSL_check_plant_C(it_P_plant, c_MSL_output_material_storage_location)
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -1250,12 +1399,13 @@ function MSL_check_plant_C(it_P_plant, c_MSL_output_material_storage_location)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }
@@ -1266,7 +1416,7 @@ function MSL_check_plant_C(it_P_plant, c_MSL_output_material_storage_location)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_storage_location_C(it_SL_storage_location, c_MSL_output_material_storage_location)
+function MSL_check_storage_location_C(it_SL_storage_location, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -1283,10 +1433,12 @@ function MSL_check_storage_location_C(it_SL_storage_location, c_MSL_output_mater
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not have';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
 
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location has data'});
                 for (lv_counter = 0; lv_counter < it_SL_storage_location.length; lv_counter = lv_counter + 1)
                 {
                     if (it_SL_storage_location[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -1300,12 +1452,13 @@ function MSL_check_storage_location_C(it_SL_storage_location, c_MSL_output_mater
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location exist'});
                 }
                 else
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }    
@@ -1316,7 +1469,7 @@ function MSL_check_storage_location_C(it_SL_storage_location, c_MSL_output_mater
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_material_storage_location_C(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter)
+function MSL_check_material_storage_location_C(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -1346,10 +1499,11 @@ function MSL_check_material_storage_location_C(it_MSL_material_storage_location,
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Duplicate record';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -1372,10 +1526,11 @@ function MSL_check_material_storage_location_C(it_MSL_material_storage_location,
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Material Storage Location already exist';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Material Storage Location does not exist'});
             }
         }
     }
@@ -1385,7 +1540,7 @@ function MSL_check_material_storage_location_C(it_MSL_material_storage_location,
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_parent_C(it_MP_material_plant, it_MP_output_material_plant, c_MSL_output_material_storage_location)
+function MSL_check_parent_C(it_MP_material_plant, it_MP_output_material_plant, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '';
 
@@ -1416,12 +1571,13 @@ function MSL_check_parent_C(it_MP_material_plant, it_MP_output_material_plant, c
                     {
                         if (it_MP_output_material_plant[counter].system_field_message_type == '')
                         {
-
+                            ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Parent (Material Plant) has no error'});
                         }
                         else
                         {
                             c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                             c_MSL_output_material_storage_location.system_field_message_description = 'Parent (Material Plant) has error';
+                            ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                         }
                         lv_record_exist = 'X';
                         break;
@@ -1430,12 +1586,13 @@ function MSL_check_parent_C(it_MP_material_plant, it_MP_output_material_plant, c
             
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Parent (Material Plant) exist'});
                 }
                 else
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Parent (Material Plant) does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
            }
         }   
@@ -1448,14 +1605,7 @@ function MSL_check_parent_C(it_MP_material_plant, it_MP_output_material_plant, c
 //--------------------------------------------------------------------------------------------------------------------//
 function P_select_R()
 {
-    var ot_P_plant = structuredClone(tt_P_plant);
-
-    ot_P_plant = 
-    [
-        { tenant : 'TEST', plant : 'P1', plant_description : 'Plant 1' },
-        { tenant : 'TEST', plant : 'P2', plant_description : 'Plant 2' }    
-    ];
-
+    var ot_P_plant = structuredClone(P_plant);
     return ot_P_plant;
 }
 
@@ -1466,16 +1616,7 @@ function P_select_R()
 //--------------------------------------------------------------------------------------------------------------------//
 function SL_select_R()
 {
-    var ot_SL_storage_location = structuredClone(tt_SL_storage_location);
-
-    ot_SL_storage_location = 
-    [
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },    
-    ];
-
+    var ot_SL_storage_location = structuredClone(SL_storage_location);
     return ot_SL_storage_location;
 }
 
@@ -1487,14 +1628,7 @@ function SL_select_R()
 //--------------------------------------------------------------------------------------------------------------------//
 function MG_select_R(it_MG_input_material_general)
 {
-    var ot_MG_material_general = structuredClone(tt_MG_material_general);
-
-    ot_MG_material_general = 
-    [        
-        { tenant : 'TEST', material : 'M1', material_type : 'MT1', material_description : 'MD1', base_UOM : 'BUOM1', material_group : 'MG1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', material_type : 'MT2', material_description : 'MD2', base_UOM : 'BUOM2', material_group : 'MG2', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-    
+    var ot_MG_material_general = structuredClone(MG_material_general);  
     return ot_MG_material_general;
 }
 
@@ -1504,16 +1638,7 @@ function MG_select_R(it_MG_input_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 function MP_select_R(it_MP_input_material_plant)
 {
-    var ot_MP_material_plant = structuredClone(tt_MP_material_plant);
-
-    ot_MP_material_plant = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', reorder_point : '1', moving_average_price : '11', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M1', plant : 'P2', reorder_point : '2', moving_average_price : '22', system_field_message_type : '', system_field_message_description : ''},    
-        { tenant : 'TEST', material : 'M2', plant : 'P1', reorder_point : '3', moving_average_price : '33', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M2', plant : 'P2', reorder_point : '4', moving_average_price : '44', system_field_message_type : '', system_field_message_description : ''}        
-    ];
-
+    var ot_MP_material_plant = structuredClone(MP_material_plant);
     return ot_MP_material_plant;
 }
 
@@ -1523,20 +1648,7 @@ function MP_select_R(it_MP_input_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MSL_select_R(it_MSL_input_material_storage_location)
 {
-    var ot_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
-
-    ot_MSL_material_storage_location = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-
+    var ot_MSL_material_storage_location = structuredClone(MSL_material_storage_location);
     return ot_MSL_material_storage_location;
 }
 
@@ -1593,9 +1705,9 @@ function MG_copy_input_R(it_MG_material_general, it_MG_input_material_general)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_tenant_R(c_MG_output_material_general)
+function MG_check_tenant_R(c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     if (c_MG_output_material_general.material == '')
     {
@@ -1609,6 +1721,11 @@ function MG_check_tenant_R(c_MG_output_material_general)
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Tenant does not have data';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
+            }
+            else
+            {
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -1618,7 +1735,7 @@ function MG_check_tenant_R(c_MG_output_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_general_R(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter)
+function MG_check_material_general_R(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter, ct_MG_output_material_general_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -1646,10 +1763,11 @@ function MG_check_material_general_R(it_MG_material_general, it_MG_output_materi
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Duplicate record';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
             else
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -1668,12 +1786,13 @@ function MG_check_material_general_R(it_MG_material_general, it_MG_output_materi
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Material General exist'});
             }
             else
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Material General does not exist';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
         }            
     }
@@ -1744,9 +1863,9 @@ function MP_copy_input_R(it_MP_material_plant, it_MP_input_material_plant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_tenant_R(c_MP_output_material_plant)
+function MP_check_tenant_R(c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     if (c_MP_output_material_plant.material == '')
     {
@@ -1760,6 +1879,11 @@ function MP_check_tenant_R(c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
+            }
+            else
+            {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Tenant has data'});                
             }
         }
     }  
@@ -1769,7 +1893,7 @@ function MP_check_tenant_R(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_plant_R(it_P_plant, c_MP_output_material_plant)
+function MP_check_plant_R(it_P_plant, c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -1786,10 +1910,12 @@ function MP_check_plant_R(it_P_plant, c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Plant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
 
             else
             {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MP_output_material_plant.tenant &&
@@ -1802,12 +1928,13 @@ function MP_check_plant_R(it_P_plant, c_MP_output_material_plant)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else
                 {
                     c_MP_output_material_plant.system_field_message_type = 'ERROR';
                     c_MP_output_material_plant.system_field_message_description = 'Plant does not exist';
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
                 }
             }
         }
@@ -1818,7 +1945,7 @@ function MP_check_plant_R(it_P_plant, c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_material_plant_R(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter)
+function MP_check_material_plant_R(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter, ct_MP_output_material_plant_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -1847,10 +1974,11 @@ function MP_check_material_plant_R(it_MP_material_plant, it_MP_output_material_p
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Duplicate record';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
             else
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -1870,12 +1998,13 @@ function MP_check_material_plant_R(it_MP_material_plant, it_MP_output_material_p
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Material Plant exist'});
             }
             else
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Material Plant does not exist';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});                
             }
         }   
     }
@@ -1960,22 +2089,27 @@ function MSL_copy_input_R(it_MSL_material_storage_location, it_MSL_input_materia
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_tenant_R(c_MP_output_material_plant)
+function MSL_check_tenant_R(c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
-    if (c_MP_output_material_plant.material == '')
+    if (c_MSL_output_material_storage_location.material == '')
     {
 
     }
     else
     {
-        if (c_MP_output_material_plant.system_field_message_type == '')
+        if (c_MSL_output_material_storage_location.system_field_message_type == '')
         {
-            if (c_MP_output_material_plant.tenant == '')
+            if (c_MSL_output_material_storage_location.tenant == '')
             {
-                c_MP_output_material_plant.system_field_message_type = 'ERROR';
-                c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
+                c_MSL_output_material_storage_location.system_field_message_description = 'Tenant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
+            }
+            else
+            {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -1985,7 +2119,7 @@ function MSL_check_tenant_R(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_plant_R(it_P_plant, c_MSL_output_material_storage_location)
+function MSL_check_plant_R(it_P_plant, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -2002,9 +2136,11 @@ function MSL_check_plant_R(it_P_plant, c_MSL_output_material_storage_location)
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -2017,12 +2153,13 @@ function MSL_check_plant_R(it_P_plant, c_MSL_output_material_storage_location)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }    
@@ -2033,7 +2170,7 @@ function MSL_check_plant_R(it_P_plant, c_MSL_output_material_storage_location)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_storage_location_R(it_SL_storage_location, c_MSL_output_material_storage_location)
+function MSL_check_storage_location_R(it_SL_storage_location, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -2050,9 +2187,11 @@ function MSL_check_storage_location_R(it_SL_storage_location, c_MSL_output_mater
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location has data'});
                 for (lv_counter = 0; lv_counter < it_SL_storage_location.length; lv_counter = lv_counter + 1)
                 {
                     if (it_SL_storage_location[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -2066,12 +2205,13 @@ function MSL_check_storage_location_R(it_SL_storage_location, c_MSL_output_mater
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location exist'});
                 }
                 else
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }
@@ -2082,7 +2222,7 @@ function MSL_check_storage_location_R(it_SL_storage_location, c_MSL_output_mater
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_material_storage_location_R(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter)
+function MSL_check_material_storage_location_R(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter, ct_MSL_output_material_storage_location_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -2112,10 +2252,11 @@ function MSL_check_material_storage_location_R(it_MSL_material_storage_location,
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Duplicate record';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});                
             }
             else
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -2137,13 +2278,14 @@ function MSL_check_material_storage_location_R(it_MSL_material_storage_location,
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Material Storage_location exist'});
             }
             else
             {
               
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Material Storage_location does not exist';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});                
             }
         }  
     }
@@ -2156,14 +2298,7 @@ function MSL_check_material_storage_location_R(it_MSL_material_storage_location,
 //--------------------------------------------------------------------------------------------------------------------//
 function P_select_U()
 {
-    var ot_P_plant = structuredClone(tt_P_plant);
-
-    ot_P_plant = 
-    [
-        { tenant : 'TEST', plant : 'P1', plant_description : 'Plant 1' },
-        { tenant : 'TEST', plant : 'P2', plant_description : 'Plant 2' }    
-    ];
-
+    var ot_P_plant = structuredClone(P_plant);
     return ot_P_plant;
 }
 
@@ -2173,16 +2308,7 @@ function P_select_U()
 //--------------------------------------------------------------------------------------------------------------------//
 function SL_select_U()
 {
-    var ot_SL_storage_location = structuredClone(tt_SL_storage_location);
-
-    ot_SL_storage_location = 
-    [
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },    
-    ];
-
+    var ot_SL_storage_location = structuredClone(SL_storage_location);
     return ot_SL_storage_location;
 }
 
@@ -2194,14 +2320,7 @@ function SL_select_U()
 //--------------------------------------------------------------------------------------------------------------------//
 function MG_select_U(it_MG_input_material_general)
 {
-    var ot_MG_material_general = structuredClone(tt_MG_material_general);
-
-    ot_MG_material_general = 
-    [        
-        { tenant : 'TEST', material : 'M1', material_type : 'MT1', material_description : 'MD1', base_UOM : 'BUOM1', material_group : 'MG1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', material_type : 'MT2', material_description : 'MD2', base_UOM : 'BUOM2', material_group : 'MG2', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-    
+    var ot_MG_material_general = structuredClone(MG_material_general);   
     return ot_MG_material_general;
 }
 
@@ -2211,16 +2330,7 @@ function MG_select_U(it_MG_input_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 function MP_select_U(it_MP_input_material_plant)
 {
-    var ot_MP_material_plant = structuredClone(tt_MP_material_plant);
-
-    ot_MP_material_plant = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', reorder_point : '1', moving_average_price : '11', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M1', plant : 'P2', reorder_point : '2', moving_average_price : '22', system_field_message_type : '', system_field_message_description : ''},    
-        { tenant : 'TEST', material : 'M2', plant : 'P1', reorder_point : '3', moving_average_price : '33', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M2', plant : 'P2', reorder_point : '4', moving_average_price : '44', system_field_message_type : '', system_field_message_description : ''}        
-    ];
-
+    var ot_MP_material_plant = structuredClone(MP_material_plant);
     return ot_MP_material_plant;
 }
 
@@ -2230,20 +2340,7 @@ function MP_select_U(it_MP_input_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MSL_select_U(it_MSL_input_material_storage_location)
 {
-    var ot_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
-
-    ot_MSL_material_storage_location = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-
+    var ot_MSL_material_storage_location = structuredClone(MSL_material_storage_location);
     return ot_MSL_material_storage_location;
 }
 
@@ -2293,9 +2390,9 @@ function MG_copy_input_U(it_MG_input_material_general, it_MG_material_general)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_tenant_U(c_MG_output_material_general)
+function MG_check_tenant_U(c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     if (c_MG_output_material_general.material == '')
     {
@@ -2309,7 +2406,12 @@ function MG_check_tenant_U(c_MG_output_material_general)
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Tenant does not have data';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                
             }
+            else
+            {
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Tenant has data'});
+            }            
         }
     }  
 }
@@ -2318,7 +2420,7 @@ function MG_check_tenant_U(c_MG_output_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_general_U(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter)
+function MG_check_material_general_U(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter, ct_MG_output_material_general_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -2346,10 +2448,11 @@ function MG_check_material_general_U(it_MG_material_general, it_MG_output_materi
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Duplicate record';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
             else
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -2368,12 +2471,13 @@ function MG_check_material_general_U(it_MG_material_general, it_MG_output_materi
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Material General exist'});
             }
             else
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Material General does not exist';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }
         }    
     }
@@ -2426,9 +2530,9 @@ function MP_copy_input_U(it_MP_input_material_plant, it_MP_material_plant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_tenant_U(c_MP_output_material_plant)
+function MP_check_tenant_U(c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     if (c_MP_output_material_plant.material == '')
     {
@@ -2442,6 +2546,11 @@ function MP_check_tenant_U(c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
+            }
+            else
+            {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -2451,7 +2560,7 @@ function MP_check_tenant_U(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_plant_U(it_P_plant, c_MP_output_material_plant)
+function MP_check_plant_U(it_P_plant, c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -2468,10 +2577,12 @@ function MP_check_plant_U(it_P_plant, c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Plant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
 
             else
             {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MP_output_material_plant.tenant &&
@@ -2484,12 +2595,13 @@ function MP_check_plant_U(it_P_plant, c_MP_output_material_plant)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else
                 {
                     c_MP_output_material_plant.system_field_message_type = 'ERROR';
                     c_MP_output_material_plant.system_field_message_description = 'Plant does not exist';
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
                 }
             }
         }
@@ -2500,7 +2612,7 @@ function MP_check_plant_U(it_P_plant, c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_material_plant_U(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter)
+function MP_check_material_plant_U(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter, ct_MP_output_material_plant_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -2529,10 +2641,11 @@ function MP_check_material_plant_U(it_MP_material_plant, it_MP_output_material_p
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Duplicate record';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
             else
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -2552,12 +2665,13 @@ function MP_check_material_plant_U(it_MP_material_plant, it_MP_output_material_p
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Material Plant exist'});
             }
             else
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Material Plant does not exist';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});                
             }
         }   
     }
@@ -2610,22 +2724,27 @@ function MSL_copy_input_U(it_MSL_input_material_storage_location, it_MSL_materia
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_tenant_U(c_MP_output_material_plant)
+function MSL_check_tenant_U(c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
-    if (c_MP_output_material_plant.material == '')
+    if (c_MSL_output_material_storage_location.material == '')
     {
 
     }
     else
     {
-        if (c_MP_output_material_plant.system_field_message_type == '')
+        if (c_MSL_output_material_storage_location.system_field_message_type == '')
         {
-            if (c_MP_output_material_plant.tenant == '')
+            if (c_MSL_output_material_storage_location.tenant == '')
             {
-                c_MP_output_material_plant.system_field_message_type = 'ERROR';
-                c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
+                c_MSL_output_material_storage_location.system_field_message_description = 'Tenant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
+            }
+            else
+            {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -2635,7 +2754,7 @@ function MSL_check_tenant_U(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_plant_U(it_P_plant, c_MSL_output_material_storage_location)
+function MSL_check_plant_U(it_P_plant, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -2652,10 +2771,12 @@ function MSL_check_plant_U(it_P_plant, c_MSL_output_material_storage_location)
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
 
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -2668,12 +2789,13 @@ function MSL_check_plant_U(it_P_plant, c_MSL_output_material_storage_location)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else                    
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }
@@ -2684,7 +2806,7 @@ function MSL_check_plant_U(it_P_plant, c_MSL_output_material_storage_location)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_storage_location_U(it_SL_storage_location, c_MSL_output_material_storage_location)
+function MSL_check_storage_location_U(it_SL_storage_location, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -2701,9 +2823,11 @@ function MSL_check_storage_location_U(it_SL_storage_location, c_MSL_output_mater
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location has data'});
                 for (lv_counter = 0; lv_counter < it_SL_storage_location.length; lv_counter = lv_counter + 1)
                 {
                     if (it_SL_storage_location[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -2717,12 +2841,13 @@ function MSL_check_storage_location_U(it_SL_storage_location, c_MSL_output_mater
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location exist'});
                 }
                 else                
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }
@@ -2733,7 +2858,7 @@ function MSL_check_storage_location_U(it_SL_storage_location, c_MSL_output_mater
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_material_storage_location_U(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter)
+function MSL_check_material_storage_location_U(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter, ct_MSL_output_material_storage_location_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -2763,10 +2888,11 @@ function MSL_check_material_storage_location_U(it_MSL_material_storage_location,
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Duplicate record';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -2787,12 +2913,13 @@ function MSL_check_material_storage_location_U(it_MSL_material_storage_location,
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Material Storage_location exist'});
             }
             else
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Material Storage_location does not exist';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
         }
     }
@@ -2805,14 +2932,7 @@ function MSL_check_material_storage_location_U(it_MSL_material_storage_location,
 //--------------------------------------------------------------------------------------------------------------------//
 function P_select_D()
 {
-    var ot_P_plant = structuredClone(tt_P_plant);
-
-    ot_P_plant = 
-    [
-        { tenant : 'TEST', plant : 'P1', plant_description : 'Plant 1' },
-        { tenant : 'TEST', plant : 'P2', plant_description : 'Plant 2' }    
-    ];
-
+    var ot_P_plant = structuredClone(P_plant);
     return ot_P_plant;
 }
 
@@ -2822,16 +2942,7 @@ function P_select_D()
 //--------------------------------------------------------------------------------------------------------------------//
 function SL_select_D()
 {
-    var ot_SL_storage_location = structuredClone(tt_SL_storage_location);
-
-    ot_SL_storage_location = 
-    [
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P1', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL1', storage_location_description : 'Storage Location 1' },
-        { tenant : 'TEST', plant : 'P2', storage_location : 'SL2', storage_location_description : 'Storage Location 2' },    
-    ];
-
+    var ot_SL_storage_location = structuredClone(SL_storage_location);
     return ot_SL_storage_location;
 }
 
@@ -2843,14 +2954,7 @@ function SL_select_D()
 //--------------------------------------------------------------------------------------------------------------------//
 function MG_select_D(it_MG_input_material_general)
 {
-    var ot_MG_material_general = structuredClone(tt_MG_material_general);
-
-    ot_MG_material_general = 
-    [        
-        { tenant : 'TEST', material : 'M1', material_type : 'MT1', material_description : 'MD1', base_UOM : 'BUOM1', material_group : 'MG1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', material_type : 'MT2', material_description : 'MD2', base_UOM : 'BUOM2', material_group : 'MG2', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-    
+    var ot_MG_material_general = structuredClone(MG_material_general);   
     return ot_MG_material_general;
 }
 
@@ -2860,16 +2964,7 @@ function MG_select_D(it_MG_input_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 function MP_select_D(it_MP_input_material_plant)
 {
-    var ot_MP_material_plant = structuredClone(tt_MP_material_plant);
-
-    ot_MP_material_plant = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', reorder_point : '1', moving_average_price : '11', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M1', plant : 'P2', reorder_point : '2', moving_average_price : '22', system_field_message_type : '', system_field_message_description : ''},    
-        { tenant : 'TEST', material : 'M2', plant : 'P1', reorder_point : '3', moving_average_price : '33', system_field_message_type : '', system_field_message_description : ''},
-        { tenant : 'TEST', material : 'M2', plant : 'P2', reorder_point : '4', moving_average_price : '44', system_field_message_type : '', system_field_message_description : ''}        
-    ];
-
+    var ot_MP_material_plant = structuredClone(MP_material_plant);
     return ot_MP_material_plant;
 }
 
@@ -2879,20 +2974,7 @@ function MP_select_D(it_MP_input_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 function MSL_select_D(it_MSL_input_material_storage_location)
 {
-    var ot_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
-
-    ot_MSL_material_storage_location = 
-    [
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', system_field_message_type : '', system_field_message_description : '' },    
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', system_field_message_type : '', system_field_message_description : '' },
-        { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', system_field_message_type : '', system_field_message_description : '' }        
-    ];
-
+    var ot_MSL_material_storage_location = structuredClone(MSL_material_storage_location);
     return ot_MSL_material_storage_location;
 }
 
@@ -2976,22 +3058,27 @@ function MSL_copy_input_D(it_MSL_material_storage_location, it_MSL_input_materia
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_tenant_D(c_MP_output_material_plant)
+function MSL_check_tenant_D(c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
-    if (c_MP_output_material_plant.material == '')
+    if (c_MSL_output_material_storage_location.material == '')
     {
 
     }
     else
     {
-        if (c_MP_output_material_plant.system_field_message_type == '')
+        if (c_MSL_output_material_storage_location.system_field_message_type == '')
         {
-            if (c_MP_output_material_plant.tenant == '')
+            if (c_MSL_output_material_storage_location.tenant == '')
             {
-                c_MP_output_material_plant.system_field_message_type = 'ERROR';
-                c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
+                c_MSL_output_material_storage_location.system_field_message_description = 'Tenant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
+            }
+            else
+            {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -3001,7 +3088,7 @@ function MSL_check_tenant_D(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_plant_D(it_P_plant, c_MSL_output_material_storage_location)
+function MSL_check_plant_D(it_P_plant, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -3018,9 +3105,11 @@ function MSL_check_plant_D(it_P_plant, c_MSL_output_material_storage_location)
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -3033,12 +3122,13 @@ function MSL_check_plant_D(it_P_plant, c_MSL_output_material_storage_location)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else                    
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Plant does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }
@@ -3049,7 +3139,7 @@ function MSL_check_plant_D(it_P_plant, c_MSL_output_material_storage_location)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_storage_location_D(it_SL_storage_location, c_MSL_output_material_storage_location)
+function MSL_check_storage_location_D(it_SL_storage_location, c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -3066,9 +3156,11 @@ function MSL_check_storage_location_D(it_SL_storage_location, c_MSL_output_mater
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not have data';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location has data'});
                 for (lv_counter = 0; lv_counter < it_SL_storage_location.length; lv_counter = lv_counter + 1)
                 {
                     if (it_SL_storage_location[lv_counter].tenant == c_MSL_output_material_storage_location.tenant &&
@@ -3082,12 +3174,13 @@ function MSL_check_storage_location_D(it_SL_storage_location, c_MSL_output_mater
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Storage Location exist'});
                 }
                 else                    
                 {
                     c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                     c_MSL_output_material_storage_location.system_field_message_description = 'Storage Location does not exist';
+                    ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
                 }
             }
         }
@@ -3098,7 +3191,7 @@ function MSL_check_storage_location_D(it_SL_storage_location, c_MSL_output_mater
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MSL_check_material_storage_location_D(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter)
+function MSL_check_material_storage_location_D(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MSL_output_material_storage_location, i_counter, ct_MSL_output_material_storage_location_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -3128,10 +3221,11 @@ function MSL_check_material_storage_location_D(it_MSL_material_storage_location,
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Duplicate record';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
             else
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -3152,16 +3246,46 @@ function MSL_check_material_storage_location_D(it_MSL_material_storage_location,
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Material Storage_location exist'});
             }
             else
             {
                 c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
                 c_MSL_output_material_storage_location.system_field_message_description = 'Material Storage_location does not exist';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
             }
         }
     }
 }
+
+
+//--------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//--------------------------------------------------------------------------------------------------------------------//
+function MSL_check_material_document_D(c_MSL_output_material_storage_location, ct_MSL_output_material_storage_location_log)
+{
+    if (c_MSL_output_material_storage_location.material == '')  
+    {
+    
+    }
+    else
+    { 
+        if (c_MSL_output_material_storage_location.system_field_message_type == '')
+        {
+            if (c_MSL_output_material_storage_location.last_material_document == '')
+            {
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : 'INFORMATION', message_description : 'Material Document does not exist'});
+            }
+            else
+            {
+                c_MSL_output_material_storage_location.system_field_message_type = 'ERROR';
+                c_MSL_output_material_storage_location.system_field_message_description = 'Material Document exist';
+                ct_MSL_output_material_storage_location_log.push({tenant : c_MSL_output_material_storage_location.tenant, material : c_MSL_output_material_storage_location.material, plant : c_MSL_output_material_storage_location.plant, storage_location : c_MSL_output_material_storage_location.storage_location, message_type : c_MSL_output_material_storage_location.system_field_message_type, message_description : c_MSL_output_material_storage_location.system_field_message_description});
+            }
+        }
+    }
+}
+
 
 
 //--------------------------------------------------------------------------------------------------------------------//
@@ -3228,9 +3352,9 @@ function MP_copy_input_D(it_MP_material_plant, it_MP_input_material_plant)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_tenant_D(c_MP_output_material_plant)
+function MP_check_tenant_D(c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     if (c_MP_output_material_plant.material == '')
     {
@@ -3244,6 +3368,11 @@ function MP_check_tenant_D(c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Tenant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
+            }
+            else
+            {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -3253,7 +3382,7 @@ function MP_check_tenant_D(c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_plant_D(it_P_plant, c_MP_output_material_plant)
+function MP_check_plant_D(it_P_plant, c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     var lv_record_exist = '',
         lv_counter = 0;
@@ -3270,10 +3399,12 @@ function MP_check_plant_D(it_P_plant, c_MP_output_material_plant)
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Plant does not have data';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
 
             else
             {
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant has data'});
                 for (lv_counter = 0; lv_counter < it_P_plant.length; lv_counter = lv_counter + 1)
                 {
                     if (it_P_plant[lv_counter].tenant == c_MP_output_material_plant.tenant &&
@@ -3286,12 +3417,13 @@ function MP_check_plant_D(it_P_plant, c_MP_output_material_plant)
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Plant exist'});
                 }
                 else                    
                 {
                     c_MP_output_material_plant.system_field_message_type = 'ERROR';
                     c_MP_output_material_plant.system_field_message_description = 'Plant does not exist';
+                    ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
                 }
             }
         }
@@ -3302,7 +3434,7 @@ function MP_check_plant_D(it_P_plant, c_MP_output_material_plant)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_material_plant_D(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter)
+function MP_check_material_plant_D(it_MP_material_plant, it_MP_output_material_plant, c_MP_output_material_plant, i_counter, ct_MP_output_material_plant_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -3331,10 +3463,11 @@ function MP_check_material_plant_D(it_MP_material_plant, it_MP_output_material_p
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Duplicate record';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
             else
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -3354,12 +3487,13 @@ function MP_check_material_plant_D(it_MP_material_plant, it_MP_output_material_p
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Material Plant exist'});
             }
             else
             {
                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                 c_MP_output_material_plant.system_field_message_description = 'Material Plant does not exist';
+                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
             }
         }
     }
@@ -3369,7 +3503,7 @@ function MP_check_material_plant_D(it_MP_material_plant, it_MP_output_material_p
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MP_check_child_D(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MP_output_material_plant)
+function MP_check_child_D(it_MSL_material_storage_location, it_MSL_output_material_storage_location, c_MP_output_material_plant, ct_MP_output_material_plant_log)
 {
     var lv_counter_database = 0,
         lv_counter_output = 0,
@@ -3402,6 +3536,11 @@ function MP_check_child_D(it_MSL_material_storage_location, it_MSL_output_materi
                             {
                                 c_MP_output_material_plant.system_field_message_type = 'ERROR';
                                 c_MP_output_material_plant.system_field_message_description = 'Child (Material Storage Location) has error';
+                                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});                                
+                            }
+                            else
+                            {
+                                ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Child (Material Storage Location) has no error'});
                             }
                             break;
                         }
@@ -3411,10 +3550,11 @@ function MP_check_child_D(it_MSL_material_storage_location, it_MSL_output_materi
                     {
                         c_MP_output_material_plant.system_field_message_type = 'ERROR';
                         c_MP_output_material_plant.system_field_message_description = 'Child (Material Storage Location) exist';
+                        ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : c_MP_output_material_plant.system_field_message_type, message_description : c_MP_output_material_plant.system_field_message_description});
                     }
                     else
                     {
-
+                        ct_MP_output_material_plant_log.push({tenant : c_MP_output_material_plant.tenant, material : c_MP_output_material_plant.material, plant : c_MP_output_material_plant.plant, message_type : 'INFORMATION', message_description : 'Child (Material Storage Location) does not exist'});
                     }
                 }
             }
@@ -3477,9 +3617,9 @@ function MG_copy_input_D(it_MG_material_general, it_MG_input_material_general)
 
 
 //--------------------------------------------------------------------------------------------------------------------//
-// Version 20240700
+// Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_tenant_D(c_MG_output_material_general)
+function MG_check_tenant_D(c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     if (c_MG_output_material_general.material == '')
     {
@@ -3493,6 +3633,11 @@ function MG_check_tenant_D(c_MG_output_material_general)
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Tenant does not have data';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                                
+            }
+            else
+            {
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Tenant has data'});
             }
         }
     }  
@@ -3502,7 +3647,7 @@ function MG_check_tenant_D(c_MG_output_material_general)
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_material_general_D(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter)
+function MG_check_material_general_D(it_MG_material_general, it_MG_output_material_general, c_MG_output_material_general, i_counter, ct_MG_output_material_general_log)
 {
     var counter = 0,
         lv_record_exist = '';
@@ -3530,10 +3675,11 @@ function MG_check_material_general_D(it_MG_material_general, it_MG_output_materi
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Duplicate record';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                
             }
             else
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
             }
         }
 
@@ -3552,12 +3698,13 @@ function MG_check_material_general_D(it_MG_material_general, it_MG_output_materi
 
             if (lv_record_exist == 'X')
             {
-
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Material General exist'});
             }
             else
             {
                 c_MG_output_material_general.system_field_message_type = 'ERROR';
                 c_MG_output_material_general.system_field_message_description = 'Material General does not exist';
+                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});
             }            
         }
     }
@@ -3567,7 +3714,7 @@ function MG_check_material_general_D(it_MG_material_general, it_MG_output_materi
 //--------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
 //--------------------------------------------------------------------------------------------------------------------//
-function MG_check_child_D(it_MP_material_plant, it_MP_output_material_plant, c_MG_output_material_general)
+function MG_check_child_D(it_MP_material_plant, it_MP_output_material_plant, c_MG_output_material_general, ct_MG_output_material_general_log)
 {
     var lv_counter_database = 0,
         lv_counter_output = 0,
@@ -3596,7 +3743,12 @@ function MG_check_child_D(it_MP_material_plant, it_MP_output_material_plant, c_M
                             if (it_MP_output_material_plant[lv_counter_output].system_field_message_type == 'ERROR')
                             {
                                 c_MG_output_material_general.system_field_message_type = 'ERROR';
-                                c_MG_output_material_general.system_field_message_description = 'Child (Material Plant) has error';  
+                                c_MG_output_material_general.system_field_message_description = 'Child (Material Plant) has error';
+                                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});  
+                            }
+                            else
+                            {
+                                ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Child (Material Plant) has no error'});
                             }
                             lv_record_exist = 'X';
                             break;
@@ -3605,12 +3757,13 @@ function MG_check_child_D(it_MP_material_plant, it_MP_output_material_plant, c_M
 
                     if (lv_record_exist == 'X')
                     {
-
+                        ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : 'INFORMATION', message_description : 'Child (Material Plant) will be deleted'});
                     }
                     else
                     {
                         c_MG_output_material_general.system_field_message_type = 'ERROR';
-                        c_MG_output_material_general.system_field_message_description = 'Child (Material Plant) exist';                        
+                        c_MG_output_material_general.system_field_message_description = 'Child (Material Plant) exist';
+                        ct_MG_output_material_general_log.push({tenant : c_MG_output_material_general.tenant, material : c_MG_output_material_general.material, message_type : c_MG_output_material_general.system_field_message_type, message_description : c_MG_output_material_general.system_field_message_description});                        
                     }
                 }
             }

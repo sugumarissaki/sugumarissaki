@@ -1,7 +1,6 @@
 /*
 
-
-check transfer post TGI, TGR quantity
+check UOM
 blank record
 unit test
 check break
@@ -17,6 +16,12 @@ account document
 avoid if statement in main/public method
 
 
+update last item in material storage location table - COMPLETE
+check item exist in deletion - COMPLETE
+log  - COMPLETE
+do not allow to delete/reverse document which is already deleted/reversed document  - COMPLETE
+keep data global - COMPLETE 
+check transfer post TGI, TGR records match - COMPLETE
 purchase order goods receipt quantity before post - COMPLETE
 sales order goods issue quantity before post - COMPLETE
 sales order quantity check - COMPLETE
@@ -56,8 +61,35 @@ var tt_MDH_material_document_header =
     }
 ];
 
-var tt_MDH_input_material_document_header = structuredClone(tt_MDH_material_document_header),
+var MDH_material_document_header = structuredClone(tt_MDH_material_document_header),
+    tt_MDH_input_material_document_header = structuredClone(tt_MDH_material_document_header),
     tt_MDH_output_material_document_header = structuredClone(tt_MDH_material_document_header);
+
+    MDH_material_document_header = 
+    [
+        { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', material_document_type : 'MDT1', document_date : 'DD1', posting_date : 'PD1', header_reference : 'HR1', header_text : 'HT1', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', material_document_type : 'MDT2', document_date : 'DD2', posting_date : 'PD2', header_reference : 'HR2', header_text : 'HT2', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD11', fiscal_year : 'FY11', material_document_type : 'MDT11', document_date : 'DD11', posting_date : 'PD11', header_reference : 'HR11', header_text : 'HT11', material_document_reverse : 'MD1', fiscal_year_reverse : 'FY1', system_field_message_type : '', system_field_message_description : '' }
+    ];    
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_MDH_material_document_header_log = 
+[
+    {
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+
+        // message : '',
+        message_type : '',
+        message_description : ''
+    }
+];
+
+var tt_MDH_output_material_document_header_log = structuredClone(tt_MDH_material_document_header_log);
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -93,12 +125,45 @@ var tt_MDI_material_document_item =
         fiscal_year_reverse : '',
         item_reverse : '',
         system_field_message_type : '',
-        system_field_message_description : ''
+        system_field_message_description : '',
+        system_field_material_movement_type_match : ''
     }
 ];
 
-var tt_MDI_input_material_document_item = structuredClone(tt_MDI_material_document_item),
+var MDI_material_document_item = structuredClone(tt_MDI_material_document_item),
+    tt_MDI_input_material_document_item = structuredClone(tt_MDI_material_document_item),
     tt_MDI_output_material_document_item = structuredClone(tt_MDI_material_document_item);
+
+    MDI_material_document_item = 
+    [
+        { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '1', entry_UOM : 'EUOM1', material_movement_type : 'GR', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '2', entry_UOM : 'EUOM2', material_movement_type : 'GR', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '10', entry_UOM : 'EUOM1', material_movement_type : 'GIS', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : 'SO1', sales_order_item : 'I1', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', quantity : '20', entry_UOM : 'EUOM2', material_movement_type : 'GIS', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : 'SO1', sales_order_item : 'I2', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD11', fiscal_year : 'FY11', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '1', entry_UOM : 'EUOM1', material_movement_type : 'GRR', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : 'MD1', fiscal_year_reverse : 'FY1', item_reverse : 'I1', system_field_message_type : '', system_field_message_description : '' },
+        { tenant : 'TEST', material_document : 'MD11', fiscal_year : 'FY11', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '2', entry_UOM : 'EUOM2', material_movement_type : 'GRR', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : 'MD1', fiscal_year_reverse : 'FY1', item_reverse : 'I2', system_field_message_type : '', system_field_message_description : '' }
+    ];    
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+// Version 20240800
+//------------------------------------------------------------------------------------------------------------------------------------------------------------//
+var tt_MDI_material_document_item_log = 
+[
+    {
+        tenant : '',
+        material_document : '',
+        fiscal_year : '',
+        item : '',
+
+        // message : '',
+        message_type : '',
+        message_description : ''
+    }
+];
+
+var tt_MDI_output_material_document_item_log = structuredClone(tt_MDI_material_document_item_log);
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -126,9 +191,22 @@ var tt_MSL_material_storage_location =
         }
     ];
 
-    var tt_MSL_input_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+    var MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location),
+        tt_MSL_input_material_storage_location = structuredClone(tt_MSL_material_storage_location),
         tt_MSL_output_material_storage_location = structuredClone(tt_MSL_material_storage_location),
         tt_MSL_output_material_storage_location_copy = structuredClone(tt_MSL_material_storage_location);
+
+        MSL_material_storage_location = 
+        [
+            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', unrestricted_stock : '100', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', unrestricted_stock : '200', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', unrestricted_stock : '300', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', unrestricted_stock : '400', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', unrestricted_stock : '500', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', unrestricted_stock : '600', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', unrestricted_stock : '700', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', unrestricted_stock : '800', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' }
+        ];
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -147,10 +225,25 @@ var tt_MMT_material_movement_type =
         }
     ];
 
-    var tt_MMT_input_material_movement_type = structuredClone(tt_MMT_material_movement_type),
+    var MMT_material_movement_type = structuredClone(tt_MMT_material_movement_type),
+        tt_MMT_input_material_movement_type = structuredClone(tt_MMT_material_movement_type),
         tt_MMT_output_material_movement_type = structuredClone(tt_MMT_material_movement_type);
 
-
+        MMT_material_movement_type = 
+        [
+            { tenant : 'TEST', material_movement_type : 'GI', material_movement_type_description : 'Goods Issue', material_movement_type_reverse : 'GIR', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'GR', material_movement_type_description : 'Goods Receipt', material_movement_type_reverse : 'GRR', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'GRP', material_movement_type_description : 'Goods Receipt Purchase', material_movement_type_reverse : 'GRPR', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'GIS', material_movement_type_description : 'Goods Issue Sales', material_movement_type_reverse : 'GISR', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'TGI', material_movement_type_description : 'Transfer Goods Issue', material_movement_type_reverse : 'TGIR', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'TGR', material_movement_type_description : 'Transfer Goods Receipt', material_movement_type_reverse : 'TGRR', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'GIR', material_movement_type_description : 'Goods Issue Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },            
+            { tenant : 'TEST', material_movement_type : 'GRR', material_movement_type_description : 'Goods Receipt Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'GRPR', material_movement_type_description : 'Goods Receipt Purchase Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'GISR', material_movement_type_description : 'Goods Issue Sales Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'TGIR', material_movement_type_description : 'Transfer Goods Issue Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
+            { tenant : 'TEST', material_movement_type : 'TGRR', material_movement_type_description : 'Transfer Goods Receipt Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' }            
+        ];
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
@@ -165,7 +258,8 @@ var tt_POI_purchase_order_header =
         }
     ];
 
-var tt_POI_input_purchase_order_header = structuredClone(tt_POI_purchase_order_header),    
+var POI_purchase_order_header = structuredClone(tt_POI_purchase_order_header),
+    tt_POI_input_purchase_order_header = structuredClone(tt_POI_purchase_order_header),    
     tt_POI_output_purchase_order_header = structuredClone(tt_POI_purchase_order_header);
 
 
@@ -188,11 +282,17 @@ var tt_POI_purchase_order_item =
         }
     ];
 
+    var POI_purchase_order_item = structuredClone(tt_POI_purchase_order_item),
+        tt_POI_input_purchase_order_item = structuredClone(tt_POI_purchase_order_item),    
+        tt_POI_output_purchase_order_item = structuredClone(tt_POI_purchase_order_item);
 
-    var tt_POI_input_purchase_order_item = structuredClone(tt_POI_purchase_order_item),    
-    tt_POI_output_purchase_order_item = structuredClone(tt_POI_purchase_order_item);
-
-
+        POI_purchase_order_item =
+        [
+            {tenant : 'TEST', purchase_order : 'PO1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', purchase_order_quantity : '1000', purchase_UOM : 'EA', goods_receipt_quantity : '100'},
+            {tenant : 'TEST', purchase_order : 'PO1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', purchase_order_quantity : '2000', purchase_UOM : 'EA', goods_receipt_quantity : '200'},
+            {tenant : 'TEST', purchase_order : 'PO2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', purchase_order_quantity : '3000', purchase_UOM : 'EA', goods_receipt_quantity : '300'},
+            {tenant : 'TEST', purchase_order : 'PO2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', purchase_order_quantity : '4000', purchase_UOM : 'EA', goods_receipt_quantity : '400'}        
+        ];
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------//
 // Version 20240800
@@ -207,7 +307,8 @@ var tt_SOI_sales_order_header =
         }
     ];
 
-var tt_SOI_input_sales_order_header = structuredClone(tt_SOI_sales_order_header),    
+var SOI_sales_order_header = structuredClone(tt_SOI_sales_order_header),
+    tt_SOI_input_sales_order_header = structuredClone(tt_SOI_sales_order_header),    
     tt_SOI_output_sales_order_header = structuredClone(tt_SOI_sales_order_header);
 
 
@@ -231,9 +332,17 @@ var tt_SOI_sales_order_item =
         }
     ];
 
-    var tt_SOI_input_sales_order_item = structuredClone(tt_SOI_sales_order_item),    
-    tt_SOI_output_sales_order_item = structuredClone(tt_SOI_sales_order_item);
+    var SOI_sales_order_item = structuredClone(tt_SOI_sales_order_item),    
+        tt_SOI_input_sales_order_item = structuredClone(tt_SOI_sales_order_item),
+        tt_SOI_output_sales_order_item = structuredClone(tt_SOI_sales_order_item);
 
+        SOI_sales_order_item =
+        [
+            {tenant : 'TEST', sales_order : 'SO1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', sales_order_quantity : '1000', sales_UOM : 'EA', goods_issue_quantity : '100'},
+            {tenant : 'TEST', sales_order : 'SO1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', sales_order_quantity : '2000', sales_UOM : 'EA', goods_issue_quantity : '200'},
+            {tenant : 'TEST', sales_order : 'SO2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', sales_order_quantity : '3000', sales_UOM : 'EA', goods_issue_quantity : '300'},
+            {tenant : 'TEST', sales_order : 'SO2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', sales_order_quantity : '4000', sales_UOM : 'EA', goods_issue_quantity : '400'}
+        ];
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -253,6 +362,9 @@ class MD_material_document
             ot_POI_output_purchase_order_item = structuredClone(tt_POI_output_purchase_order_item),
             ot_SOI_output_sales_order_item = structuredClone(tt_SOI_output_sales_order_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lt_MDH_material_document_header = structuredClone(tt_MDH_material_document_header),
             lt_MDI_material_document_item = structuredClone(tt_MDI_material_document_item),
             lt_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location),
@@ -261,10 +373,10 @@ class MD_material_document
             lt_SOI_sales_order_item = structuredClone(tt_SOI_sales_order_item);           
 
         [lt_MDH_material_document_header, lt_MDI_material_document_item, lt_MSL_material_storage_location, lt_MMT_material_movement_type, lt_POI_purchase_order_item, lt_SOI_sales_order_item] = this.MD_select_C(it_MDH_input_material_document_header, it_MDI_input_material_document_item);
-        [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item] = this.MD_check_C(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item, lt_MSL_material_storage_location, lt_MMT_material_movement_type, lt_POI_purchase_order_item, lt_SOI_sales_order_item);
+        [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log] = this.MD_check_C(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item, lt_MSL_material_storage_location, lt_MMT_material_movement_type, lt_POI_purchase_order_item, lt_SOI_sales_order_item);
         // MD_save_C
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item];
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log];
     }
 
 
@@ -305,6 +417,9 @@ class MD_material_document
             ot_POI_output_purchase_order_item = structuredClone(tt_POI_output_purchase_order_item),
             ot_SOI_output_sales_order_item = structuredClone(tt_SOI_output_sales_order_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+            
         var lt_MSL_output_material_storage_location_copy = structuredClone(tt_MSL_output_material_storage_location_copy),
             lt_POI_output_purchase_order_item_copy = structuredClone(tt_POI_output_purchase_order_item),
             lt_SOI_output_sales_order_item_copy = structuredClone(tt_SOI_output_sales_order_item);          
@@ -317,9 +432,9 @@ class MD_material_document
 
         for (lv_counter_header = 0; lv_counter_header < ot_MDH_output_material_document_header.length; lv_counter_header = lv_counter_header + 1)
         {
-            this.MDH_check_tenant_C(ot_MDH_output_material_document_header[lv_counter_header]);
+            this.MDH_check_tenant_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDH_output_material_document_header_log);
             // MDH_check_material_document_type_C
-            this.MDH_check_material_document_header_C(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header);
+            this.MDH_check_material_document_header_C(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header, ot_MDH_output_material_document_header_log);
         }
 
 
@@ -328,19 +443,19 @@ class MD_material_document
 
         for (lv_counter_item = 0; lv_counter_item < ot_MDI_output_material_document_item.length; lv_counter_item = lv_counter_item + 1)
         {
-            this.MDI_check_tenant_C(ot_MDI_output_material_document_item[lv_counter_item]);
+            this.MDI_check_tenant_C(ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_material_document_item_C(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item, ot_MDI_output_material_document_item_log);
             // MDI_check_material_general_C
             // MDI_check_material_plant_C
-            this.MDI_check_material_storage_location_C(it_MSL_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
             // MDI_check_quantity_C
             // MDI_check_entry_UOM_C
-            this.MDI_check_material_movement_type_C(it_MMT_material_movement_type, ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_check_material_document_item_C(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item);
-            this.MDI_check_purchase_order_C(ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_check_purchase_order_item_C(ot_MDI_output_material_document_item[lv_counter_item], it_POI_purchase_order_item);
-            this.MDI_check_sales_order_C(ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_check_sales_order_item_C(ot_MDI_output_material_document_item[lv_counter_item], it_SOI_sales_order_item);            
-            this.MDI_check_parent_C(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header);  // check ot_MDH_material_document_header ????
+            this.MDI_check_material_storage_location_C(it_MSL_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_material_movement_type_C(it_MMT_material_movement_type, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_purchase_order_C(ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_purchase_order_item_C(ot_MDI_output_material_document_item[lv_counter_item], it_POI_purchase_order_item, ot_MDI_output_material_document_item_log);
+            this.MDI_check_sales_order_C(ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_sales_order_item_C(ot_MDI_output_material_document_item[lv_counter_item], it_SOI_sales_order_item, ot_MDI_output_material_document_item_log);            
+            this.MDI_check_parent_C(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header, ot_MDI_output_material_document_item_log);  // check ot_MDH_material_document_header ????
         }   
 
 
@@ -361,30 +476,33 @@ class MD_material_document
                     ot_MDI_output_material_document_item[lv_counter_item].material_document == ot_MDH_output_material_document_header[lv_counter_header].material_document &&
                     ot_MDI_output_material_document_item[lv_counter_item].fiscal_year == ot_MDH_output_material_document_header[lv_counter_header].fiscal_year)
                 {
-                    this.MDI_populate_stock_goods_issue_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_goods_issue_sales_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_goods_receipt_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_goods_receipt_purchase_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_transfer_goods_issue_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_transfer_goods_receipt_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);        
+                    this.MDI_populate_stock_goods_issue_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_goods_issue_sales_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_goods_receipt_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_goods_receipt_purchase_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_transfer_goods_issue_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_transfer_goods_receipt_C(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);        
 
-                    this.MDI_populate_sales_goods_issue_C(ot_SOI_output_sales_order_item, ot_MDI_output_material_document_item[lv_counter_item]);                    
-                    this.MDI_populate_purchase_goods_receipt_C(ot_POI_output_purchase_order_item, ot_MDI_output_material_document_item[lv_counter_item]);
+                    this.MDI_populate_sales_goods_issue_C(ot_SOI_output_sales_order_item, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);                    
+                    this.MDI_populate_purchase_goods_receipt_C(ot_POI_output_purchase_order_item, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
                 }
             }
 
-            ot_MSL_output_material_storage_location = this.MDI_revert_back_ouput_material_storage_location_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, lt_MSL_output_material_storage_location_copy);
-            ot_SOI_output_sales_order_item = this.MDI_revert_back_output_sales_order_item_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_SOI_output_sales_order_item, lt_SOI_output_sales_order_item_copy);
-            ot_POI_output_purchase_order_item = this.MDI_revert_back_output_purchase_order_item_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_POI_output_purchase_order_item, lt_POI_output_purchase_order_item_copy);
-            this.MDH_check_child_C(ot_MDI_output_material_document_item, ot_MDH_output_material_document_header[lv_counter_header]);
+            ot_MSL_output_material_storage_location = this.MDI_revert_back_output_material_storage_location_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, lt_MSL_output_material_storage_location_copy, ot_MDI_output_material_document_item_log);
+            ot_SOI_output_sales_order_item = this.MDI_revert_back_output_sales_order_item_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_SOI_output_sales_order_item, lt_SOI_output_sales_order_item_copy, ot_MDI_output_material_document_item_log);
+            ot_POI_output_purchase_order_item = this.MDI_revert_back_output_purchase_order_item_C(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_POI_output_purchase_order_item, lt_POI_output_purchase_order_item_copy, ot_MDI_output_material_document_item_log);
+
+            this.MDH_check_child_C(ot_MDI_output_material_document_item, ot_MDH_output_material_document_header[lv_counter_header], ot_MDH_output_material_document_header_log);
         }
         
         console.log('it_MDH_input_material_document_header'); console.log(it_MDH_input_material_document_header); 
         console.log('it_MDH_material_document_header'); console.log(it_MDH_material_document_header); 
-        console.log('ot_MDH_output_material_document_header'); console.log(ot_MDH_output_material_document_header); 
+        console.log('ot_MDH_output_material_document_header'); console.log(ot_MDH_output_material_document_header);
+        console.log('ot_MDH_output_material_document_header_log'); console.log(ot_MDH_output_material_document_header_log);
         console.log('it_MDI_input_material_document_item'); console.log(it_MDI_input_material_document_item); 
         console.log('it_MDI_material_document_item'); console.log(it_MDI_material_document_item); 
-        console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item); 
+        console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item);
+        console.log('ot_MDI_output_material_document_item_log'); console.log(ot_MDI_output_material_document_item_log);
         console.log('it_MSL_material_storage_location'); console.log(it_MSL_material_storage_location); 
         console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);
         console.log('it_MMT_material_movement_type'); console.log(it_MMT_material_movement_type);
@@ -393,7 +511,7 @@ class MD_material_document
         console.log('it_SOI_sales_order_item'); console.log(it_SOI_sales_order_item);
         console.log('ot_SOI_output_sales_order_item'); console.log(ot_SOI_output_sales_order_item);
         
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item];        
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log];        
     }
 
 
@@ -418,14 +536,17 @@ class MD_material_document
         var ot_MDH_output_material_document_header = structuredClone(tt_MDH_output_material_document_header), 
             ot_MDI_output_material_document_item = structuredClone(tt_MDI_output_material_document_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lt_MDH_material_document_header = structuredClone(tt_MDH_material_document_header),
             lt_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);      
 
         [lt_MDH_material_document_header, lt_MDI_material_document_item] = this.MD_select_R(it_MDH_input_material_document_header, it_MDI_input_material_document_item);
-        [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item] = this.MD_check_R(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item);
+        [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log] = this.MD_check_R(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item);
         // MD_save_R
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item];
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log];
     }
 
 
@@ -453,6 +574,9 @@ class MD_material_document
         var ot_MDH_output_material_document_header = structuredClone(tt_MDH_output_material_document_header), 
             ot_MDI_output_material_document_item = structuredClone(tt_MDI_output_material_document_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lv_counter_header = 0,
             lv_counter_item = 0;
         
@@ -460,8 +584,8 @@ class MD_material_document
         ot_MDH_output_material_document_header = this.MDH_copy_input_R(it_MDH_input_material_document_header, it_MDH_material_document_header);
         for (lv_counter_header = 0; lv_counter_header < ot_MDH_output_material_document_header.length; lv_counter_header = lv_counter_header + 1)
         {
-            this.MDH_check_tenant_R(ot_MDH_output_material_document_header[lv_counter_header]);
-            this.MDH_check_material_document_header_R(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header);
+            this.MDH_check_tenant_R(ot_MDH_output_material_document_header[lv_counter_header], ot_MDH_output_material_document_header_log);
+            this.MDH_check_material_document_header_R(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header, ot_MDH_output_material_document_header_log);
         }
 
 
@@ -469,20 +593,22 @@ class MD_material_document
         ot_MDI_output_material_document_item = this.MDI_copy_input_R(it_MDI_input_material_document_item, it_MDI_material_document_item);  // ???? is this method required ????
         for (lv_counter_item = 0; lv_counter_item < ot_MDI_output_material_document_item.length; lv_counter_item = lv_counter_item + 1)
         {
-            this.MDI_check_tenant_R(ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_check_material_document_item_R(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item);
-            this.MDI_check_parent_R(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header);
+            this.MDI_check_tenant_R(ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_material_document_item_R(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item, ot_MDI_output_material_document_item_log);
+            this.MDI_check_parent_R(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header, ot_MDI_output_material_document_item_log);
         }   
 
     
         console.log('it_MDH_input_material_document_header'); console.log(it_MDH_input_material_document_header); 
         console.log('it_MDH_material_document_header'); console.log(it_MDH_material_document_header); 
         console.log('ot_MDH_output_material_document_header'); console.log(ot_MDH_output_material_document_header); 
+        console.log('ot_MDH_output_material_document_header_log'); console.log(ot_MDH_output_material_document_header_log);
         console.log('it_MDI_input_material_document_item'); console.log(it_MDI_input_material_document_item); 
         console.log('it_MDI_material_document_item'); console.log(it_MDI_material_document_item); 
-        console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item); 
+        console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item);
+        console.log('ot_MDI_output_material_document_item_log'); console.log(ot_MDI_output_material_document_item_log);
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item];  
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log];  
     }
 
 
@@ -494,14 +620,17 @@ class MD_material_document
         var ot_MDH_output_material_document_header = structuredClone(tt_MDH_output_material_document_header), 
             ot_MDI_output_material_document_item = structuredClone(tt_MDI_output_material_document_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lt_MDH_material_document_header = structuredClone(tt_MDH_material_document_header),
             lt_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);      
 
         [lt_MDH_material_document_header, lt_MDI_material_document_item] = this.MD_select_U(it_MDH_input_material_document_header, it_MDI_input_material_document_item);
-        [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item] = this.MD_check_U(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item);
+        [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log] = this.MD_check_U(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item);
         // MD_save_U
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item];
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log];
     }
 
 
@@ -529,6 +658,9 @@ class MD_material_document
         var ot_MDH_output_material_document_header = structuredClone(tt_MDH_output_material_document_header), 
             ot_MDI_output_material_document_item = structuredClone(tt_MDI_output_material_document_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lv_counter_header = 0,
             lv_counter_item = 0;
 
@@ -537,8 +669,8 @@ class MD_material_document
         ot_MDH_output_material_document_header = this.MDH_copy_input_U(it_MDH_input_material_document_header, it_MDH_material_document_header);
         for (lv_counter_header = 0; lv_counter_header < ot_MDH_output_material_document_header.length; lv_counter_header = lv_counter_header + 1)
         {
-            this.MDH_check_tenant_U(ot_MDH_output_material_document_header[lv_counter_header]);
-            this.MDH_check_material_document_header_U(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header);
+            this.MDH_check_tenant_U(ot_MDH_output_material_document_header[lv_counter_header], ot_MDH_output_material_document_header_log);
+            this.MDH_check_material_document_header_U(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header, ot_MDH_output_material_document_header_log);
         }
 
 
@@ -546,20 +678,22 @@ class MD_material_document
         ot_MDI_output_material_document_item = this.MDI_copy_input_U(it_MDI_input_material_document_item, it_MDI_material_document_item);   
         for (lv_counter_item = 0; lv_counter_item < ot_MDI_output_material_document_item.length; lv_counter_item = lv_counter_item + 1)
         {
-            this.MDI_check_tenant_U(ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_check_material_document_item_U(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item);
-            this.MDI_check_parent_U(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header);
+            this.MDI_check_tenant_U(ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_material_document_item_U(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item, ot_MDI_output_material_document_item_log);
+            this.MDI_check_parent_U(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header, ot_MDI_output_material_document_item_log);
         }   
 
 
         console.log('it_MDH_input_material_document_header'); console.log(it_MDH_input_material_document_header); 
         console.log('it_MDH_material_document_header'); console.log(it_MDH_material_document_header); 
-        console.log('ot_MDH_output_material_document_header'); console.log(ot_MDH_output_material_document_header); 
+        console.log('ot_MDH_output_material_document_header'); console.log(ot_MDH_output_material_document_header);
+        console.log('ot_MDH_output_material_document_header_log'); console.log(ot_MDH_output_material_document_header_log);
         console.log('it_MDI_input_material_document_item'); console.log(it_MDI_input_material_document_item); 
         console.log('it_MDI_material_document_item'); console.log(it_MDI_material_document_item); 
-        console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item); 
+        console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item);
+        console.log('ot_MDI_output_material_document_item_log'); console.log(ot_MDI_output_material_document_item_log);
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item];  
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log];  
     }
 
 
@@ -584,6 +718,9 @@ class MD_material_document
             ot_POI_output_purchase_order_item = structuredClone(tt_POI_output_purchase_order_item),
             ot_SOI_output_sales_order_item = structuredClone(tt_SOI_output_sales_order_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lt_MDH_material_document_header = structuredClone(tt_MDH_material_document_header),
             lt_MDI_material_document_item = structuredClone(tt_MDI_material_document_item),
             lt_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location),
@@ -592,10 +729,10 @@ class MD_material_document
             lt_SOI_sales_order_item = structuredClone(tt_SOI_sales_order_item);
 
             [lt_MDH_material_document_header, lt_MDI_material_document_item, lt_MSL_material_storage_location, lt_MMT_material_movement_type, lt_POI_purchase_order_item, lt_SOI_sales_order_item] = this.MD_select_D(it_MDH_input_material_document_header, it_MDI_input_material_document_item);
-            [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item] = this.MD_check_D(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item, lt_MSL_material_storage_location, lt_MMT_material_movement_type, lt_POI_purchase_order_item, lt_SOI_sales_order_item);
+            [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log] = this.MD_check_D(it_MDH_input_material_document_header, it_MDI_input_material_document_item, lt_MDH_material_document_header, lt_MDI_material_document_item, lt_MSL_material_storage_location, lt_MMT_material_movement_type, lt_POI_purchase_order_item, lt_SOI_sales_order_item);
             // MD_save_D
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item]; 
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log]; 
     }
 
 
@@ -634,6 +771,9 @@ class MD_material_document
             ot_POI_output_purchase_order_item = structuredClone(tt_POI_output_purchase_order_item),
             ot_SOI_output_sales_order_item = structuredClone(tt_SOI_output_sales_order_item);
 
+        var ot_MDH_output_material_document_header_log = structuredClone(tt_MDH_output_material_document_header_log),
+            ot_MDI_output_material_document_item_log = structuredClone(tt_MDI_output_material_document_item_log);
+
         var lt_MSL_output_material_storage_location_copy = structuredClone(tt_MSL_output_material_storage_location_copy),
             lt_POI_output_purchase_order_item_copy = structuredClone(tt_POI_output_purchase_order_item),
             lt_SOI_output_sales_order_item_copy = structuredClone(tt_SOI_output_sales_order_item);
@@ -646,9 +786,9 @@ class MD_material_document
         ot_MDH_output_material_document_header = this.MDH_copy_input_D(it_MDH_input_material_document_header, it_MDH_material_document_header);
         for (lv_counter_header = 0; lv_counter_header < ot_MDH_output_material_document_header.length; lv_counter_header = lv_counter_header + 1)
         {
-            this.MDH_check_tenant_D(ot_MDH_output_material_document_header[lv_counter_header]);
+            this.MDH_check_tenant_D(ot_MDH_output_material_document_header[lv_counter_header], ot_MDH_output_material_document_header_log);
             // MDH_check_material_document_type
-            this.MDH_check_material_document_header_D(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header);
+            this.MDH_check_material_document_header_D(it_MDH_material_document_header, ot_MDH_output_material_document_header, ot_MDH_output_material_document_header[lv_counter_header], lv_counter_header, ot_MDH_output_material_document_header_log);
         }
 
 
@@ -656,10 +796,10 @@ class MD_material_document
         ot_MDI_output_material_document_item = this.MDI_copy_input_D(it_MDI_input_material_document_item, it_MDI_material_document_item);   
         for (lv_counter_item = 0; lv_counter_item < ot_MDI_output_material_document_item.length; lv_counter_item = lv_counter_item + 1)
         {
-            this.MDI_check_tenant_D(ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_populate_material_movement_type_D(it_MMT_material_movement_type, ot_MDI_output_material_document_item[lv_counter_item]);
-            this.MDI_check_material_document_item_D(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item);
-            this.MDI_check_parent_D(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header);
+            this.MDI_check_tenant_D(ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+            this.MDI_check_material_document_item_D(it_MDI_material_document_item, ot_MDI_output_material_document_item, ot_MDI_output_material_document_item[lv_counter_item], lv_counter_item, ot_MDI_output_material_document_item_log);
+            this.MDI_populate_material_movement_type_D(it_MMT_material_movement_type, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);            
+            this.MDI_check_parent_D(ot_MDI_output_material_document_item[lv_counter_item], ot_MDH_output_material_document_header, ot_MDI_output_material_document_item_log);
         }   
 
 
@@ -680,30 +820,33 @@ class MD_material_document
                     ot_MDI_output_material_document_item[lv_counter_item].material_document == ot_MDH_output_material_document_header[lv_counter_header].material_document &&
                     ot_MDI_output_material_document_item[lv_counter_item].fiscal_year == ot_MDH_output_material_document_header[lv_counter_header].fiscal_year)
                 {
-                    this.MDI_populate_stock_goods_receipt_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_goods_receipt_purchase_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_goods_issue_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_goods_issue_sales_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_transfer_goods_receipt_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_stock_transfer_goods_issue_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item]);
+                    this.MDI_populate_stock_goods_receipt_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_goods_receipt_purchase_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_goods_issue_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_goods_issue_sales_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_transfer_goods_receipt_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_stock_transfer_goods_issue_D(ot_MSL_output_material_storage_location, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
 
-                    this.MDI_populate_purchase_goods_receipt_D(ot_POI_output_purchase_order_item, ot_MDI_output_material_document_item[lv_counter_item]);
-                    this.MDI_populate_sales_goods_issue_D(ot_SOI_output_sales_order_item, ot_MDI_output_material_document_item[lv_counter_item]);                    
+                    this.MDI_populate_purchase_goods_receipt_D(ot_POI_output_purchase_order_item, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);
+                    this.MDI_populate_sales_goods_issue_D(ot_SOI_output_sales_order_item, ot_MDI_output_material_document_item[lv_counter_item], ot_MDI_output_material_document_item_log);                    
                 }
             }
 
             ot_MSL_output_material_storage_location = this.MDI_revert_back_ouput_material_storage_location_D(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, lt_MSL_output_material_storage_location_copy);
             ot_POI_output_purchase_order_item = this.MDI_revert_back_output_purchase_order_item_D(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_POI_output_purchase_order_item, lt_POI_output_purchase_order_item_copy);
             ot_SOI_output_sales_order_item = this.MDI_revert_back_output_sales_order_item_D(ot_MDH_output_material_document_header[lv_counter_header], ot_MDI_output_material_document_item, ot_SOI_output_sales_order_item, lt_SOI_output_sales_order_item_copy);
-            this.MDH_check_child_D(ot_MDI_output_material_document_item, ot_MDH_output_material_document_header[lv_counter_header]);
+            
+            this.MDH_check_child_D(ot_MDI_output_material_document_item, ot_MDH_output_material_document_header[lv_counter_header], ot_MDH_output_material_document_header_log);
         }
 
         console.log('it_MDH_input_material_document_header'); console.log(it_MDH_input_material_document_header); 
         console.log('it_MDH_material_document_header'); console.log(it_MDH_material_document_header); 
         console.log('ot_MDH_output_material_document_header'); console.log(ot_MDH_output_material_document_header); 
+        console.log('ot_MDH_output_material_document_header_log'); console.log(ot_MDH_output_material_document_header_log);
         console.log('it_MDI_input_material_document_item'); console.log(it_MDI_input_material_document_item); 
         console.log('it_MDI_material_document_item'); console.log(it_MDI_material_document_item); 
         console.log('ot_MDI_output_material_document_item'); console.log(ot_MDI_output_material_document_item);
+        console.log('ot_MDI_output_material_document_item_log'); console.log(ot_MDI_output_material_document_item_log);
         console.log('it_MSL_material_storage_location'); console.log(it_MSL_material_storage_location); 
         console.log('ot_MSL_output_material_storage_location'); console.log(ot_MSL_output_material_storage_location);
         console.log('it_MMT_material_movement_type'); console.log(it_MMT_material_movement_type);
@@ -712,7 +855,7 @@ class MD_material_document
         console.log('it_SOI_sales_order_item'); console.log(it_SOI_sales_order_item);
         console.log('ot_SOI_output_sales_order_item'); console.log(ot_SOI_output_sales_order_item);
 
-        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item]; 
+        return [ot_MDH_output_material_document_header, ot_MDI_output_material_document_item, ot_MSL_output_material_storage_location, ot_POI_output_purchase_order_item, ot_SOI_output_sales_order_item, ot_MDH_output_material_document_header_log, ot_MDI_output_material_document_item_log]; 
     }
 
 
@@ -734,14 +877,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDH_select_C(it_MDH_input_material_document_header)
     {
-        var ot_MDH_material_document_header = structuredClone(tt_MDH_material_document_header);
-
-        ot_MDH_material_document_header = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', material_document_type : 'MDT1', document_date : 'DD1', posting_date : 'PD1', header_reference : 'HR1', header_text : 'HT1', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', material_document_type : 'MDT2', document_date : 'DD2', posting_date : 'PD2', header_reference : 'HR2', header_text : 'HT2', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDH_material_document_header = structuredClone(MDH_material_document_header);
         return ot_MDH_material_document_header;
     }
 
@@ -751,16 +887,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDI_select_C(it_MDI_input_material_document_item)
     {
-        var ot_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);
-
-        ot_MDI_material_document_item = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '1', entry_UOM : 'EUOM1', material_movement_type : 'GR', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '2', entry_UOM : 'EUOM2', material_movement_type : 'GR', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '3', entry_UOM : 'EUOM1', material_movement_type : 'GI', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '4', entry_UOM : 'EUOM2', material_movement_type : 'GI', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDI_material_document_item = structuredClone(MDI_material_document_item);
         return ot_MDI_material_document_item;
     }
 
@@ -770,20 +897,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MSL_select_C(it_MDI_input_material_document_item)
     {
-        var ot_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
-
-        ot_MSL_material_storage_location = 
-        [
-            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', unrestricted_stock : '100', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', unrestricted_stock : '200', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', unrestricted_stock : '300', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', unrestricted_stock : '400', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', unrestricted_stock : '500', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', unrestricted_stock : '600', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', unrestricted_stock : '700', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', unrestricted_stock : '800', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MSL_material_storage_location = structuredClone(MSL_material_storage_location);
         return ot_MSL_material_storage_location;
     }
 
@@ -793,24 +907,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MMT_select_C()
     {
-        var ot_MMT_material_movement_type = structuredClone(tt_MMT_material_movement_type);
-
-        ot_MMT_material_movement_type = 
-        [
-            { tenant : 'TEST', material_movement_type : 'GI', material_movement_type_description : 'Goods Issue', material_movement_type_reverse : 'GIR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GR', material_movement_type_description : 'Goods Receipt', material_movement_type_reverse : 'GRR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GRP', material_movement_type_description : 'Goods Receipt Purchase', material_movement_type_reverse : 'GRPR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GIS', material_movement_type_description : 'Goods Issue Sales', material_movement_type_reverse : 'GISR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGI', material_movement_type_description : 'Transfer Goods Issue', material_movement_type_reverse : 'TGIR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGR', material_movement_type_description : 'Transfer Goods Receipt', material_movement_type_reverse : 'TGRR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GIR', material_movement_type_description : 'Goods Issue Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },            
-            { tenant : 'TEST', material_movement_type : 'GRR', material_movement_type_description : 'Goods Receipt Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GRPR', material_movement_type_description : 'Goods Receipt Purchase Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GISR', material_movement_type_description : 'Goods Issue Sales Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGIR', material_movement_type_description : 'Transfer Goods Issue Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGRR', material_movement_type_description : 'Transfer Goods Receipt Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' }            
-        ];
-
+        var ot_MMT_material_movement_type = structuredClone(MMT_material_movement_type);
         return ot_MMT_material_movement_type;
     }
 
@@ -819,16 +916,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     POI_select_C()
     {    
-        var ot_POI_purchase_order_item = structuredClone(tt_POI_purchase_order_item);
-
-        ot_POI_purchase_order_item =
-        [
-            {tenant : 'TEST', purchase_order : 'PO1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', purchase_order_quantity : '1000', purchase_UOM : 'EA', goods_receipt_quantity : '100'},
-            {tenant : 'TEST', purchase_order : 'PO1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', purchase_order_quantity : '2000', purchase_UOM : 'EA', goods_receipt_quantity : '200'},
-            {tenant : 'TEST', purchase_order : 'PO2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', purchase_order_quantity : '3000', purchase_UOM : 'EA', goods_receipt_quantity : '300'},
-            {tenant : 'TEST', purchase_order : 'PO2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', purchase_order_quantity : '4000', purchase_UOM : 'EA', goods_receipt_quantity : '400'}        
-        ];
-
+        var ot_POI_purchase_order_item = structuredClone(POI_purchase_order_item);
         return ot_POI_purchase_order_item;
     }
 
@@ -839,16 +927,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     SOI_select_C()
     {    
-        var ot_SOI_sales_order_item = structuredClone(tt_SOI_sales_order_item);
-
-        ot_SOI_sales_order_item =
-        [
-            {tenant : 'TEST', sales_order : 'SO1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', sales_order_quantity : '1000', sales_UOM : 'EA', goods_issue_quantity : '100'},
-            {tenant : 'TEST', sales_order : 'SO1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', sales_order_quantity : '2000', sales_UOM : 'EA', goods_issue_quantity : '200'},
-            {tenant : 'TEST', sales_order : 'SO2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', sales_order_quantity : '3000', sales_UOM : 'EA', goods_issue_quantity : '300'},
-            {tenant : 'TEST', sales_order : 'SO2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', sales_order_quantity : '4000', sales_UOM : 'EA', goods_issue_quantity : '400'}
-        ];
-
+        var ot_SOI_sales_order_item = structuredClone(SOI_sales_order_item);
         return ot_SOI_sales_order_item;
     }
 
@@ -869,20 +948,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_tenant_C(ct_MDH_output_material_document_header)
+    MDH_check_tenant_C(c_MDH_output_material_document_header, ct_MDH_output_material_document_header_log)
     {
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
     
         }
         else  
         {
-            if (ct_MDH_output_material_document_header.system_field_message_type == '') 
+            if (c_MDH_output_material_document_header.system_field_message_type == '') 
             {
-                if (ct_MDH_output_material_document_header.tenant == '')
+                if (c_MDH_output_material_document_header.tenant == '')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Tenent has data'});
                 }
             }
         }
@@ -892,25 +976,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_material_document_header_C(it_MDH_material_document_header, it_MDH_output_material_document_header, ct_MDH_output_material_document_header, iv_counter)
+    MDH_check_material_document_header_C(it_MDH_material_document_header, it_MDH_output_material_document_header, c_MDH_output_material_document_header, iv_counter, ct_MDH_output_material_document_header_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;                                                                                                    
@@ -919,23 +1003,24 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDH_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDH_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDH_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDH_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -944,12 +1029,13 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Material Document Header already exist';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Material Document Header already exist';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document Header does not exist'});
                 }
             }
         }
@@ -971,7 +1057,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_tenant_C(ct_MDI_output_material_document_item)
+    MDI_check_tenant_C(ct_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         if (ct_MDI_output_material_document_item.material_document == '')
         {
@@ -985,6 +1071,11 @@ class MD_material_document
                 {
                     ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
                     ct_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
+                    ct_MDI_output_material_document_item_log.push({tenant : ct_MDI_output_material_document_item.tenant, material_document : ct_MDI_output_material_document_item.material_document, fiscal_year : ct_MDI_output_material_document_item.fiscal_year, item : ct_MDI_output_material_document_item.item, message_type : ct_MDI_output_material_document_item.system_field_message_type, message_description : ct_MDI_output_material_document_item.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDI_output_material_document_item_log.push({tenant : ct_MDI_output_material_document_item.tenant, material_document : ct_MDI_output_material_document_item.material_document, fiscal_year : ct_MDI_output_material_document_item.fiscal_year, item : ct_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Tenent has data'});
                 }
             }
         }
@@ -994,26 +1085,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_material_storage_location_C(it_MSL_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_check_material_document_item_C(it_MDI_material_document_item, it_MDI_output_material_document_item, c_MDI_output_material_document_item, iv_counter, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
-        lv_counter = 0;
+            lv_counter = 0;
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
-        
+
         }
         else  
-        {
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
-            {
-                lv_record_exist = ''; 
-                for (lv_counter = 0; lv_counter < it_MSL_material_storage_location.length; lv_counter = lv_counter + 1)
+        {  
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
+            { 
+                lv_record_exist = '';       
+                for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MSL_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MSL_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                        it_MSL_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                        it_MSL_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_output_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -1022,12 +1113,86 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Storage Location does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
+                }
+            }
+
+
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
+            {
+                lv_record_exist = '';
+                for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
+                {
+                    if (it_MDI_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
+                    {
+                        lv_record_exist = 'X';
+                        break;
+                    }
+                }
+
+                if (lv_record_exist == 'X')
+                {
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item already exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item does not exist'});
+                }
+            }
+        }
+    }
+
+
+
+    //--------------------------------------------------------------------------------------------------------------------//
+    // Version 20240800
+    //--------------------------------------------------------------------------------------------------------------------//
+    MDI_check_material_storage_location_C(it_MSL_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
+    {
+        var lv_record_exist = '',
+        lv_counter = 0;
+
+        if (c_MDI_output_material_document_item.material_document == '')
+        {
+        
+        }
+        else  
+        {
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
+            {
+                lv_record_exist = ''; 
+                for (lv_counter = 0; lv_counter < it_MSL_material_storage_location.length; lv_counter = lv_counter + 1)
+                {
+                    if (it_MSL_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MSL_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                        it_MSL_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                        it_MSL_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
+                    {
+                        lv_record_exist = 'X';
+                        break;
+                    }
+                }
+
+                if (lv_record_exist == 'X')
+                {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Storage Location exist'});
+                }
+                else
+                {
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Storage Location does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
         }
@@ -1037,31 +1202,33 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_material_movement_type_C(it_MMT_material_movement_type, ct_MDI_output_material_document_item)
+    MDI_check_material_movement_type_C(it_MMT_material_movement_type, ct_MDI_output_material_document_item, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
         lv_counter = 0;
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
             
         }
         else  
         {
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == '')
+                if (c_MDI_output_material_document_item.material_movement_type == '')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not have data';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not have data';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Movement Type has data'});
                     lv_record_exist = '';
                     for (lv_counter = 0; lv_counter < it_MMT_material_movement_type.length; lv_counter = lv_counter + 1)
                     {
-                        if (it_MMT_material_movement_type[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            it_MMT_material_movement_type[lv_counter].material_movement_type == ct_MDI_output_material_document_item.material_movement_type)
+                        if (it_MMT_material_movement_type[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            it_MMT_material_movement_type[lv_counter].material_movement_type == c_MDI_output_material_document_item.material_movement_type)
                         {
                             lv_record_exist = 'X';
                             break;
@@ -1070,110 +1237,46 @@ class MD_material_document
 
                     if (lv_record_exist == 'X')
                     {
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Movement Type exist'});
                         for (lv_counter = 0; lv_counter < it_MMT_material_movement_type.length; lv_counter = lv_counter + 1)
                         {
-                            if (it_MMT_material_movement_type[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                                it_MMT_material_movement_type[lv_counter].material_movement_type_reverse == ct_MDI_output_material_document_item.material_movement_type)
+                            if (it_MMT_material_movement_type[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                                it_MMT_material_movement_type[lv_counter].material_movement_type_reverse == c_MDI_output_material_document_item.material_movement_type)
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Reverse Material Movement Type';
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Reverse Material Movement Type';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                                 break;
                             }
                         }
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not exist';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not exist';
+                        ct_MDI_output_material_document_item_log.push({tenant : ct_MDI_output_material_document_item.tenant, material_document : ct_MDI_output_material_document_item.material_document, fiscal_year : ct_MDI_output_material_document_item.fiscal_year, item : ct_MDI_output_material_document_item.item, message_type : ct_MDI_output_material_document_item.system_field_message_type, message_description : ct_MDI_output_material_document_item.system_field_message_description});
                     }
                 }
             }
-        }
-    }
 
-
-    //--------------------------------------------------------------------------------------------------------------------//
-    // Version 20240800
-    //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_material_document_item_C(it_MDI_material_document_item, it_MDI_output_material_document_item, ct_MDI_output_material_document_item, iv_counter)
-    {
-        var lv_record_exist = '',
-            lv_counter = 0;
-
-        if (ct_MDI_output_material_document_item.material_document == '')
-        {
-
-        }
-        else  
-        {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
-            { 
-                lv_record_exist = '';       
-                for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
-                {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_output_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
-                    {
-                        lv_record_exist = 'X';
-                        break;
-                    }
-                }
-
-                if (lv_record_exist == 'X')
-                {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
-                }
-                else
-                {
-
-                }
-            }
-
-
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                lv_record_exist = '';
-                for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
-                {
-                    if (it_MDI_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
-                    {
-                        lv_record_exist = 'X';
-                        break;
-                    }
-                }
-
-                if (lv_record_exist == 'X')
-                {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item already exist';
-                }
-                else
-                {
-
-                }
-            }
-
-
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
-            {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGI')
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGI' &&
+                    c_MDI_output_material_document_item.system_field_material_movement_type_match == '')
                 { 
                     lv_record_exist = '';       
-                    for (lv_counter = 0 ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
+                    for (lv_counter = 0 ; lv_counter < ct_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                            it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                            it_MDI_output_material_document_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            it_MDI_output_material_document_item[lv_counter].quantity == ct_MDI_output_material_document_item.quantity &&
-                            it_MDI_output_material_document_item[lv_counter].material_movement_type == 'TGR')
+                        if (ct_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                            ct_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                            ct_MDI_output_material_document_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MDI_output_material_document_item[lv_counter].quantity == c_MDI_output_material_document_item.quantity &&
+                            ct_MDI_output_material_document_item[lv_counter].material_movement_type == 'TGR' &&
+                            ct_MDI_output_material_document_item[lv_counter].system_field_material_movement_type_match == '')
                         {
+                            c_MDI_output_material_document_item.system_field_material_movement_type_match = 'X';
+                            ct_MDI_output_material_document_item[lv_counter].system_field_material_movement_type_match = 'X';
                             lv_record_exist = 'X';
                             break;
                         }
@@ -1181,31 +1284,35 @@ class MD_material_document
 
                     if (lv_record_exist == 'X')
                     {
-
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Transfer Goods Receipt record exist'});
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Receipt record does not exist';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Receipt record does not exist';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
                 }
             }
 
-
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGR') 
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGR' &&
+                    c_MDI_output_material_document_item.system_field_material_movement_type_match == '')
                 {
                     lv_record_exist = '';       
-                    for (lv_counter = 0 ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
+                    for (lv_counter = 0 ; lv_counter < ct_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                            it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                            it_MDI_output_material_document_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            it_MDI_output_material_document_item[lv_counter].quantity == ct_MDI_output_material_document_item.quantity &&
-                            it_MDI_output_material_document_item[lv_counter].material_movement_type == 'TGI')
+                        if (ct_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                            ct_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                            ct_MDI_output_material_document_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MDI_output_material_document_item[lv_counter].quantity == c_MDI_output_material_document_item.quantity &&
+                            ct_MDI_output_material_document_item[lv_counter].material_movement_type == 'TGI' &&
+                            ct_MDI_output_material_document_item[lv_counter].system_field_material_movement_type_match == '')
                         {
+                            c_MDI_output_material_document_item.system_field_material_movement_type_match = 'X';
+                            ct_MDI_output_material_document_item[lv_counter].system_field_material_movement_type_match = 'X';
                             lv_record_exist = 'X';
                             break;
                         }
@@ -1213,12 +1320,13 @@ class MD_material_document
 
                     if (lv_record_exist == 'X')
                     {
-
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Transfer Goods Issue record exist'});
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Issue record does not exist';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Issue record does not exist';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
                 }
             }
@@ -1229,34 +1337,40 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_purchase_order_C(ct_MDI_output_material_document_item)
+    MDI_check_purchase_order_C(c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
             
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRP')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRP')
                 {
-                    if (ct_MDI_output_material_document_item.purchase_order == '')
+                    if (c_MDI_output_material_document_item.purchase_order == '')
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Purchase Order does not have data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Purchase Order does not have data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                    }
+                    else
+                    {
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Purchase Order has data'});
                     }
                 }
                 else
                 {
-                    if (ct_MDI_output_material_document_item.purchase_order == '')
+                    if (c_MDI_output_material_document_item.purchase_order == '')
                     {
 
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Purchase Order has data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Purchase Order has data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }                        
                 } 
             }
@@ -1267,45 +1381,48 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_purchase_order_item_C(ct_MDI_output_material_document_item, it_POI_purchase_order_item)
+    MDI_check_purchase_order_item_C(c_MDI_output_material_document_item, it_POI_purchase_order_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0,
             lv_record_exist = '';
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
             
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRP')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRP')
                 {
-                    if (ct_MDI_output_material_document_item.purchase_order_item == '')
+                    if (c_MDI_output_material_document_item.purchase_order_item == '')
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item does not have data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item does not have data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
                     else
                     {
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Purchase Order Item has data'});
                         lv_record_exist = '';
                         for (lv_counter = 0; lv_counter < it_POI_purchase_order_item.length; lv_counter = lv_counter + 1)
                         {
-                            if (it_POI_purchase_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                                it_POI_purchase_order_item[lv_counter].purchase_order == ct_MDI_output_material_document_item.purchase_order &&
-                                it_POI_purchase_order_item[lv_counter].item == ct_MDI_output_material_document_item.purchase_order_item)
+                            if (it_POI_purchase_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                                it_POI_purchase_order_item[lv_counter].purchase_order == c_MDI_output_material_document_item.purchase_order &&
+                                it_POI_purchase_order_item[lv_counter].item == c_MDI_output_material_document_item.purchase_order_item)
                             {
-                                if (it_POI_purchase_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                                    it_POI_purchase_order_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                                    it_POI_purchase_order_item[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                                    it_POI_purchase_order_item[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                                if (it_POI_purchase_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                                    it_POI_purchase_order_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                                    it_POI_purchase_order_item[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                                    it_POI_purchase_order_item[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                                 {
-
+                                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Purchase Order Item has Material Storage Location'});
                                 }
                                 else
                                 {
-                                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                    ct_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item does not have Material Storage Location';
+                                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                    c_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item does not have Material Storage Location';
+                                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                                 }
 
                                 lv_record_exist = 'X';
@@ -1315,25 +1432,27 @@ class MD_material_document
 
                         if (lv_record_exist == 'X')
                         {
-
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Purchase Order Item exist'});
                         }
                         else
                         {
-                            ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                            ct_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item does not exist';
+                            c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                            c_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item does not exist';
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                         }
                     }
                 }
                 else
                 {
-                    if (ct_MDI_output_material_document_item.purchase_order_item == '')
+                    if (c_MDI_output_material_document_item.purchase_order_item == '')
                     {
 
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item has data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Purchase Order Item has data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }                        
                 } 
             }
@@ -1344,37 +1463,44 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_sales_order_C(ct_MDI_output_material_document_item)
+    MDI_check_sales_order_C(c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0,
             lv_record_exist = '';
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
             
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GIS')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GIS')
                 {
-                    if (ct_MDI_output_material_document_item.sales_order == '')
+                    if (c_MDI_output_material_document_item.sales_order == '')
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Sales Order does not have data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Sales Order does not have data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                    }
+                    else
+                    {
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sales Order has data'});
                     }
                 }
                 else
                 {
-                    if (ct_MDI_output_material_document_item.sales_order == '')
+    
+                    if (c_MDI_output_material_document_item.sales_order == '')
                     {
 
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Sales Order has data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Sales Order has data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }                        
                 } 
             }
@@ -1385,25 +1511,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_sales_order_item_C(ct_MDI_output_material_document_item, it_SOI_sales_order_item)
+    MDI_check_sales_order_item_C(c_MDI_output_material_document_item, it_SOI_sales_order_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0,
             lv_record_exist = '';
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
             
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GIS')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GIS')
                 {
-                    if (ct_MDI_output_material_document_item.sales_order_item == '')
+                    if (c_MDI_output_material_document_item.sales_order_item == '')
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item does not have data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item does not have data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
 
                     else
@@ -1411,21 +1538,22 @@ class MD_material_document
                         lv_record_exist = '';
                         for (lv_counter = 0; lv_counter < it_SOI_sales_order_item.length; lv_counter = lv_counter + 1)
                         {
-                            if (it_SOI_sales_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                                it_SOI_sales_order_item[lv_counter].sales_order == ct_MDI_output_material_document_item.sales_order &&
-                                it_SOI_sales_order_item[lv_counter].item == ct_MDI_output_material_document_item.sales_order_item)
+                            if (it_SOI_sales_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                                it_SOI_sales_order_item[lv_counter].sales_order == c_MDI_output_material_document_item.sales_order &&
+                                it_SOI_sales_order_item[lv_counter].item == c_MDI_output_material_document_item.sales_order_item)
                             {
-                                if (it_SOI_sales_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                                    it_SOI_sales_order_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                                    it_SOI_sales_order_item[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                                    it_SOI_sales_order_item[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                                if (it_SOI_sales_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                                    it_SOI_sales_order_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                                    it_SOI_sales_order_item[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                                    it_SOI_sales_order_item[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                                 {
-
+                                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sales Order Item has Material Storage Location'});
                                 }
                                 else
                                 {
-                                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                    ct_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item does not have Material Storage Location';
+                                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                    c_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item does not have Material Storage Location';
+                                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                                 }
 
                                 lv_record_exist = 'X';
@@ -1435,25 +1563,27 @@ class MD_material_document
 
                         if (lv_record_exist == 'X')
                         {
-
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sales Order Item exist'});
                         }
                         else
                         {
-                            ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                            ct_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item does not exist';
+                            c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                            c_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item does not exist';
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                         }
                     }
                 }
                 else
                 {
-                    if (ct_MDI_output_material_document_item.sales_order_item == '')
+                    if (c_MDI_output_material_document_item.sales_order_item == '')
                     {
 
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item has data';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Sales Order Item has data';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }                        
                 } 
             }
@@ -1464,25 +1594,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_parent_C(ct_MDI_output_material_document_item, it_MDH_output_material_document_header)
+    MDI_check_parent_C(c_MDI_output_material_document_item, it_MDH_output_material_document_header, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -1491,23 +1621,24 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
             
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
                         it_MDH_output_material_document_header[lv_counter].system_field_message_type == 'ERROR')
                     {
                         lv_record_exist = 'X';
@@ -1517,12 +1648,13 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) has error';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) has error';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) does not have error'});
                 }
             }    
         }
@@ -1607,44 +1739,49 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_issue_C(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_issue_C(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GI')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GI')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +ct_MDI_output_material_document_item.quantity)
+                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                                ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                                ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                                ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                                ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Stock exist'});
 
-                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+ct_MDI_output_material_document_item.quantity);
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;                         
+                                c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                                c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                                c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                                c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                                c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+
+                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+c_MDI_output_material_document_item.quantity);
+                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                                ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;                         
+                                
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is reduced'});
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                        
                             }
                             break;                            
                         }
@@ -1659,44 +1796,49 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_issue_sales_C(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_issue_sales_C(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GIS')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GIS')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +ct_MDI_output_material_document_item.quantity)
+                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                                ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                                ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                                ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                                ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Stock exist'});
 
-                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+ct_MDI_output_material_document_item.quantity);
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;                         
+                                c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                                c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                                c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                                c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                                c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+
+                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+c_MDI_output_material_document_item.quantity);
+                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                                ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;                         
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is reduced'});
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock'; 
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                       
                             }
                             break;                            
                         }
@@ -1711,37 +1853,39 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_receipt_C(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_receipt_C(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                            ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                            ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                            ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                            ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                            c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                            c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                            c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                            c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                            c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
 
-                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+ct_MDI_output_material_document_item.quantity);
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+c_MDI_output_material_document_item.quantity);
+                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                            ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+                            
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is increased'});
                             break;                           
                         }
                     }
@@ -1755,37 +1899,39 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_receipt_purchase_C(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_receipt_purchase_C(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRP')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRP')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                            ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                            ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                            ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                            ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                            c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                            c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                            c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                            c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                            c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
 
-                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+ct_MDI_output_material_document_item.quantity);
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+c_MDI_output_material_document_item.quantity);
+                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                            ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is increased'});
                             break;                           
                         }
                     }
@@ -1800,44 +1946,49 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_transfer_goods_issue_C(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_transfer_goods_issue_C(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGI')
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGI')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +ct_MDI_output_material_document_item.quantity)
+                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                                ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                                ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                                ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                                ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Stock exist'});
 
-                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+ct_MDI_output_material_document_item.quantity);
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;                      
+                                c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                                c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                                c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                                c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                                c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+
+                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+c_MDI_output_material_document_item.quantity);
+                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                                ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;                      
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is reduced'});
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                        
                             }
                             break;                            
                         }
@@ -1851,37 +2002,39 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_transfer_goods_receipt_C(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_transfer_goods_receipt_C(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                            ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                            ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                            ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                            ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                            c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                            c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                            c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                            c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                            c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
 
-                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+ct_MDI_output_material_document_item.quantity);
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+c_MDI_output_material_document_item.quantity);
+                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                            ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+                            
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is increased'});
                             break;                            
                         }
                     }
@@ -1895,40 +2048,45 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_sales_goods_issue_C(ct_SOI_output_sales_order_item, ct_MDI_output_material_document_item)
+    MDI_populate_sales_goods_issue_C(ct_SOI_output_sales_order_item, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0,
             lv_open_sales_order_quantity = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GIS')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GIS')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_SOI_output_sales_order_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_SOI_output_sales_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_SOI_output_sales_order_item[lv_counter].sales_order == ct_MDI_output_material_document_item.sales_order &&
-                            ct_SOI_output_sales_order_item[lv_counter].item == ct_MDI_output_material_document_item.sales_order_item &&
-                            ct_SOI_output_sales_order_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_SOI_output_sales_order_item[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_SOI_output_sales_order_item[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_SOI_output_sales_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_SOI_output_sales_order_item[lv_counter].sales_order == c_MDI_output_material_document_item.sales_order &&
+                            ct_SOI_output_sales_order_item[lv_counter].item == c_MDI_output_material_document_item.sales_order_item &&
+                            ct_SOI_output_sales_order_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_SOI_output_sales_order_item[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_SOI_output_sales_order_item[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
                             lv_open_sales_order_quantity = +ct_SOI_output_sales_order_item[lv_counter].sales_order_quantity - +ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity;
-                            if (+lv_open_sales_order_quantity >= +ct_MDI_output_material_document_item.quantity)
+                            if (+lv_open_sales_order_quantity >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.sales_order_goods_issue_quantity_before_post = ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity;
-                                ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity = (+ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity) + (+ct_MDI_output_material_document_item.quantity);
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Open Sales Order Quantity exist'});
+
+                                c_MDI_output_material_document_item.sales_order_goods_issue_quantity_before_post = ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity;
+                                ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity = (+ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity) + (+c_MDI_output_material_document_item.quantity);
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Open Sales Order Quantity is reduced'});
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Quantity is more than Open Sales Order Quantity';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Open Sales Order Quantity';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                        
                             }
                             break;                            
                         }
@@ -1944,40 +2102,45 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_purchase_goods_receipt_C(ct_POI_output_purchase_order_item, ct_MDI_output_material_document_item)
+    MDI_populate_purchase_goods_receipt_C(ct_POI_output_purchase_order_item, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0,
             lv_open_purchase_order_quantity = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRP')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRP')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_POI_output_purchase_order_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_POI_output_purchase_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_POI_output_purchase_order_item[lv_counter].purchase_order == ct_MDI_output_material_document_item.purchase_order &&
-                            ct_POI_output_purchase_order_item[lv_counter].item == ct_MDI_output_material_document_item.purchase_order_item &&
-                            ct_POI_output_purchase_order_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_POI_output_purchase_order_item[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_POI_output_purchase_order_item[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_POI_output_purchase_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_POI_output_purchase_order_item[lv_counter].purchase_order == c_MDI_output_material_document_item.purchase_order &&
+                            ct_POI_output_purchase_order_item[lv_counter].item == c_MDI_output_material_document_item.purchase_order_item &&
+                            ct_POI_output_purchase_order_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_POI_output_purchase_order_item[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_POI_output_purchase_order_item[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
                             lv_open_purchase_order_quantity = +ct_POI_output_purchase_order_item[lv_counter].purchase_order_quantity - +ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity;
-                            if (+lv_open_purchase_order_quantity >= +ct_MDI_output_material_document_item.quantity)
+                            if (+lv_open_purchase_order_quantity >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.purchase_order_goods_receipt_quantity_before_post = ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity;
-                                ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity = (+ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity) + (+ct_MDI_output_material_document_item.quantity);
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficent Open Purchase Order Quantity exist'});
+
+                                c_MDI_output_material_document_item.purchase_order_goods_receipt_quantity_before_post = ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity;
+                                ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity = (+ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity) + (+c_MDI_output_material_document_item.quantity);
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Open Purchase Order Quantity is reduced'});
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Quantity is more than Open Purchase Order Quantity';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Open Purchase Order Quantity';                        
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                             }
                             break;                            
                         }
@@ -1991,7 +2154,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_revert_back_ouput_material_storage_location_C(it_MDH_output_material_document_header, it_MDI_output_material_document_item, it_MSL_output_material_storage_location, it_MSL_output_material_storage_location_copy)
+    MDI_revert_back_output_material_storage_location_C(i_MDH_output_material_document_header, it_MDI_output_material_document_item, it_MSL_output_material_storage_location, it_MSL_output_material_storage_location_copy, ct_MDI_output_material_document_item_log)
     {
         var ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
 
@@ -2001,9 +2164,9 @@ class MD_material_document
         lv_record_exist = '';
         for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
         {
-            if (it_MDI_output_material_document_item[lv_counter].tenant == it_MDH_output_material_document_header.tenant &&
-                it_MDI_output_material_document_item[lv_counter].material_document == it_MDH_output_material_document_header.material_document &&
-                it_MDI_output_material_document_item[lv_counter].fiscal_year == it_MDH_output_material_document_header.fiscal_year &&
+            if (it_MDI_output_material_document_item[lv_counter].tenant == i_MDH_output_material_document_header.tenant &&
+                it_MDI_output_material_document_item[lv_counter].material_document == i_MDH_output_material_document_header.material_document &&
+                it_MDI_output_material_document_item[lv_counter].fiscal_year == i_MDH_output_material_document_header.fiscal_year &&
                 it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
             {
                 lv_record_exist = 'X';
@@ -2014,6 +2177,7 @@ class MD_material_document
         if (lv_record_exist == 'X')
         {
             ot_MSL_output_material_storage_location = structuredClone(it_MSL_output_material_storage_location_copy);
+            ct_MDI_output_material_document_item_log.push({tenant : i_MDH_output_material_document_header.tenant, material_document : i_MDH_output_material_document_header.material_document, fiscal_year : i_MDH_output_material_document_header.fiscal_year, item : '*', message_type : 'INFORMATION', message_description : 'Stock update is reverted back'});
         }
         else
         {
@@ -2027,7 +2191,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_revert_back_output_sales_order_item_C(it_MDH_output_material_document_header, it_MDI_output_material_document_item, it_SOI_output_sales_order_item, it_SOI_output_sales_order_item_copy)
+    MDI_revert_back_output_sales_order_item_C(i_MDH_output_material_document_header, it_MDI_output_material_document_item, it_SOI_output_sales_order_item, it_SOI_output_sales_order_item_copy, ct_MDI_output_material_document_item_log)
     {
         var ot_SOI_output_sales_order_item = structuredClone(tt_SOI_output_sales_order_item);
 
@@ -2037,9 +2201,9 @@ class MD_material_document
         lv_record_exist = '';
         for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
         {
-            if (it_MDI_output_material_document_item[lv_counter].tenant == it_MDH_output_material_document_header.tenant &&
-                it_MDI_output_material_document_item[lv_counter].material_document == it_MDH_output_material_document_header.material_document &&
-                it_MDI_output_material_document_item[lv_counter].fiscal_year == it_MDH_output_material_document_header.fiscal_year &&
+            if (it_MDI_output_material_document_item[lv_counter].tenant == i_MDH_output_material_document_header.tenant &&
+                it_MDI_output_material_document_item[lv_counter].material_document == i_MDH_output_material_document_header.material_document &&
+                it_MDI_output_material_document_item[lv_counter].fiscal_year == i_MDH_output_material_document_header.fiscal_year &&
                 it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
             {
                 lv_record_exist = 'X';
@@ -2050,6 +2214,7 @@ class MD_material_document
         if (lv_record_exist == 'X')
         {
             ot_SOI_output_sales_order_item = structuredClone(it_SOI_output_sales_order_item_copy);
+            ct_MDI_output_material_document_item_log.push({tenant : i_MDH_output_material_document_header.tenant, material_document : i_MDH_output_material_document_header.material_document, fiscal_year : i_MDH_output_material_document_header.fiscal_year, item : '*', message_type : 'INFORMATION', message_description : 'Open Sales Order Quantity update is reverted back'});
         }
         else
         {
@@ -2063,7 +2228,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_revert_back_output_purchase_order_item_C(it_MDH_output_material_document_header, it_MDI_output_material_document_item, it_POI_output_purchase_order_item, it_POI_output_purchase_order_item_copy)
+    MDI_revert_back_output_purchase_order_item_C(i_MDH_output_material_document_header, it_MDI_output_material_document_item, it_POI_output_purchase_order_item, it_POI_output_purchase_order_item_copy, ct_MDI_output_material_document_item_log)
     {
         var ot_POI_output_purchase_order_item = structuredClone(tt_POI_output_purchase_order_item);
 
@@ -2073,9 +2238,9 @@ class MD_material_document
         lv_record_exist = '';
         for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
         {
-            if (it_MDI_output_material_document_item[lv_counter].tenant == it_MDH_output_material_document_header.tenant &&
-                it_MDI_output_material_document_item[lv_counter].material_document == it_MDH_output_material_document_header.material_document &&
-                it_MDI_output_material_document_item[lv_counter].fiscal_year == it_MDH_output_material_document_header.fiscal_year &&
+            if (it_MDI_output_material_document_item[lv_counter].tenant == i_MDH_output_material_document_header.tenant &&
+                it_MDI_output_material_document_item[lv_counter].material_document == i_MDH_output_material_document_header.material_document &&
+                it_MDI_output_material_document_item[lv_counter].fiscal_year == i_MDH_output_material_document_header.fiscal_year &&
                 it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
             {
                 lv_record_exist = 'X';
@@ -2086,6 +2251,7 @@ class MD_material_document
         if (lv_record_exist == 'X')
         {
             ot_POI_output_purchase_order_item = structuredClone(it_POI_output_purchase_order_item_copy);
+            ct_MDI_output_material_document_item_log.push({tenant : i_MDH_output_material_document_header.tenant, material_document : i_MDH_output_material_document_header.material_document, fiscal_year : i_MDH_output_material_document_header.fiscal_year, item : '*', message_type : 'INFORMATION', message_description : 'Open Purchase Order Quantity update is reverted back'});
         }
         else
         {
@@ -2100,25 +2266,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_child_C(it_MDI_output_material_document_item, ct_MDH_output_material_document_header)
+    MDH_check_child_C(it_MDI_output_material_document_item, c_MDH_output_material_document_header, ct_MDH_output_material_document_header_log)
     {
         var lv_counter = 0,
         lv_record_exist = '';
 
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
             
         }
         else
         {
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2127,23 +2293,24 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Child (Material Document Item) exist'}); 
                 }
                 else
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) does not exist'; 
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) does not exist';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description}); 
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year &&
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year &&
                         it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
                     {
                         lv_record_exist = 'X';
@@ -2153,12 +2320,13 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) has error'; 
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) has error';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description}); 
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Child (Material Document Item) does not have error'}); 
                 }
             }
         } 
@@ -2170,15 +2338,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDH_select_R(it_MDH_input_material_document_header)
     {
-        var ot_MDH_material_document_header = structuredClone(tt_MDH_material_document_header);
-
-        ot_MDH_material_document_header = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', material_document_type : 'MDT1', document_date : 'DD1', posting_date : 'PD1', header_reference : 'HR1', header_text : 'HT1', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', material_document_type : 'MDT2', document_date : 'DD2', posting_date : 'PD2', header_reference : 'HR2', header_text : 'HT2', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD11', fiscal_year : 'FY11', material_document_type : 'MDT1', document_date : 'DD1', posting_date : 'PD1', header_reference : 'HR1', header_text : 'HT1', material_document_reverse : 'MD1', fiscal_year_reverse : 'FY1', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDH_material_document_header = structuredClone(MDH_material_document_header);
         return ot_MDH_material_document_header;
     }
 
@@ -2188,18 +2348,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDI_select_R(it_MDI_input_material_document_item)
     {
-        var ot_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);
-
-        ot_MDI_material_document_item = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '1', entry_UOM : 'EUOM1', material_movement_type : 'GR', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '2', entry_UOM : 'EUOM2', material_movement_type : 'GR', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '10', entry_UOM : 'EUOM1', material_movement_type : 'GIS', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : 'SO1', sales_order_item : 'I1', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', quantity : '20', entry_UOM : 'EUOM2', material_movement_type : 'GIS', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : 'SO1', sales_order_item : 'I2', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD11', fiscal_year : 'FY11', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '1', entry_UOM : 'EUOM1', material_movement_type : 'GRR', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : 'MD1', fiscal_year_reverse : 'FY1', item_reverse : 'I1', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD11', fiscal_year : 'FY11', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '2', entry_UOM : 'EUOM2', material_movement_type : 'GRR', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : 'MD1', fiscal_year_reverse : 'FY1', item_reverse : 'I2', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDI_material_document_item = structuredClone(MDI_material_document_item);
         return ot_MDI_material_document_item;
     }
 
@@ -2267,21 +2416,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_tenant_R(ct_MDH_output_material_document_header)
+    MDH_check_tenant_R(c_MDH_output_material_document_header, ct_MDH_output_material_document_header_log)
     {
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
     
         }
         else  
         {
-            if (ct_MDH_output_material_document_header.system_field_message_type == '') 
+            if (c_MDH_output_material_document_header.system_field_message_type == '') 
             {
-            if (ct_MDH_output_material_document_header.tenant == '')
-            {
-                ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                ct_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
-            }
+                if (c_MDH_output_material_document_header.tenant == '')
+                {
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Tenent has data'});
+                }
             }
         }
     }
@@ -2290,24 +2444,24 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_material_document_header_R(it_MDH_material_document_header, it_MDH_output_material_document_header, ct_MDH_output_material_document_header, iv_counter)
+    MDH_check_material_document_header_R(it_MDH_material_document_header, it_MDH_output_material_document_header, c_MDH_output_material_document_header, iv_counter, ct_MDH_output_material_document_header_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2316,23 +2470,24 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDH_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDH_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDH_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDH_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2341,12 +2496,13 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document Header exist'});
                 }
                 else
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Material Document Header does not exist';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Material Document Header does not exist';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
             }
         }
@@ -2439,21 +2595,27 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_tenant_R(ct_MDI_output_material_document_item)
+    MDI_check_tenant_R(c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
     
         }
         else  
         {
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.tenant == '')
+                if (c_MDI_output_material_document_item.tenant == '')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
+                else
+                {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Tenent has data'});                    
+                }
+                
             }
         }
     }
@@ -2462,26 +2624,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_material_document_item_R(it_MDI_material_document_item, it_MDI_output_material_document_item, ct_MDI_output_material_document_item, iv_counter)
+    MDI_check_material_document_item_R(it_MDI_material_document_item, it_MDI_output_material_document_item, c_MDI_output_material_document_item, iv_counter, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_output_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_output_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2490,24 +2652,25 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
+                    if (it_MDI_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2516,12 +2679,13 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
         }
@@ -2531,25 +2695,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_parent_R(ct_MDI_output_material_document_item, it_MDH_output_material_document_header)
+    MDI_check_parent_R(c_MDI_output_material_document_item, it_MDH_output_material_document_header, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2558,12 +2722,13 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
         }
@@ -2575,14 +2740,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDH_select_U(it_MDH_input_material_document_header)
     {
-        var ot_MDH_material_document_header = structuredClone(tt_MDH_material_document_header);
-
-        ot_MDH_material_document_header = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', material_document_type : 'MDT1', document_date : 'DD1', posting_date : 'PD1', header_reference : 'HR1', header_text : 'HT1', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', material_document_type : 'MDT2', document_date : 'DD2', posting_date : 'PD2', header_reference : 'HR2', header_text : 'HT2', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDH_material_document_header = structuredClone(MDH_material_document_header);
         return ot_MDH_material_document_header;
     }
 
@@ -2592,16 +2750,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDI_select_U(it_MDI_input_material_document_item)
     {
-        var ot_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);
-
-        ot_MDI_material_document_item = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '1', entry_UOM : 'EUOM1', material_movement_type : 'GR', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '2', entry_UOM : 'EUOM2', material_movement_type : 'GR', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '3', entry_UOM : 'EUOM1', material_movement_type : 'GI', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I2', material : 'M2', plant : 'P2', storage_location : 'SL2', quantity : '4', entry_UOM : 'EUOM2', material_movement_type : 'GI', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : '', sales_order_item : '', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDI_material_document_item = structuredClone(MDI_material_document_item);
         return ot_MDI_material_document_item;
     }
 
@@ -2654,20 +2803,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_tenant_U(ct_MDH_output_material_document_header)
+    MDH_check_tenant_U(c_MDH_output_material_document_header, ct_MDH_output_material_document_header_log)
     {
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
     
         }
         else  
         {
-            if (ct_MDH_output_material_document_header.system_field_message_type == '') 
+            if (c_MDH_output_material_document_header.system_field_message_type == '') 
             {
-                if (ct_MDH_output_material_document_header.tenant == '')
+                if (c_MDH_output_material_document_header.tenant == '')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Tenent has data'});
                 }
             }
         }
@@ -2677,24 +2831,24 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_material_document_header_U(it_MDH_material_document_header, it_MDH_output_material_document_header, ct_MDH_output_material_document_header, iv_counter)
+    MDH_check_material_document_header_U(it_MDH_material_document_header, it_MDH_output_material_document_header, c_MDH_output_material_document_header, iv_counter, ct_MDH_output_material_document_header_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2703,23 +2857,24 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDH_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDH_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDH_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDH_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2728,12 +2883,13 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document Header exist'});
                 }
                 else
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Material Document Header does not exist';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Material Document Header does not exist';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
             }
         }
@@ -2789,20 +2945,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_tenant_U(ct_MDI_output_material_document_item)
+    MDI_check_tenant_U(c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
 
         }
         else  
         {
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.tenant == '')
+                if (c_MDI_output_material_document_item.tenant == '')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Tenent has data'});
                 }
             }
         }
@@ -2812,26 +2973,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_material_document_item_U(it_MDI_material_document_item, it_MDI_output_material_document_item, ct_MDI_output_material_document_item, iv_counter)
+    MDI_check_material_document_item_U(it_MDI_material_document_item, it_MDI_output_material_document_item, c_MDI_output_material_document_item, iv_counter, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_output_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_output_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2840,24 +3001,25 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
+                    if (it_MDI_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -2866,12 +3028,13 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
         }
@@ -2881,26 +3044,36 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_parent_U(ct_MDI_output_material_document_item, it_MDH_output_material_document_header)
+    MDI_check_parent_U(c_MDI_output_material_document_item, it_MDH_output_material_document_header, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year)
                     {
+                        if (it_MDH_output_material_document_header[lv_counter].system_field_message_type == 'ERROR')
+                        {
+                            c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                            c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) has error';
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                        }
+                        else
+                        {
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) does not have error'});
+                        }
                         lv_record_exist = 'X';
                         break;
                     }
@@ -2908,12 +3081,13 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
         }
@@ -2925,15 +3099,8 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDH_select_D(it_MDH_input_material_document_header)
     {
-        var ot_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);
-
-        ot_MDI_material_document_item = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', material_document_type : 'MDT1', document_date : 'DD1', posting_date : 'PD1', header_reference : 'HR1', header_text : 'HT1', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', material_document_type : 'MDT2', document_date : 'DD2', posting_date : 'PD2', header_reference : 'HR2', header_text : 'HT2', material_document_reverse : '', fiscal_year_reverse : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
-        return ot_MDI_material_document_item;
+        var ot_MDH_material_document_header = structuredClone(MDH_material_document_header);
+        return ot_MDH_material_document_header;
     }
 
 
@@ -2942,16 +3109,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MDI_select_D(it_MDI_input_material_document_item)
     {
-        var ot_MDI_material_document_item = structuredClone(tt_MDI_material_document_item);
-
-        ot_MDI_material_document_item = 
-        [
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', quantity : '10', entry_UOM : 'EUOM1', material_movement_type : 'GIS', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : 'SO1', sales_order_item : 'I1', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD1', fiscal_year : 'FY1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', quantity : '20', entry_UOM : 'EUOM2', material_movement_type : 'GIS', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : 'SO1', sales_order_item : 'I2', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', quantity : '30', entry_UOM : 'EUOM1', material_movement_type : 'GIS', item_text : 'IT1', purchase_order : '', purchase_order_item : '', sales_order : 'SO2', sales_order_item : 'I1', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_document : 'MD2', fiscal_year : 'FY2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', quantity : '40', entry_UOM : 'EUOM2', material_movement_type : 'GIS', item_text : 'IT2', purchase_order : '', purchase_order_item : '', sales_order : 'SO2', sales_order_item : 'I2', material_document_reverse : '', fiscal_year_reverse : '', item_reverse : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MDI_material_document_item = structuredClone(MDI_material_document_item);
         return ot_MDI_material_document_item;
     }
 
@@ -2961,20 +3119,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MSL_select_D(it_MDI_input_material_document_item)
     {
-        var ot_MSL_material_storage_location = structuredClone(tt_MSL_material_storage_location);
-        
-        ot_MSL_material_storage_location = 
-        [
-            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB1', unrestricted_stock : '100', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M1', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB2', unrestricted_stock : '200', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB3', unrestricted_stock : '300', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M1', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB4', unrestricted_stock : '400', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL1', storage_bin : 'SB5', unrestricted_stock : '500', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P1', storage_location : 'SL2', storage_bin : 'SB6', unrestricted_stock : '600', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL1', storage_bin : 'SB7', unrestricted_stock : '700', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material : 'M2', plant : 'P2', storage_location : 'SL2', storage_bin : 'SB8', unrestricted_stock : '800', restricted_stock : '', reserved_stock : '', blocked_stock : '', quality_in_stock : '', system_field_message_type : '', system_field_message_description : '' }
-        ];
-
+        var ot_MSL_material_storage_location = structuredClone(MSL_material_storage_location);
         return ot_MSL_material_storage_location;
     }
 
@@ -2984,27 +3129,9 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     MMT_select_D()
     {
-        var ot_MMT_material_movement_type = structuredClone(tt_MMT_material_movement_type);
-
-        ot_MMT_material_movement_type = 
-        [
-            { tenant : 'TEST', material_movement_type : 'GI', material_movement_type_description : 'Goods Issue', material_movement_type_reverse : 'GIR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GR', material_movement_type_description : 'Goods Receipt', material_movement_type_reverse : 'GRR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GRP', material_movement_type_description : 'Goods Receipt Purchase', material_movement_type_reverse : 'GRPR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GIS', material_movement_type_description : 'Goods Issue Sales', material_movement_type_reverse : 'GISR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGI', material_movement_type_description : 'Transfer Goods Issue', material_movement_type_reverse : 'TGIR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGR', material_movement_type_description : 'Transfer Goods Receipt', material_movement_type_reverse : 'TGRR', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GIR', material_movement_type_description : 'Goods Issue Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },            
-            { tenant : 'TEST', material_movement_type : 'GRR', material_movement_type_description : 'Goods Receipt Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GRPR', material_movement_type_description : 'Goods Receipt Purchase Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'GISR', material_movement_type_description : 'Goods Issue Sales Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGIR', material_movement_type_description : 'Transfer Goods Issue Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' },
-            { tenant : 'TEST', material_movement_type : 'TGRR', material_movement_type_description : 'Transfer Goods Receipt Reverse', material_movement_type_reverse : '', system_field_message_type : '', system_field_message_description : '' }            
-        ];
-
+        var ot_MMT_material_movement_type = structuredClone(MMT_material_movement_type);
         return ot_MMT_material_movement_type;
     }
-
 
 
     //--------------------------------------------------------------------------------------------------------------------//
@@ -3012,16 +3139,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     POI_select_D()
     {    
-        var ot_POI_purchase_order_item = structuredClone(tt_POI_purchase_order_item);
-
-        ot_POI_purchase_order_item =
-        [
-            {tenant : 'TEST', purchase_order : 'PO1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', purchase_order_quantity : '1000', purchase_UOM : 'EA', goods_receipt_quantity : '100'},
-            {tenant : 'TEST', purchase_order : 'PO1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', purchase_order_quantity : '2000', purchase_UOM : 'EA', goods_receipt_quantity : '200'},
-            {tenant : 'TEST', purchase_order : 'PO2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', purchase_order_quantity : '3000', purchase_UOM : 'EA', goods_receipt_quantity : '300'},
-            {tenant : 'TEST', purchase_order : 'PO2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', purchase_order_quantity : '4000', purchase_UOM : 'EA', goods_receipt_quantity : '400'}        
-        ];
-
+        var ot_POI_purchase_order_item = structuredClone(POI_purchase_order_item);
         return ot_POI_purchase_order_item;
     }
 
@@ -3032,16 +3150,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     SOI_select_D()
     {    
-        var ot_SOI_sales_order_item = structuredClone(tt_SOI_sales_order_item);
-
-        ot_SOI_sales_order_item =
-        [
-            {tenant : 'TEST', sales_order : 'SO1', item : 'I1', material : 'M1', plant : 'P1', storage_location : 'SL1', sales_order_quantity : '1000', sales_UOM : 'EA', goods_issue_quantity : '100'},
-            {tenant : 'TEST', sales_order : 'SO1', item : 'I2', material : 'M1', plant : 'P1', storage_location : 'SL2', sales_order_quantity : '2000', sales_UOM : 'EA', goods_issue_quantity : '200'},
-            {tenant : 'TEST', sales_order : 'SO2', item : 'I1', material : 'M1', plant : 'P2', storage_location : 'SL1', sales_order_quantity : '3000', sales_UOM : 'EA', goods_issue_quantity : '300'},
-            {tenant : 'TEST', sales_order : 'SO2', item : 'I2', material : 'M1', plant : 'P2', storage_location : 'SL2', sales_order_quantity : '4000', sales_UOM : 'EA', goods_issue_quantity : '400'}
-        ];
-
+        var ot_SOI_sales_order_item = structuredClone(SOI_sales_order_item);
         return ot_SOI_sales_order_item;
     }
 
@@ -3098,20 +3207,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_tenant_D(ct_MDH_output_material_document_header)
+    MDH_check_tenant_D(c_MDH_output_material_document_header, ct_MDH_output_material_document_header_log)
     {
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
     
         }
         else  
         {
-            if (ct_MDH_output_material_document_header.system_field_message_type == '') 
+            if (c_MDH_output_material_document_header.system_field_message_type == '') 
             {
-                if (ct_MDH_output_material_document_header.tenant == '')
+                if (c_MDH_output_material_document_header.tenant == '')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Tenent does not have data';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
+                }
+                else
+                {
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Tenent has data'});
                 }
             }
         }
@@ -3121,25 +3235,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_material_document_header_D(it_MDH_material_document_header, it_MDH_output_material_document_header, ct_MDH_output_material_document_header, iv_counter)
+    MDH_check_material_document_header_D(it_MDH_material_document_header, it_MDH_output_material_document_header, c_MDH_output_material_document_header, iv_counter, ct_MDH_output_material_document_header_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3148,23 +3262,24 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Duplicate record';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDH_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDH_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDH_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDH_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDH_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDH_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3173,33 +3288,46 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Material Document Header already exist';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Material Document Header already exist';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document Header does not exist'});
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
-                if (ct_MDH_output_material_document_header.material_document_reverse == '')
+                if (c_MDH_output_material_document_header.material_document_reverse == '')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Material Document Reverse does not have data';
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Material Document Reverse does not have data';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                 }
                 else
-                {    
-                    if (ct_MDH_output_material_document_header.system_field_message_type == '')
+                {   
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document Reverse has data'}); 
+                    if (c_MDH_output_material_document_header.system_field_message_type == '')
                     {
                         lv_record_exist = '';
                         for (lv_counter = 0; lv_counter < it_MDH_material_document_header.length; lv_counter = lv_counter + 1)
                         {
-                            if (it_MDH_material_document_header[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                                it_MDH_material_document_header[lv_counter].material_document == ct_MDH_output_material_document_header.material_document_reverse &&
-                                it_MDH_material_document_header[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year_reverse)
+                            if (it_MDH_material_document_header[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                                it_MDH_material_document_header[lv_counter].material_document == c_MDH_output_material_document_header.material_document_reverse &&
+                                it_MDH_material_document_header[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year_reverse)
                             {
+                                if (it_MDH_material_document_header[lv_counter].material_document_reverse == '')
+                                {
+                                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document is not reversed'}); 
+                                }
+                                else
+                                {
+                                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                                    c_MDH_output_material_document_header.system_field_message_description = 'Material Document already reversed';
+                                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
+                                }
                                 lv_record_exist = 'X';
                                 break;
                             }
@@ -3207,12 +3335,13 @@ class MD_material_document
 
                         if (lv_record_exist == 'X')
                         {
-
+                            ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Material Document Header Reverse exist'}); 
                         }
                         else
                         {
-                            ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                            ct_MDH_output_material_document_header.system_field_message_description = 'Material Document Header Reverse does not exist';
+                            c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                            c_MDH_output_material_document_header.system_field_message_description = 'Material Document Header Reverse does not exist';
+                            ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});
                         }
                     }
                 }
@@ -3293,68 +3422,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_tenant_D(ct_MDI_output_material_document_item)
+    MDI_check_tenant_D(c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
     
         }
         else  
         {
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.tenant == '')
+                if (c_MDI_output_material_document_item.tenant == '')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
-                }
-            }
-        }
-    }
-
-
-
-    //--------------------------------------------------------------------------------------------------------------------//
-    // Version 20240800
-    //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_material_movement_type_D(it_MMT_material_movement_type, ct_MDI_output_material_document_item)
-    {
-        var lv_record_exist = '',
-        lv_counter = 0;
-
-        if (ct_MDI_output_material_document_item.material_document == '')
-        {
-            
-        }
-        else  
-        {
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
-            {
-                lv_record_exist = '';
-                for (lv_counter = 0; lv_counter < it_MMT_material_movement_type.length; lv_counter = lv_counter + 1)
-                {
-                    if (it_MMT_material_movement_type[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MMT_material_movement_type[lv_counter].material_movement_type == ct_MDI_output_material_document_item.material_movement_type)
-                    {
-                        ct_MDI_output_material_document_item.material_movement_type = it_MMT_material_movement_type[lv_counter].material_movement_type_reverse;
-                        lv_record_exist = 'X';
-                        break;
-                    }
-                }
-
-                if (lv_record_exist == 'X')
-                {
-                    if (ct_MDI_output_material_document_item.material_movement_type_reverse == '')
-                    {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not have Material Movement Type Reverse';
-                    }
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Tenent does not have data';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not exist';
-                }                
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Tenent has data'});
+                }
             }
         }
     }
@@ -3363,26 +3450,26 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_material_document_item_D(it_MDI_material_document_item, it_MDI_output_material_document_item, ct_MDI_output_material_document_item, iv_counter)
+    MDI_check_material_document_item_D(it_MDI_material_document_item, it_MDI_output_material_document_item, c_MDI_output_material_document_item, iv_counter, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
 
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = (iv_counter + 1) ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_output_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_output_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3391,25 +3478,26 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Duplicate record';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'No Duplicate record'});
                 }
             }
 
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDI_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                        it_MDI_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item)
+                    if (it_MDI_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDI_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                        it_MDI_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3418,32 +3506,35 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item already exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item already exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item does not exist'});
                 }
             }
 
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_document_reverse == '')
+                if (c_MDI_output_material_document_item.material_document_reverse == '')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item Reverse does not have data';            
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item Reverse does not have data';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});            
                 }
                 else
                 {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item Reverse has data'});
                     lv_record_exist = '';
                     for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (it_MDI_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            it_MDI_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document_reverse &&
-                            it_MDI_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year_reverse &&
-                            it_MDI_material_document_item[lv_counter].item == ct_MDI_output_material_document_item.item_reverse)
+                        if (it_MDI_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            it_MDI_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document_reverse &&
+                            it_MDI_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year_reverse &&
+                            it_MDI_material_document_item[lv_counter].item == c_MDI_output_material_document_item.item_reverse)
                         {
                             lv_record_exist = 'X';
                             break;
@@ -3452,26 +3543,27 @@ class MD_material_document
 
                     if (lv_record_exist == 'X')
                     {
-
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item Reverse exist'});
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item Reverse does not exist';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item Reverse does not exist';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
                 }
             }
 
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDI_material_document_item[lv_counter].material_document_reverse == ct_MDI_output_material_document_item.material_document_reverse &&
-                        it_MDI_material_document_item[lv_counter].fiscal_year_reverse == ct_MDI_output_material_document_item.fiscal_year_reverse &&
-                        it_MDI_material_document_item[lv_counter].item_reverse == ct_MDI_output_material_document_item.item_reverse)
+                    if (it_MDI_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDI_material_document_item[lv_counter].material_document_reverse == c_MDI_output_material_document_item.material_document_reverse &&
+                        it_MDI_material_document_item[lv_counter].fiscal_year_reverse == c_MDI_output_material_document_item.fiscal_year_reverse &&
+                        it_MDI_material_document_item[lv_counter].item_reverse == c_MDI_output_material_document_item.item_reverse)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3480,28 +3572,29 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Material Document Item is already reversed';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Document Item is already reversed';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Document Item is not reversed'});
                 }
             }  
             
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGRR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGRR')
                 { 
                     lv_record_exist = '';       
                     for (lv_counter = 0 ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                            it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                            it_MDI_output_material_document_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            it_MDI_output_material_document_item[lv_counter].quantity == ct_MDI_output_material_document_item.quantity &&
+                        if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            it_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                            it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                            it_MDI_output_material_document_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            it_MDI_output_material_document_item[lv_counter].quantity == c_MDI_output_material_document_item.quantity &&
                             it_MDI_output_material_document_item[lv_counter].material_movement_type == 'TGIR')
                         {
                             lv_record_exist = 'X';
@@ -3511,29 +3604,30 @@ class MD_material_document
 
                     if (lv_record_exist == 'X')
                     {
-
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Transfer Goods Issue Reverse record exist'});
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Issue Reverse record does not exist';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Issue Reverse record does not exist';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
                 }
             }
 
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             {
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGIR') 
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGIR') 
                 {
                     lv_record_exist = '';       
                     for (lv_counter = 0 ; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            it_MDI_output_material_document_item[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                            it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
-                            it_MDI_output_material_document_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            it_MDI_output_material_document_item[lv_counter].quantity == ct_MDI_output_material_document_item.quantity &&
+                        if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            it_MDI_output_material_document_item[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                            it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
+                            it_MDI_output_material_document_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            it_MDI_output_material_document_item[lv_counter].quantity == c_MDI_output_material_document_item.quantity &&
                             it_MDI_output_material_document_item[lv_counter].material_movement_type == 'TGRR')
                         {
                             lv_record_exist = 'X';
@@ -3543,12 +3637,13 @@ class MD_material_document
 
                     if (lv_record_exist == 'X')
                     {
-
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Transfer Goods Receipt Reverse record exist'});
                     }
                     else
                     {
-                        ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                        ct_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Receipt Reverse record does not exist';
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Transfer Goods Receipt Reverse record does not exist';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                     }
                 }
             }        
@@ -3556,28 +3651,84 @@ class MD_material_document
     }
 
 
+
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_check_parent_D(ct_MDI_output_material_document_item, it_MDH_output_material_document_header)
+    MDI_populate_material_movement_type_D(it_MMT_material_movement_type, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
+    {
+        var lv_record_exist = '',
+        lv_counter = 0;
+
+        if (c_MDI_output_material_document_item.material_document == '')
+        {
+            
+        }
+        else  
+        {
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
+            {
+                lv_record_exist = '';
+                for (lv_counter = 0; lv_counter < it_MMT_material_movement_type.length; lv_counter = lv_counter + 1)
+                {
+                    if (it_MMT_material_movement_type[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MMT_material_movement_type[lv_counter].material_movement_type == c_MDI_output_material_document_item.material_movement_type)
+                    {
+                        c_MDI_output_material_document_item.material_movement_type = it_MMT_material_movement_type[lv_counter].material_movement_type_reverse;
+                        lv_record_exist = 'X';
+                        break;
+                    }
+                }
+
+                if (lv_record_exist == 'X')
+                {
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Movement Type exist'});
+                    if (c_MDI_output_material_document_item.material_movement_type_reverse == '')
+                    {
+                        c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                        c_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not have Material Movement Type Reverse';
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                    }
+                    else
+                    {
+                        ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Material Movement Type has Material Movement Type Reverse'});
+                    }
+                }
+                else
+                {
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Material Movement Type does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
+                }                
+            }
+        }
+    }
+
+
+
+
+    //--------------------------------------------------------------------------------------------------------------------//
+    // Version 20240800
+    //--------------------------------------------------------------------------------------------------------------------//
+    MDI_check_parent_D(c_MDI_output_material_document_item, it_MDH_output_material_document_header, ct_MDI_output_material_document_item_log)
     {
         var lv_record_exist = '',
             lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         {  
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3586,24 +3737,25 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
 
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document == ct_MDI_output_material_document_item.material_document &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year == ct_MDI_output_material_document_item.fiscal_year &&
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document == c_MDI_output_material_document_item.material_document &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year == c_MDI_output_material_document_item.fiscal_year &&
                         it_MDH_output_material_document_header[lv_counter].system_field_message_type == 'ERROR')
                     {
                         lv_record_exist = 'X';
@@ -3613,24 +3765,25 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) has error';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header) has error';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
                 else
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header) has no error'});
                 }
             }
 
 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
                 lv_record_exist = '';       
                 for (lv_counter = 0 ; lv_counter < it_MDH_output_material_document_header.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDH_output_material_document_header[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                        it_MDH_output_material_document_header[lv_counter].material_document_reverse == ct_MDI_output_material_document_item.material_document_reverse &&
-                        it_MDH_output_material_document_header[lv_counter].fiscal_year_reverse == ct_MDI_output_material_document_item.fiscal_year_reverse)
+                    if (it_MDH_output_material_document_header[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                        it_MDH_output_material_document_header[lv_counter].material_document_reverse == c_MDI_output_material_document_item.material_document_reverse &&
+                        it_MDH_output_material_document_header[lv_counter].fiscal_year_reverse == c_MDI_output_material_document_item.fiscal_year_reverse)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -3639,12 +3792,13 @@ class MD_material_document
         
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Parent (Material Document Header Reverse) exist'});
                 }
                 else
                 {
-                    ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                    ct_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header Reverse) does not exist';
+                    c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                    c_MDI_output_material_document_item.system_field_message_description = 'Parent (Material Document Header Reverse) does not exist';
+                    ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});
                 }
             }
 
@@ -3732,45 +3886,50 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_receipt_D(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_receipt_D(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +ct_MDI_output_material_document_item.quantity)
+                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                                ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                                ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                                ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                                ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Stock exists'});
 
-                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+ct_MDI_output_material_document_item.quantity);
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                                c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                                c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                                c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                                c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                                c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+
+                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+c_MDI_output_material_document_item.quantity);
+                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                                ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is decreased'});
                                 break;                           
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                        
                             }
                         }
                     }
@@ -3784,45 +3943,50 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_receipt_purchase_D(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_receipt_purchase_D(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRPR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRPR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +ct_MDI_output_material_document_item.quantity)
+                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                                ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                                ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                                ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                                ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Stock exists'});
 
-                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+ct_MDI_output_material_document_item.quantity);
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                                c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                                c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                                c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                                c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                                c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+
+                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+c_MDI_output_material_document_item.quantity);
+                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                                ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is decreased'});
                                 break;                           
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                        
                             }
                         }
                     }
@@ -3836,37 +4000,39 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_issue_D(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_issue_D(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GIR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GIR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                            ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                            ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                            ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                            ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                            c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                            c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                            c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                            c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                            c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
 
-                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+ct_MDI_output_material_document_item.quantity);
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+c_MDI_output_material_document_item.quantity);
+                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                            ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is increased'});
                             break;                            
                         }
                     }
@@ -3879,37 +4045,39 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_goods_issue_sales_D(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_goods_issue_sales_D(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GISR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GISR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                            ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                            ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                            ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                            ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                            c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                            c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                            c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                            c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                            c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
 
-                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+ct_MDI_output_material_document_item.quantity);
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+c_MDI_output_material_document_item.quantity);
+                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                            ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is increased'});
                             break;                            
                         }
                     }
@@ -3922,45 +4090,50 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_transfer_goods_receipt_D(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_transfer_goods_receipt_D(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGRR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGRR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +ct_MDI_output_material_document_item.quantity)
+                            if (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock >= +c_MDI_output_material_document_item.quantity)
                             {
-                                ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                                ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                                ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                                ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                                ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Sufficient Stock exists'});
 
-                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+ct_MDI_output_material_document_item.quantity);
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                                c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                                c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                                c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                                c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                                c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+
+                                ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) - (+c_MDI_output_material_document_item.quantity);
+                                ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                                ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                                ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is decreased'});
                                 break;                            
                             }
                             else
                             {
-                                ct_MDI_output_material_document_item.system_field_message_type = 'ERROR';
-                                ct_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';                        
+                                c_MDI_output_material_document_item.system_field_message_type = 'ERROR';
+                                c_MDI_output_material_document_item.system_field_message_description = 'Insufficient Stock';
+                                ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : c_MDI_output_material_document_item.system_field_message_type, message_description : c_MDI_output_material_document_item.system_field_message_description});                        
                             }
                         }
                     }
@@ -3973,37 +4146,39 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_stock_transfer_goods_issue_D(ct_MSL_output_material_storage_location, ct_MDI_output_material_document_item)
+    MDI_populate_stock_transfer_goods_issue_D(ct_MSL_output_material_storage_location, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'TGIR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'TGIR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_MSL_output_material_storage_location.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_MSL_output_material_storage_location[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_MSL_output_material_storage_location[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_MSL_output_material_storage_location[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_MSL_output_material_storage_location[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_MSL_output_material_storage_location[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_MSL_output_material_storage_location[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_MSL_output_material_storage_location[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
-                            ct_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
-                            ct_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
-                            ct_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
-                            ct_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
+                            c_MDI_output_material_document_item.unrestricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock;
+                            c_MDI_output_material_document_item.restricted_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].restricted_stock;
+                            c_MDI_output_material_document_item.reserved_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].reserved_stock;
+                            c_MDI_output_material_document_item.blocked_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].blocked_stock;
+                            c_MDI_output_material_document_item.quality_in_stock_before_post = ct_MSL_output_material_storage_location[lv_counter].quality_in_stock;
 
-                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+ct_MDI_output_material_document_item.quantity);
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
-                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = ct_MDI_output_material_document_item.fiscal_year;
-                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = ct_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock = (+ct_MSL_output_material_storage_location[lv_counter].unrestricted_stock) + (+c_MDI_output_material_document_item.quantity);
+                            ct_MSL_output_material_storage_location[lv_counter].last_material_document = c_MDI_output_material_document_item.material_document;
+                            ct_MSL_output_material_storage_location[lv_counter].last_fiscal_year = c_MDI_output_material_document_item.fiscal_year;
+                            ct_MSL_output_material_storage_location[lv_counter].last_item = c_MDI_output_material_document_item.item;
+
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Stock is increased'});
                             break;                            
                         }
                     }
@@ -4017,31 +4192,33 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_purchase_goods_receipt_D(ct_POI_output_purchase_order_item, ct_MDI_output_material_document_item)
+    MDI_populate_purchase_goods_receipt_D(ct_POI_output_purchase_order_item, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;  
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GRPR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GRPR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_POI_output_purchase_order_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_POI_output_purchase_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_POI_output_purchase_order_item[lv_counter].purchase_order == ct_MDI_output_material_document_item.purchase_order &&
-                            ct_POI_output_purchase_order_item[lv_counter].item == ct_MDI_output_material_document_item.purchase_order_item &&
-                            ct_POI_output_purchase_order_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_POI_output_purchase_order_item[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_POI_output_purchase_order_item[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_POI_output_purchase_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_POI_output_purchase_order_item[lv_counter].purchase_order == c_MDI_output_material_document_item.purchase_order &&
+                            ct_POI_output_purchase_order_item[lv_counter].item == c_MDI_output_material_document_item.purchase_order_item &&
+                            ct_POI_output_purchase_order_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_POI_output_purchase_order_item[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_POI_output_purchase_order_item[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.purchase_order_goods_receipt_quantity_before_post = ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity;
-                            ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity = (+ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity) - (+ct_MDI_output_material_document_item.quantity);
+                            c_MDI_output_material_document_item.purchase_order_goods_receipt_quantity_before_post = ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity;
+                            ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity = (+ct_POI_output_purchase_order_item[lv_counter].goods_receipt_quantity) - (+c_MDI_output_material_document_item.quantity);
+
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Open Purchase Order quantity is increased'});
                             break;                            
                         }
                     }
@@ -4055,31 +4232,33 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_populate_sales_goods_issue_D(ct_SOI_output_sales_order_item, ct_MDI_output_material_document_item)
+    MDI_populate_sales_goods_issue_D(ct_SOI_output_sales_order_item, c_MDI_output_material_document_item, ct_MDI_output_material_document_item_log)
     {
         var lv_counter = 0;
 
-        if (ct_MDI_output_material_document_item.material_document == '')
+        if (c_MDI_output_material_document_item.material_document == '')
         {
         
         }
         else  
         { 
-            if (ct_MDI_output_material_document_item.system_field_message_type == '')
+            if (c_MDI_output_material_document_item.system_field_message_type == '')
             { 
-                if (ct_MDI_output_material_document_item.material_movement_type == 'GISR')
+                if (c_MDI_output_material_document_item.material_movement_type == 'GISR')
                 {
                     for (lv_counter = 0 ; lv_counter < ct_SOI_output_sales_order_item.length; lv_counter = lv_counter + 1)
                     {
-                        if (ct_SOI_output_sales_order_item[lv_counter].tenant == ct_MDI_output_material_document_item.tenant &&
-                            ct_SOI_output_sales_order_item[lv_counter].sales_order == ct_MDI_output_material_document_item.sales_order &&
-                            ct_SOI_output_sales_order_item[lv_counter].item == ct_MDI_output_material_document_item.sales_order_item &&
-                            ct_SOI_output_sales_order_item[lv_counter].material == ct_MDI_output_material_document_item.material &&
-                            ct_SOI_output_sales_order_item[lv_counter].plant == ct_MDI_output_material_document_item.plant &&
-                            ct_SOI_output_sales_order_item[lv_counter].storage_location == ct_MDI_output_material_document_item.storage_location)
+                        if (ct_SOI_output_sales_order_item[lv_counter].tenant == c_MDI_output_material_document_item.tenant &&
+                            ct_SOI_output_sales_order_item[lv_counter].sales_order == c_MDI_output_material_document_item.sales_order &&
+                            ct_SOI_output_sales_order_item[lv_counter].item == c_MDI_output_material_document_item.sales_order_item &&
+                            ct_SOI_output_sales_order_item[lv_counter].material == c_MDI_output_material_document_item.material &&
+                            ct_SOI_output_sales_order_item[lv_counter].plant == c_MDI_output_material_document_item.plant &&
+                            ct_SOI_output_sales_order_item[lv_counter].storage_location == c_MDI_output_material_document_item.storage_location)
                         {
-                            ct_MDI_output_material_document_item.sales_order_goods_issue_quantity_before_post = ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity;
-                            ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity = (+ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity) - (+ct_MDI_output_material_document_item.quantity);
+                            c_MDI_output_material_document_item.sales_order_goods_issue_quantity_before_post = ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity;
+                            ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity = (+ct_SOI_output_sales_order_item[lv_counter].goods_issue_quantity) - (+c_MDI_output_material_document_item.quantity);
+
+                            ct_MDI_output_material_document_item_log.push({tenant : c_MDI_output_material_document_item.tenant, material_document : c_MDI_output_material_document_item.material_document, fiscal_year : c_MDI_output_material_document_item.fiscal_year, item : c_MDI_output_material_document_item.item, message_type : 'INFORMATION', message_description : 'Open Sales Order quantity is increased'});
                             break;                            
                         }
                     }
@@ -4093,7 +4272,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_revert_back_ouput_material_storage_location_D(it_MDH_output_material_document_header, it_MDI_output_material_document_item, it_MSL_output_material_storage_location, it_MSL_output_material_storage_location_copy)
+    MDI_revert_back_ouput_material_storage_location_D(i_MDH_output_material_document_header, it_MDI_output_material_document_item, it_MSL_output_material_storage_location, it_MSL_output_material_storage_location_copy)
     {
         var ot_MSL_output_material_storage_location = structuredClone(tt_MSL_output_material_storage_location);
 
@@ -4103,9 +4282,9 @@ class MD_material_document
         lv_record_exist = '';
         for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
         {
-            if (it_MDI_output_material_document_item[lv_counter].tenant == it_MDH_output_material_document_header.tenant &&
-                it_MDI_output_material_document_item[lv_counter].material_document == it_MDH_output_material_document_header.material_document &&
-                it_MDI_output_material_document_item[lv_counter].fiscal_year == it_MDH_output_material_document_header.fiscal_year &&
+            if (it_MDI_output_material_document_item[lv_counter].tenant == i_MDH_output_material_document_header.tenant &&
+                it_MDI_output_material_document_item[lv_counter].material_document == i_MDH_output_material_document_header.material_document &&
+                it_MDI_output_material_document_item[lv_counter].fiscal_year == i_MDH_output_material_document_header.fiscal_year &&
                 it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
             {
                 lv_record_exist = 'X';
@@ -4130,7 +4309,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_revert_back_output_purchase_order_item_D(it_MDH_output_material_document_header, it_MDI_output_material_document_item, it_POI_output_purchase_order_item, it_POI_output_purchase_order_item_copy)
+    MDI_revert_back_output_purchase_order_item_D(i_MDH_output_material_document_header, it_MDI_output_material_document_item, it_POI_output_purchase_order_item, it_POI_output_purchase_order_item_copy)
     {
         var ot_POI_output_purchase_order_item = structuredClone(tt_POI_output_purchase_order_item);
 
@@ -4140,9 +4319,9 @@ class MD_material_document
         lv_record_exist = '';
         for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
         {
-            if (it_MDI_output_material_document_item[lv_counter].tenant == it_MDH_output_material_document_header.tenant &&
-                it_MDI_output_material_document_item[lv_counter].material_document == it_MDH_output_material_document_header.material_document &&
-                it_MDI_output_material_document_item[lv_counter].fiscal_year == it_MDH_output_material_document_header.fiscal_year &&
+            if (it_MDI_output_material_document_item[lv_counter].tenant == i_MDH_output_material_document_header.tenant &&
+                it_MDI_output_material_document_item[lv_counter].material_document == i_MDH_output_material_document_header.material_document &&
+                it_MDI_output_material_document_item[lv_counter].fiscal_year == i_MDH_output_material_document_header.fiscal_year &&
                 it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
             {
                 lv_record_exist = 'X';
@@ -4167,7 +4346,7 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDI_revert_back_output_sales_order_item_D(it_MDH_output_material_document_header, it_MDI_output_material_document_item, it_SOI_output_sales_order_item, it_SOI_output_sales_order_item_copy)
+    MDI_revert_back_output_sales_order_item_D(i_MDH_output_material_document_header, it_MDI_output_material_document_item, it_SOI_output_sales_order_item, it_SOI_output_sales_order_item_copy)
     {
         var ot_SOI_output_sales_order_item = structuredClone(tt_SOI_output_sales_order_item);
 
@@ -4177,9 +4356,9 @@ class MD_material_document
         lv_record_exist = '';
         for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
         {
-            if (it_MDI_output_material_document_item[lv_counter].tenant == it_MDH_output_material_document_header.tenant &&
-                it_MDI_output_material_document_item[lv_counter].material_document == it_MDH_output_material_document_header.material_document &&
-                it_MDI_output_material_document_item[lv_counter].fiscal_year == it_MDH_output_material_document_header.fiscal_year &&
+            if (it_MDI_output_material_document_item[lv_counter].tenant == i_MDH_output_material_document_header.tenant &&
+                it_MDI_output_material_document_item[lv_counter].material_document == i_MDH_output_material_document_header.material_document &&
+                it_MDI_output_material_document_item[lv_counter].fiscal_year == i_MDH_output_material_document_header.fiscal_year &&
                 it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
             {
                 lv_record_exist = 'X';
@@ -4204,25 +4383,25 @@ class MD_material_document
     //--------------------------------------------------------------------------------------------------------------------//
     // Version 20240800
     //--------------------------------------------------------------------------------------------------------------------//
-    MDH_check_child_D(it_MDI_output_material_document_item, ct_MDH_output_material_document_header)
+    MDH_check_child_D(it_MDI_output_material_document_item, c_MDH_output_material_document_header, ct_MDH_output_material_document_header_log)
     {
         var lv_counter = 0,
         lv_record_exist = '';
 
-        if (ct_MDH_output_material_document_header.material_document == '')
+        if (c_MDH_output_material_document_header.material_document == '')
         {
             
         }
         else
         {
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year)
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year)
                     {
                         lv_record_exist = 'X';
                         break;
@@ -4231,23 +4410,24 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Child (Material Document Item) exists'});
                 }
                 else
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) does not exist'; 
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) does not exist';
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description});  
                 }
             }
 
-            if (ct_MDH_output_material_document_header.system_field_message_type == '')
+            if (c_MDH_output_material_document_header.system_field_message_type == '')
             {
                 lv_record_exist = '';
                 for (lv_counter = 0; lv_counter < it_MDI_output_material_document_item.length; lv_counter = lv_counter + 1)
                 {
-                    if (it_MDI_output_material_document_item[lv_counter].tenant == ct_MDH_output_material_document_header.tenant &&
-                        it_MDI_output_material_document_item[lv_counter].material_document == ct_MDH_output_material_document_header.material_document &&
-                        it_MDI_output_material_document_item[lv_counter].fiscal_year == ct_MDH_output_material_document_header.fiscal_year &&
+                    if (it_MDI_output_material_document_item[lv_counter].tenant == c_MDH_output_material_document_header.tenant &&
+                        it_MDI_output_material_document_item[lv_counter].material_document == c_MDH_output_material_document_header.material_document &&
+                        it_MDI_output_material_document_item[lv_counter].fiscal_year == c_MDH_output_material_document_header.fiscal_year &&
                         it_MDI_output_material_document_item[lv_counter].system_field_message_type == 'ERROR')
                     {
                         lv_record_exist = 'X';
@@ -4257,15 +4437,17 @@ class MD_material_document
 
                 if (lv_record_exist == 'X')
                 {
-                    ct_MDH_output_material_document_header.system_field_message_type = 'ERROR';
-                    ct_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) has error'; 
+                    c_MDH_output_material_document_header.system_field_message_type = 'ERROR';
+                    c_MDH_output_material_document_header.system_field_message_description = 'Child (Material Document Item) has error'; 
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : c_MDH_output_material_document_header.system_field_message_type, message_description : c_MDH_output_material_document_header.system_field_message_description}); 
                 }
                 else
                 {
-
+                    ct_MDH_output_material_document_header_log.push({tenant : c_MDH_output_material_document_header.tenant, material_document : c_MDH_output_material_document_header.material_document, fiscal_year : c_MDH_output_material_document_header.fiscal_year, message_type : 'INFORMATION', message_description : 'Child (Material Document Item) has no error'});
                 }
             }
         } 
     }
+
 
 }
